@@ -1,8 +1,14 @@
+let API = require('../config/api')
+const LOGINAPI ='/rest/customer/login'
+
 /*
 用promise封装request方法
 */
-function request(url, data = {}, method = "GET") {
+function request(params,method = "GET") {
   return new Promise(function (resolve, reject) {
+    let url = API.BaseUrl+params.url;
+    let data = params.data;
+    url, data = {}, 
     wx.request({
       url: url,
       data: data,
@@ -12,11 +18,11 @@ function request(url, data = {}, method = "GET") {
         'X-Nideshop-Token': wx.getStorageSync('token')
       },
       success: function (res) {
-        console.log("success");
-
-        if (res.statusCode == 200) {  
+        if (res.statusCode == 200) { 
+            console.log("success");
             resolve(res.data);    
         } else {
+          console.log("error");
           reject(res.errMsg);
         }
       },
@@ -27,6 +33,25 @@ function request(url, data = {}, method = "GET") {
     })
   });
 }
+
+
+function Login(){
+  var params ={
+    url:LOGINAPI
+  }
+  wx.login({
+    complete: (res) => {
+      console.log(res.code);
+      params.data={
+        code:res.code
+      }
+      request(params).then(res=>{
+        console.error(res);
+      })
+    },
+  })
+}
 module.exports = {
-  request
+  request,
+  Login
 }

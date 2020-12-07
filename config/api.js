@@ -1,5 +1,5 @@
 
-var BaseUrl = 'https://hhjc.yuqiaoerp.com/';  
+var BaseUrl = 'https://qlife.yuqiaoerp.com/';  
 var PicBaseUrl = 'https://hhjc.yuqiaoerp.com/';  
 var RpcUrl = BaseUrl + 'JSON-RPC';
 var PicUrl = PicBaseUrl + 'attachment.action?method:showImageNew';
@@ -13,6 +13,5 @@ module.exports = {
   BaseUrl,
   QRCodeUrl,
   PicUrlsku,
-  setStorageSync,
   VideoUrl
 };
