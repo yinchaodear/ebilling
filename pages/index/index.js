@@ -8,10 +8,13 @@ Page({
     isFirst:true,
     list:[
       {
-        server_name:'帮助'
+        server_name:'申请开票'
       },
       {
-        server_name:'帮助2'
+        server_name:'发票统计'
+      },
+      {
+        server_name:'合同信息'
       }
 
     ],
@@ -28,19 +31,19 @@ Page({
     app.com.navTo(e)
   },
   navTo(e) {
-    if (wx.getStorageSync("user").phone == '' || wx.getStorageSync("user").phone == null || wx.getStorageSync("user").phone == undefined){
-      wx.navigateTo({
-        url: '/pages/login/login',
-      })
-    }else{
+    // if (wx.getStorageSync("user").phone == '' || wx.getStorageSync("user").phone == null || wx.getStorageSync("user").phone == undefined){
+    //   wx.navigateTo({
+    //     url: '/pages/login/login',
+    //   })
+    // }else{
       let name = e.currentTarget.dataset.name
       let index = e.currentTarget.dataset.index
-      if(this.data.list[index].is_show == 1){
-        if (name == '快递代取') {
+      if(true){
+        if (name == '发票统计') {
           wx.navigateTo({
             url: '/pages/daiqu/daiqu?index=' + index,
           })
-        } else if (name == '打印服务') {
+        } else if (name == '申请开票') {
           wx.navigateTo({
             url: '/pages/dayin/dayin?index=' + index,
           })
@@ -59,7 +62,7 @@ Page({
           confirmColor: '#6887e1'
         })
       }
-    }
+    // }
   },
   navToArea(){
     wx.navigateTo({

@@ -25,7 +25,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "互帮互助代替你",
+    "navigationBarTitleText": "开票系统",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -40,7 +40,13 @@
       },
       {
         "pagePath": "pages/banzu/banzu",
-        "text": "去帮忙",
+        "text": "开票记录",
+        "iconPath": "img/t7.png",
+        "selectedIconPath": "img/t8.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "系统消息",
         "iconPath": "img/t7.png",
         "selectedIconPath": "img/t8.png"
       },

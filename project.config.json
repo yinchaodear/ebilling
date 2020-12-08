@@ -44,6 +44,10 @@
 			"currentL": -1,
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 22,
 			"list": [
@@ -97,9 +101,10 @@
 				},
 				{
 					"id": 8,
-					"name": "帮助",
-					"pathName": "pages/banzu/banzu",
-					"query": ""
+					"name": "pages/order/order",
+					"pathName": "pages/order/order",
+					"query": "",
+					"scene": null
 				},
 				{
 					"id": -1,
@@ -186,6 +191,41 @@
 					"name": "申请接单",
 					"pathName": "pages/register/register",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/address/address",
+					"pathName": "pages/mine/address/address",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cash/cash",
+					"pathName": "pages/mine/cash/cash",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/jdsm/jdsm",
+					"pathName": "pages/mine/jdsm/jdsm",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/about/about",
+					"pathName": "pages/mine/about/about",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/chooseaddress/chooseaddress",
+					"pathName": "pages/mine/chooseaddress/chooseaddress",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

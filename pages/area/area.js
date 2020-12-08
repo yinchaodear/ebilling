@@ -6,7 +6,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list:[],
+    list:[
+      {
+        name:"A公司"
+      },
+      {
+        name:"B公司"
+      },
+      {
+        name:"C公司"
+      }
+
+    ],
     load:false,
     search:'',
     wheres:''

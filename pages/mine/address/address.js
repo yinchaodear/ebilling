@@ -6,7 +6,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list:[],
+    list:[
+      {
+        address:"xxx公司",
+        detail:"1231345"
+      },
+      {
+        address:"xxx1公司",
+        detail:"123134511"
+      }
+    ],
     load:false
   },
   chooseIt(e){

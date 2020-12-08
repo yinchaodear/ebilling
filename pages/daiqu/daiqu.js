@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    kdtype: [{ la: '小件', price: 1 }, { la: '中件', price: 2 }, { la: '大件', price: 3 }],
+    kdtype: [{ la: '金额统计', price: 1 }, { la: '数量统计', price: 2 }, { la: '发票查询', price: 3 }],
     flag:0,
     address:''
   },

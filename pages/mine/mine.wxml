@@ -7,7 +7,7 @@
       <open-data wx:if="{{!userInfo.nick_name}}" type="userNickName" ></open-data>
     </view>
   </view>
-  <view class='pa-t30 pa-b10 panel-between'>
+  <!-- <view class='pa-t30 pa-b10 panel-between'>
     <view class='btn-1 panel-center item-center' data-index='1' bindtap='swtobz'>
       <image src='/img/mt.png' class='icon-40'></image>
       <view class='fo-30 ma-l20'>我发布的</view>
@@ -16,30 +16,30 @@
       <image src='/img/mt2.png' class='icon-40'></image>
       <view class='fo-30 ma-l20'>我帮助的</view>
     </view>
-  </view>
+  </view> -->
   <view class='panel panel-between item-center ma-t20  border-b' data-path='/pages/mine/info/info' bindtap='navTo'>
     <view class='panel-start item-center'>
       <image src='/img/d1.png' class='icon-35 ma-r20'></image>
-      <view class='fo-28'>我的信息</view>
+      <view class='fo-28'>费用明细</view>
     </view>
     <image src='/img/right.png' class='icon-25'></image>
   </view>
   <view class='panel panel-between item-center' data-path='/pages/mine/address/address' bindtap='navTo'>
     <view class='panel-start item-center'>
     <image src='/img/d5.png' class='icon-35 ma-r20'></image>
-      <view class='fo-28'>我的地址</view>
+      <view class='fo-28'>企业通讯录</view>
     </view>
     <image src='/img/right.png' class='icon-25'></image>
   </view>
   <view class='panel panel-between item-center border-t' data-path='/pages/mine/cash/cash' bindtap='navTo'>
     <view class='panel-start item-center'>
       <image src='/img/tx.png' class='icon-35 ma-r20'></image>
-      <view class='fo-28'>提现</view>
+      <view class='fo-28'>退出</view>
     </view>
     <image src='/img/right.png' class='icon-25'></image>
   </view>
 
-  <button class='filter-btn' open-type='contact'>
+  <!-- <button class='filter-btn' open-type='contact'>
     <view class='panel panel-between item-center ma-t20 border-b'>
       <view class='panel-start item-center'>
       <image src='/img/d2.png' class='icon-35 ma-r20'></image>
@@ -69,6 +69,6 @@
       <view class='fo-28'>申请接单</view>
     </view>
     <image src='/img/right.png' class='icon-25'></image>
-  </view>
+  </view> -->
   
 </view>
