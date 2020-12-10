@@ -6,7 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    wx_id:wx.getStorageSync("user").id
+    wx_id:wx.getStorageSync("user").id,
+    detail:{
+      serino:'20111111',
+      status:'审核中',
+      company:{name:"a公司"},
+      company1:{name:"b公司"},
+      applytime:'2011-20-20'
+    }
   },
   comfirm(e) {
     let id = e.currentTarget.dataset.id
