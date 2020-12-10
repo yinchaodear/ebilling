@@ -14,7 +14,7 @@
     <view class='pa-30 bg-m panel-between item-center ra-10' bindtap='navToArea'>
       <view class='panel-start item-center'>
         <image src='/img/l.png' class='icon-35'></image>
-        <view class='fo-28 fo-w ma-l20'>{{area.name}}</view>
+        <view class='fo-28 fo-w ma-l20'>{{company.name}}</view>
       </view>
       <image src='/img/cn.png' class='icon-30'></image>
     </view>

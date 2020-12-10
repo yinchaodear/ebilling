@@ -1,4 +1,5 @@
 const app = getApp()
+const router = require("../../../utils/router")
 let _this;
 Page({
 
@@ -8,26 +9,26 @@ Page({
   data: {
     list:[
       {
-        address:"xxx公司",
-        detail:"1231345"
+        name:"xxx公司",
+        detail:"1231345",
+        id:12313
       },
       {
-        address:"xxx1公司",
-        detail:"123134511"
+        name:"xxx1公司",
+        detail:"123134511",
+        id:1231333
       }
     ],
-    load:false
+    load:false,
+    choose:1
   },
+
+
   chooseIt(e){
     let index = e.currentTarget.dataset.index
-    let pages = getCurrentPages();
-    let currPage = pages[pages.length - 1];   //当前页面
-    let prevPage = pages[pages.length - 2];
-    prevPage.setData({
-      address: this.data.list[index].address + '-' + this.data.list[index].detail
-    })
+    wx.setStorageSync('company1', this.data.list[index]);
     wx.navigateBack({
-      delta: 1,
+      
     })
   },
   del(e){
@@ -63,7 +64,8 @@ Page({
     })
   },
   navTo(e) {
-    app.com.navTo(e)
+    var path = e.currentTarget.dataset.path;
+    router.navigateTo(path)
   },
   bj(e){
     wx.navigateTo({

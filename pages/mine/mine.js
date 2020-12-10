@@ -1,4 +1,5 @@
 const app = getApp()
+const router = require("../../utils/router")
 Page({
 
   /**
@@ -14,7 +15,8 @@ Page({
     })
   },
   navTo(e) {
-    app.com.navTo(e)
+      var path = e.currentTarget.dataset.path;
+     router.navigateTo(path)
   },
   makePhone(){
     wx.makePhoneCall({

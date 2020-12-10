@@ -8,13 +8,16 @@ Page({
   data: {
     list:[
       {
-        name:"A公司"
+        name:"A公司",
+        id:1
       },
       {
-        name:"B公司"
+        name:"B公司",
+        id:2
       },
       {
-        name:"C公司"
+        name:"C公司",
+        id:3
       }
 
     ],
@@ -52,8 +55,10 @@ Page({
       confirmColor:'#6887e1',
       success(res){
         if(res.confirm){
-          wx.setStorageSync('area', _this.data.list[index])
-          _this.getDail(_this.data.list[index].pk_id)
+          wx.setStorageSync('company', _this.data.list[index])
+          wx.navigateBack({
+            complete: (res) => {},
+          })
         }else{
 
         }

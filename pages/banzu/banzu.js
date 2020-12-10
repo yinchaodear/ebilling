@@ -1,4 +1,6 @@
 const app = getApp()
+const router =require('../../utils/router')
+const Toast =require('../../utils/Toast')
 let _this;
 Page({
 
@@ -6,12 +8,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list:[],
+    list:[
+      {
+        serino:'20111111',
+        status:'审核中',
+        company:{name:"a公司"},
+        company1:{name:"b公司"},
+        applytime:'2011-20-20'
+      }
+    ],
     page:1,
     load:false,
     size:10,
     tag:['全部','审核中','开具中','已开具','暂存','已作废','待确认'],
-    flag:0,
+    flag:2,
     url:'get',
     wheres:"",
     sorts:"",
@@ -187,7 +197,8 @@ Page({
     }
   },
   navTo(e) {
-    app.com.navTo(e)
+    var path = e.currentTarget.dataset.path;
+    router.navigateTo(path);
   },
   /**
    * 生命周期函数--监听页面加载

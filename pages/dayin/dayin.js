@@ -17,10 +17,7 @@ Page({
     showShare: false,
     title:'',
     apply:{
-      company:{
-        name:"测试",
-        id:'111'
-      },
+     
       company1:{
         name:"测试1",
         id:'1112'
@@ -28,6 +25,7 @@ Page({
     },
     activeNames: ['1'],
     activeNames1:['1'],
+    activeNames2:['1'],
     ItemList:[{}]
   
   },
@@ -73,6 +71,11 @@ Page({
   onItemChange1(event) {
     this.setData({
       activeNames1: event.detail,
+    });
+  },
+  onItemChange2(event) {
+    this.setData({
+      activeNames2: event.detail,
     });
   },
 
@@ -190,7 +193,23 @@ Page({
 
   },
   onShow(){
-    
+    var company = wx.getStorageSync("company");
+    var company1 = wx.getStorageSync("company1");
+    if(company){
+      var apply =this.data.apply;
+      apply.company =company
+      this.setData({
+       apply:apply
+      })
+    }
+    if(company1){
+      var apply =this.data.apply;
+      apply.company1 =company1
+      this.setData({
+       apply:apply
+      })
+    }
+ 
   },
 
   submit(){

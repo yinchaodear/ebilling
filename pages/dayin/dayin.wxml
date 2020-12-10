@@ -96,33 +96,67 @@
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
-      <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.experssway=='邮寄'}}" >
-        <view class='fo-30'>快递费用</view>
-        <view class='fo-30 fo-g'>{{apply.experssmoney}}</view>
-        <!-- <switch color="#0099ff" bindchange="switch1Change" /> -->
-      </view>
 
- <van-collapse value="{{ activeNames1 }}" accordion='true'  bind:change="onItemChange1">
-  <van-collapse-item title="其他" name="1"  value ="法人相关">
+
+<van-collapse value="{{ activeNames2 }}" accordion='true'  bind:change="onItemChange2" wx:if="{{apply.experssway=='邮寄'}}">
+  <van-collapse-item title="收件信息" name="1"  value ="">
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26'>开票人</view>
-          <input class='fo-26 text-right' name="des" data-type='drawer' bindinput="applycomplete" value="{{apply.drawer}}" placeholder=''></input>
+           <view class='fo-26'>姓名</view>
+          <input class='fo-26 text-right' name="des" data-type='receipt' bindinput="applycomplete" value="{{apply.receipt}}" placeholder=''></input>
         
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26'>复核人</view>
-          <input class='fo-26 text-right' name="des" data-type='Checker' bindinput="applycomplete" value="{{apply.Checker}}" placeholder=''></input>
+           <view class='fo-26'>电话</view>
+          <input class='fo-26 text-right' name="des" data-type='receiptel' bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
         
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26'>收款人</view>
-          <input class='fo-26 text-right' name="des" data-type='payee' bindinput="applycomplete" value="{{apply.payee}}" placeholder=''></input>
+            <view class='fo-26'>地区</view>
+          <input class='fo-26 text-right' name="des" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            <view class='fo-26'>详细地址</view>
+          <input class='fo-26 text-right' name="des" data-type='addressdetail' bindinput="applycomplete" value="{{apply.addressdetail}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            <view class='fo-26'>邮政编码</view>
+          <input class='fo-26 text-right' name="des" data-type='shipcode' bindinput="applycomplete" value="{{apply.shipcode}}" placeholder=''></input>
         
       </view>
 
   </van-collapse-item>
 
 </van-collapse>
+    <!--  <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.experssway=='邮寄'}}" >
+        <view class='fo-30'>快递费用</view>
+        <view class='fo-30 fo-g'>{{apply.experssmoney}}</view>
+    
+      </view>-->
+      
+
+ <!-- <van-collapse value="{{ activeNames1 }}" accordion='true'  bind:change="onItemChange1">
+  <van-collapse-item title="其他" name="1"  value ="法人相关">-->
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+           <view class='fo-30'>开票人</view>
+          <input class='fo-30 text-right' name="des" data-type='drawer' bindinput="applycomplete" value="{{apply.drawer}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+           <view class='fo-30'>复核人</view>
+          <input class='fo-30 text-right' name="des" data-type='Checker' bindinput="applycomplete" value="{{apply.Checker}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            <view class='fo-30'>收款人</view>
+          <input class='fo-30 text-right' name="des" data-type='payee' bindinput="applycomplete" value="{{apply.payee}}" placeholder=''></input>
+        
+      </view>
+
+  <!-- </van-collapse-item>
+
+</van-collapse>-->
       <!-- <view class='text-center fo-26 fo-g ma-t30'>黑白
        
         <text class='fo-m'>{{price[1]}}元/张</text> 跑路费

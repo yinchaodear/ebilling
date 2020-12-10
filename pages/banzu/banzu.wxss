@@ -101,3 +101,7 @@ page{
   border-radius: 20rpx 0 20rpx 0;
   box-shadow: 5rpx 10rpx 10rpx 0rpx hsla(36, 100%, 50%, 0.267)
 }
+
+.width-77{
+  width: 77%;
+}

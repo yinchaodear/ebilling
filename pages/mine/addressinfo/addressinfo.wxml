@@ -1,5 +1,5 @@
 <view class="pa-l30 pa-r30">
-  <view class='pa-t30 pa-b30 border-b panel-between item-center' data-path='/pages/mine/chooseaddress/chooseaddress' bindtap='navTo'>
+  <!-- <view class='pa-t30 pa-b30 border-b panel-between item-center' data-path='/pages/mine/chooseaddress/chooseaddress' bindtap='navTo'>
     <view class='panel-start item-center'>
       <image src='/img/l1.png' class='icon-35'></image>
       <view class='fo-30 ma-l20'>选择楼栋</view>
@@ -8,22 +8,133 @@
       <view class='fo-30 fo-g'>{{address ? address:'点击选择'}}</view>
       <image src='/img/right.png' class='icon-30 ma-l20'></image>
     </view>
-  </view>
-  <view class='pa-t30 pa-b30 border-b panel-between item-center'>
+  </view> -->
+  
+    <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
     <view class='panel-start item-center'>
-      <image src='/img/d5.png' class='icon-35'></image>
-      <view class='fo-30 ma-l20'>详细地址</view>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>企业名称</view>
+       <view class='required'>*</view>
     </view>
-    <view class='panel-end item-center'>
-      <input class='fo-30 fo-g text-right' value='{{detail}}' bindinput='bInput' placeholder='输入门牌号'></input>
-    </view>
-  </view>
-  <view class='pa-t30 pa-b30 panel-end item-center'>
-    <view class='fo-26 fo-g'>是否设为默认地址</view>
-    <switch checked='{{mo}}' bindchange='dchange' color='#0099ff' class='ma-l20'></switch>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.name}}' data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
+  
   </view>
 
+    <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>企业名称</view>
+       <view class='required'>*</view>
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
+  
+  </view>
+  
+   <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>地址</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.address}}'  data-name='address' bindinput='bInput' placeholder='请输入企业注册地址'></input>
+  
+  </view>
+     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>电话</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.phone}}'  data-name='phone' bindinput='bInput' placeholder='请输入企业注册电话'></input>
+  
+  </view>
+     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>开户行</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center'  value='{{detail.bank}}'  data-name='bank' bindinput='bInput' placeholder='请输入企业开户行名称'></input>
+  
+  </view>
+
+   <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>银行账号</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.account}}'  data-name='account' bindinput='bInput' placeholder='请输入企业开户账号'></input>
+  
+  </view>
+
+     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>收件人</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.receipt}}'  data-name='receipt' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
+  
+  </view>
+
+      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>收件电话</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.receiptel}}'  data-name='receiptel' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
+  
+  </view>
+
+      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>地区</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.area}}'  data-name='area' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
+  
+  </view>
+
+      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>详细地址</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.addressdetail}}'  data-name='addressdetail' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
+  
+  </view>
+
+     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
+    <view class='panel-start item-center'>
+      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
+      <view class='fo-30 ma-l20'>邮政编码</view>
+       
+    </view>
+    
+      <input class='fo-30 fo-g text-center' value='{{detail.shipcode}}'  data-name='shipcode' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
+  
+  </view>
+  
+   <view class='pa-t30 pa-b30 panel-end item-center'>
+    <view class='fo-26 fo-g'>是否设为默认地址</view>
+    <switch checked='{{mo}}' bindchange='dchange' color='#0099ff' class='ma-l20'></switch>
+  </view> 
+
   <view class='pa-30'>
-    <button class='btns' bindtap='submit'>保存地址</button>
+    <button class='btns' bindtap='submit'>保存</button>
   </view>
 </view>

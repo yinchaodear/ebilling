@@ -93,12 +93,10 @@ Page({
     this.getServer(wx.getStorageSync('dl').pk_id)
   },
   onShow(){
-    if(!this.data.isFirst){
-      this.checkArea()
-    }
-    if(!this.data.emer){
-      this.getAdminMemr()
-    }
+      var company = wx.getStorageSync("company");
+      this.setData({
+        company:company
+      })
   },
   //通知
   getAdminMemr(){

@@ -1,1 +1,10 @@
 /* pages/mine/addressinfo/addressinfo.wxss */
+.required{
+  color: red;
+}
+
+.text-center{
+  text-align: center;
+  box-shadow: 0px 0px 3px #e1e1e1;
+  margin-top: 10px;
+}

@@ -50,6 +50,11 @@
   display: flex;
   justify-content: flex-start;
 }
+.panel-start-20{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 20rpx;
+}
 .panel-between{
   display: flex;
   justify-content: space-between;
@@ -58,6 +63,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
 .panel-around{
   display: flex;
   justify-content: space-around;
@@ -202,8 +208,14 @@
 .pa-t30{
   padding-top: 30rpx
 }
+.pa-t30-1{
+  padding-top: 15rpx
+}
 .pa-b30{
   padding-bottom: 30rpx
+}
+.pa-b30-1{
+  padding-bottom: 15rpx
 }
 
 /*圆角*/
