@@ -18,50 +18,111 @@
         <view class='fo-30'>原件号码</view>
         <input class='fo-30 text-right' name="no" style='width:450rpx' placeholder='(原件上传后会生成原件号码)'></input>
       </view> -->
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'>
+
+      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/area/area' bindtap='navTo'>
         <view class='fo-30'>开票单位</view>
-        <input class='fo-30 text-right' bindinput='pageInput' name="page" type='number' placeholder='输入页数'></input>
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{apply.company? apply.company.name:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
       </view>
 
-        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
+        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address' bindtap='navTo'>
         <view class='fo-30'>对方单位</view>
         <view class='panel-end item-center'>
-          <view class='fo-30 fo-g'>{{address ? address:'从通讯录选择'}}</view>
+          <view class='fo-30 fo-g'>{{apply.company1 ? apply.company1.name:'从通讯录选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
-      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
+      <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='票据种类' bindtap="onClick">
         <view class='fo-30'>票据种类</view>
         <view class='panel-end item-center'>
-          <view class='fo-30 fo-g'>{{address ? address:'请选择'}}</view>
+          <view class='fo-30 fo-g'>{{!apply.type?'请选择':apply.type}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'>
+
+      <van-share-sheet
+  show="{{ showShare }}"
+  title="{{title}}"
+  options="{{ options }}"
+  bind:select="onSelect"
+  bind:close="onClose"
+/>    
+<van-collapse value="{{ activeNames }}" accordion='true'  bind:change="onItemChange">
+  <van-collapse-item title="开票项" name="1"  value ="最多添加8项">
+  <view class="pannel-item" wx:for='{{ItemList}}'>
+     <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>项目名</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
+         </view>
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>对应金额</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="填写对应金额" value="{{item.money}}"  ></input>
+       
+      </view>
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>税率(%)</view>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
+      </view>
+      <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
+        删除此项
+      </view>
+    </view>   
+  </van-collapse-item>
+
+     <view class='additem'  bindtap="additem" >
+         添加开票项
+      </view>
+</van-collapse>
+
+      <!-- <view class='pa-t30 pa-b20 panel-between item-center border-b'>
         <view class='fo-30'>开票项目</view>
         <input class='fo-30 text-right' bindinput='pageInput' name="page" type='number' placeholder=''></input>
       </view>
           <view class='pa-t30 pa-b20 panel-between item-center border-b'>
         <view class='fo-30'>开票金额</view>
         <input class='fo-30 text-right' bindinput='pageInput' name="page" type='number' placeholder=''></input>
-      </view>
+      </view>-->
       <view class='pa-t30 pa-b20 panel-between item-center border-b'>
         <view class='fo-30'>备注</view>
-        <input class='fo-30 text-right' name="des" placeholder='备注信息'></input>
-      </view>
+        <input class='fo-30 text-right' name="des" data-type='remark' bindinput="applycomplete" value="{{apply.remark}}" placeholder='发票备注信息'></input>
+      </view> 
 
-            <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
+            <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='取件方式' bindtap="onClick" >
         <view class='fo-30'>取件方式</view>
         <view class='panel-end item-center'>
-          <view class='fo-30 fo-g'>{{address ? address:'请选择'}}</view>
+          <view class='fo-30 fo-g'>{{apply.experssway ?apply.experssway:'请选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'>
-        <view class='fo-30'>其他</view>
-        <view class='fo-30 fo-g'>法人相关</view>
+      <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.experssway=='邮寄'}}" >
+        <view class='fo-30'>快递费用</view>
+        <view class='fo-30 fo-g'>{{apply.experssmoney}}</view>
         <!-- <switch color="#0099ff" bindchange="switch1Change" /> -->
       </view>
+
+ <van-collapse value="{{ activeNames1 }}" accordion='true'  bind:change="onItemChange1">
+  <van-collapse-item title="其他" name="1"  value ="法人相关">
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+           <view class='fo-26'>开票人</view>
+          <input class='fo-26 text-right' name="des" data-type='drawer' bindinput="applycomplete" value="{{apply.drawer}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+           <view class='fo-26'>复核人</view>
+          <input class='fo-26 text-right' name="des" data-type='Checker' bindinput="applycomplete" value="{{apply.Checker}}" placeholder=''></input>
+        
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            <view class='fo-26'>收款人</view>
+          <input class='fo-26 text-right' name="des" data-type='payee' bindinput="applycomplete" value="{{apply.payee}}" placeholder=''></input>
+        
+      </view>
+
+  </van-collapse-item>
+
+</van-collapse>
       <!-- <view class='text-center fo-26 fo-g ma-t30'>黑白
        
         <text class='fo-m'>{{price[1]}}元/张</text> 跑路费
@@ -71,7 +132,7 @@
       <view class='fo-26 text-center ma-t30'>需支付</view>
       <view class='text-center fo-40 bold ma-t20 fo-m'>{{total_fee}}
         <text class='fo-26'>元</text> </view> -->
-      <button class='btns ' form-type="submit">申请开票</button>
+      <button class='btns ' bindtap="submit">申请开票</button>
     </form>
   </view>
 </view>

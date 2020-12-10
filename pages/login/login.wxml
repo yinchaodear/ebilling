@@ -14,6 +14,7 @@
       
       <input class='bgg ra-10 ma-t30' type='number' maxlength='6' data-name='dphone' bindinput='ddinput' placeholder='密码'></input> 
       
+
     </view>
     <view class="fo-26 ma-t30 fo-w text-center " style='margin-top:100rpx'>获得你的公开信息（昵称、头像等）</view>
     <button class="login-btn ma-t30" openType="getUserInfo" lang="zh_CN" bindgetuserinfo="authorLogin">登录</button>

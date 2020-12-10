@@ -327,6 +327,10 @@
 .fo-30{
   font-size: 30rpx
 }
+.fo-30-1{
+  font-size: 30rpx;
+  padding-right: 28px;
+}
 .fo-32{
   font-size: 32rpx
 }

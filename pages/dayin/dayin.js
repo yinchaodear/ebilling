@@ -1,4 +1,6 @@
 const app = getApp()
+const router =require('../../utils/router')
+const Toast =require('../../utils/Toast')
 let _this;
 Page({
 
@@ -11,11 +13,158 @@ Page({
     page:0,
     cai:false,
     total_fee:0,
-    address:''
+    address:'',
+    showShare: false,
+    title:'',
+    apply:{
+      company:{
+        name:"测试",
+        id:'111'
+      },
+      company1:{
+        name:"测试1",
+        id:'1112'
+      }
+    },
+    activeNames: ['1'],
+    activeNames1:['1'],
+    ItemList:[{}]
+  
+  },
+  additem(){
+    var obj ={};
+    var ItemList = this.data.ItemList;
+    if(ItemList.length==8){
+      Toast.showToast("最多添加8项");
+      return;
+    }
+    ItemList.push(obj)
+    this.setData({
+      ItemList:ItemList
+    })
+  },
+
+  confirmitemList(e){
+    var index =e.currentTarget.dataset.index;
+    var name= e.currentTarget.dataset.name;
+    var value =e.detail.value;
+    var ItemList = this.data.ItemList;
+    ItemList[index][name] =value;
+    this.setData({
+      ItemList:ItemList
+    })
+    console.log(ItemList)
+  },
+
+  deleteitem(e){
+    var index = e.currentTarget.dataset.index;
+    var ItemList =this.data.ItemList;
+    ItemList.splice(index,1);
+    this.setData({
+      ItemList:ItemList
+    })
   },
   
+  onItemChange(event) {
+    this.setData({
+      activeNames: event.detail,
+    });
+  },
+  onItemChange1(event) {
+    this.setData({
+      activeNames1: event.detail,
+    });
+  },
+
+
+  applycomplete(e){
+    console.log(e);
+    var type = e.currentTarget.dataset.type;
+    var value =e.detail.value;
+    var apply =this.data.apply;
+    apply[type] = value;
+    this.setData({
+      apply:apply
+    })
+    console.log(apply)
+  },
+
+
+  onClick(e) {
+    var title = e.currentTarget.dataset.title;
+    var options=[]
+    if(title=='取件方式'){
+       options =[
+        {
+          name: '自取',
+          icon: '../../img/ziqu.png',
+        },
+        {
+          name: '邮寄',
+          icon: '../../img/youji.png',
+        },
+      ]
+     
+    }else if(title=='票据种类'){
+      options= [
+        {
+          name: '普票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '专票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '代开专票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '机动车发票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '通用机打',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '电子普票',
+          icon: '../../img/ticket.png',
+        },
+      ]
+    }
+    this.setData({ 
+      showShare: true,
+      title:title,
+      options:options
+    });
+  },
+  onClose() {
+    this.setData({ showShare: false });
+  },
+  onSelect(event) {
+    console.log(event.detail.name);
+    var apply =this.data.apply;
+    if(this.data.title=='票据种类'){
+       apply.type = event.detail.name
+      this.setData({
+        apply:apply
+      })
+    }else  if(this.data.title=='取件方式'){
+      apply.experssway = event.detail.name
+     this.setData({
+       apply:apply
+     })
+   }
+    
+    this.onClose();
+  },
+
+
+
   navTo(e) {
-    app.com.navTo(e)
+    var path = e.currentTarget.dataset.path;
+    router.navigateTo(path);
   },
   chooseFile(){
     wx.navigateTo({
@@ -38,118 +187,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    _this = this
-    this.setData({
-      msg:wx.getStorageSync("server")[options.index],
-      price: wx.getStorageSync("server")[options.index].price_gui.split(','),
-    })
-    this.init()
-    if (wx.getStorageSync("address")) {
-      let add = wx.getStorageSync("address")
-      this.setData({
-        address: add.address + '-' + add.detail
-      })
-    }
+
   },
   onShow(){
-    this.getFile()
+    
   },
-  getFile(){
-    wx.showLoading({
-      title: '请稍等',
-      task:true
-    })
-    app.com.post('file/get',{
-      sorts:'create_time desc',
-      pageIndex:1,
-      pageSize:1,
-      wheres:'is_delete=0 and is_temp=1 and wx_id = '+wx.getStorageSync('user').id
-    },function(res){
-      wx.hideLoading()
-      if(res.code == 1){
-        _this.setData({
-          file: res.data.list[0] ? res.data.list[0]:''
-        })
-      }
-    })
-  },
-  formSubmit(e){
-    let formId = e.detail.formId
-    if(this.data.file == ''){
-      wx.showToast({
-        title: '请上传文件',
-        icon: 'none'
-      })
-    }else if(this.data.address == ''){
-      wx.showToast({
-        title: '请选择一个地址',
-        icon:'none'
-      })
-    } else if (e.detail.value.page == '' || e.detail.value.page == null){
-      wx.showToast({
-        title: '请输入页数',
-        icon: 'none'
-      })
-    }else {
-      wx.showLoading({
-        title: '加载中',
-      })
-      app.com.post('help/add', {
-        openid: wx.getStorageSync("user").openid,
-        des: '文件：' + this.data.file.filename + ' ' + e.detail.value.page+'页 '+e.detail.value.des,
-        file:this.data.file.realname,
-        wx_id: wx.getStorageSync("user").id,
-        total_fee: this.data.total_fee,
-        a_id: wx.getStorageSync("area").pk_id,
-        title: this.data.msg.server_name,
-        mu: this.data.address,
-        cai:this.data.cai ? 1:0,
-        page: e.detail.value.page,
-        form_id: e.detail.formId,},function(res){
-          wx.hideLoading()
-          if (res.code == 1) {
-            _this.wxpay(res)
-            _this.tempUp()
-          } else {
-            wx.showToast({
-              title: res.msg,
-              icon: 'none'
-            })
-          }
-        })
-    }
-  },
-  tempUp(){
-    app.com.post('file/temp',{
-      id:this.data.file.id
-    },function(res){
 
-    })
-  },
-  wxpay(msg) {
-    app.com.wxpay(msg)
-  },
-  switch1Change(e){
-    this.setData({
-      cai:e.detail.value
-    })
-    this.init()
-  },  
-  
-  init(){
-    let chenben = 0
-    let tui = parseFloat(this.data.price[2])
-    if(this.data.cai){
-      chenben = parseFloat(this.data.price[1])
-    }else{
-      chenben = parseFloat(this.data.price[0])
-    }
-    let page = this.data.page ? parseFloat(this.data.page) : 0
-    let total = 0
-
-    total = chenben*page+tui
-    this.setData({
-      total_fee:total
-    })
+  submit(){
+    console.log(this.data.apply);
+    console.log(this.data.ItemList);
   }
+ 
+  
+  
+
 })
