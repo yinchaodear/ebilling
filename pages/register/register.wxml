@@ -10,20 +10,20 @@
 
       <view class='panel-between border-b pa-t30 pa-b10 '>
         <view class='fo-28 bold'>电话号码:</view>
-        <input class='text-right fo-28' name='name' value='{{name}}' placeholder=''></input>
+        <input class='text-right fo-28' name='name'  data-type='name' bindinput="complete" value="{{name}}"   placeholder=''></input>
       </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>短信验证码:</view>
-        <input class='text-right fo-28' type='number' value='{{card_num}}' name='card_num' placeholder='请输入短信验证码'></input>
-        <view>发送</view>
+        <input class='text-right fo-28' type='number' data-type='code' bindinput="complete" value="{{code}}" placeholder='请输入短信验证码'></input>
+        <view class="submit-code">发送</view>
       </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>密码:</view>
-        <input class='text-right fo-28' type='number' value='{{card_num}}' name='card_num' placeholder=''></input>
+        <input class='text-right fo-28' type='number' data-type='pw1' bindinput="complete" value="{{pw1}}" placeholder=''></input>
       </view>
        <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>密码确认:</view>
-        <input class='text-right fo-28' type='number' value='{{card_num}}' name='card_num' placeholder=''></input>
+        <input class='text-right fo-28' type='number' data-type='pw2' bindinput="complete" value="{{pw2}}" placeholder=''></input>
       </view>
       
       <!-- <view class='pa-t30 pa-b10'>
@@ -34,7 +34,7 @@
         <view class='fo-28 bold'>身份证正面(选填):</view>
         <view class='tuu panel-center item-center fo-g fo-50' style='background-image:url({{cert}})' data-name='cert' bindtap='choose'> + </view>
       </view> -->
-      <button class='btns ' form-type="submit">注册</button>
+      <button class='btns ' bindtap="submit">注册</button>
     </form>
 
   </view>

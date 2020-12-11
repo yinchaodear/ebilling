@@ -1,15 +1,7 @@
-<view class="bbf panel-between">
-  <view wx:for="{{tag}}" class='bbf-item ' data-index='{{index}}' bindtap='changeTag'>
-    <view class='fo-28 lh-90 text-center {{index == flag ? "bold fo-t":"fo-g"}}'>{{item}}</view>
-    <view class='botn' wx:if="{{index == flag}}"></view>
-  </view>
-</view>
 
-<!--这里是筛选条件-->
-<view style='height:90rpx'></view>
-<van-dropdown-menu  wx:if='{{flag==3}}'  >
-  <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="itemchange" />
-</van-dropdown-menu>
+
+
+
 <!-- <view class='pa-30 panel-around' style='padding-bottom:0' wx:if="{{flag == 2}}">
   <view class='text-center'>
     <view class='fo-30 bold'>{{anlysis.completeTotalByMonth}} <text class='fo-24 '>单</text></view>

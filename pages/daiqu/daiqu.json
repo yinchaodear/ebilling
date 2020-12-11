@@ -1,3 +1,10 @@
 {
-  "navigationBarTitleText": "发票统计"
+  "navigationBarTitleText": "发票统计",
+  "usingComponents": {
+    "van-circle": "../../dist/circle/index",
+    "van-share-sheet": "../../dist/share-sheet",
+    "van-datetime-picker": "../../dist/datetime-picker/index"
+  
+  }
+   
 }

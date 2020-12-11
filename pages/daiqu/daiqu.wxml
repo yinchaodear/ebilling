@@ -8,35 +8,75 @@
         <open-data type="userAvatarUrl" mode="aspectFill"></open-data>
       </view>
     </view>
-    <form bindsubmit="formSubmit" report-submit="true">
-      <view class='panel ra-10 '>
+    
+     <view class='panel ra-10 '>
         <view class=' pa-b30 border-b'>
           <view class='fo-30'>统计类型</view>
           <view class='panel-around'>
             <view wx:for="{{kdtype}}" class='{{index == flag ? "fgh2":"fgh"}}' data-index='{{index}}' bindtap='change'>{{item.la}}</view>
           </view>
         </view>
-        <!-- <view class='pa-t30 panel-between item-center border-b pa-b20'>
-          <view class='fo-30'>收件地址</view>
-          <input class='fo-30 text-right' name="mu" placeholder='输入详细地址(必填)'></input>
-        </view> -->
-        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
+
+       
+
+      <view wx:if="{{flag==0}}">
+        <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
+          <view class='fo-30'>本月累计</view>
+          <van-circle value="{{70 }}" size="100" text="￥15000" />
+        </view> 
+        <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>本季度累计</view>
+          <van-circle value="{{70 }}" color="#ee0a24" size="100" text="￥15000" />
+        </view> 
+          <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>本年累计</view>
+          <van-circle value="{{70 }}" color="#07c160" size="100" text="￥15000" />
+        </view> 
+            <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>12个月累计</view>
+          <van-circle value="{{70 }}" color="#ffd01e" size="100" text="￥15000" />
+        </view> 
+   </view>
+      
+      <view wx:if='{{flag==2}}'>
+      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-title='时间段' bindtap="onClick">
           <view class='fo-30'>时间段</view>
           <view class='panel-end item-center'>
-            <view class='fo-30 fo-g'>{{address ? address:'请选择时间段'}}</view>
+            <view class='fo-30 fo-g'>{{duration ?duration:'请选择时间段'}}</view>
+            <image src='/img/right.png' class='icon-30 ma-l20'></image>
+          </view>
+        </view>
+        
+     <view wx:if="{{duration=='区间'}}">
+
+     
+        <view class='pa-t30 pa-b30 panel-between item-center border-b'  >
+          <view class='fo-30'>开始时间</view>
+          <view class='panel-end item-center' bindtap="onDisplay"> 
+          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChangeStart">
+    <view class="picker">
+       <view class='fo-30 fo-g'>{{starttime ? starttime:'请选择开始时间'}}</view>        
+    </view>
+  </picker>
+        
+            <image src='/img/right.png' class='icon-30 ma-l20'></image>
+          </view>
+        </view>
+     <view class='pa-t30 pa-b30 panel-between item-center border-b'  >
+          <view class='fo-30'>开始时间</view>
+          <view class='panel-end item-center' bindtap="onDisplay"> 
+          <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChangeEnd">
+    <view class="picker">
+       <view class='fo-30 fo-g'>{{endtime ?endtime:'请选择结束时间'}}</view>        
+    </view>
+  </picker>
+        
             <image src='/img/right.png' class='icon-30 ma-l20'></image>
           </view>
         </view>
 
-        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
-          <view class='fo-30'>时间区间</view>
-          <view class='panel-end item-center'>
-            <view class='fo-30 fo-g'>{{address ? address:'请选择自定义区间'}}</view>
-            <image src='/img/right.png' class='icon-30 ma-l20'></image>
-          </view>
-        </view>
-
-         <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?choose=1' bindtap='navTo'>
+</view>
+         <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address' bindtap='navTo'>
           <view class='fo-30'>公司名称</view>
           <view class='panel-end item-center'>
             <view class='fo-30 fo-g'>{{address ? address:'请选择公司名称'}}</view>
@@ -47,14 +87,36 @@
           <view class='fo-30'>备注信息</view>
           <input class='fo-30 text-right' name="des" placeholder='备注信息(选填)'></input>
         </view> -->
+        <button class='btns ' form-type="submit">发票查询</button>
+
+          <view wx:if="{{flag==2}}">
+        <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>月度</view>
+          <van-circle value="{{70 }}" size="100" text="￥15000" />
+        </view> 
+        <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>季度</view>
+          <van-circle value="{{70 }}" color="#ee0a24" size="100" text="￥15000" />
+        </view> 
+          <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>年度</view>
+          <van-circle value="{{70 }}" color="#07c160" size="100" text="￥15000" />
+        </view> 
+         <view class='pa-t30 panel-between item-center border-b pa-b20'>
+          <view class='fo-30'>区间</view>
+          <van-circle value="{{70 }}" color="#07c160" size="100" text="￥15000" />
+        </view> 
+        
       </view>
-      <!-- <view class='fo-26 text-center fo-g'>{{msg.des}}</view>
+      </view>
+       <!-- <view class='fo-26 text-center fo-g'>{{msg.des}}</view>
       <view class='fo-26 text-center ma-t30 '>需支付</view>
       <view class='text-center fo-40 bold ma-t20 fo-m'>{{kdtype[flag].price}}
         <text class='fo-26'>元</text>
-      </view> -->
-      <button class='btns ' form-type="submit">发票查询</button>
-    </form>
+      </view>  -->
+
+      </view>
+   
 
   </view>
   <!-- <view class='panel-center item-center'>
@@ -63,3 +125,12 @@
   </view> -->
 
 </view>
+
+
+      <van-share-sheet
+  show="{{ showShare }}"
+  title="{{title}}"
+  options="{{ options }}"
+  bind:select="onSelect"
+  bind:close="onClose"
+/>    

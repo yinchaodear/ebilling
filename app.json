@@ -20,7 +20,8 @@
     "pages/mine/cash/cash",
     "pages/mine/jdsm/jdsm",
     "pages/mine/about/about",
-    "pages/richtext/richtext"
+    "pages/richtext/richtext",
+    "pages/statistics/statistics"
   ],
   "window": {
     "backgroundTextStyle": "dark",

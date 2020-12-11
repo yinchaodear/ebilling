@@ -1,4 +1,5 @@
 const app = getApp()
+const router = require('../../utils/router')
 let _this;
 Page({
 
@@ -7,15 +8,22 @@ Page({
    */
   data: {
     phone:'',
-    dphone:''
+    password:''
   },
+
+
+  navTo(e) {
+    var path = e.currentTarget.dataset.path;
+    router.navigateTo(path);
+  },
+
   ddinput(e){
+  
     let name = e.currentTarget.dataset.name;
     this.data[name] = e.detail.value;
-    
     this.setData({
       phone: this.data.phone,
-      dphone: this.data.dphone
+      password: this.data.password
     })
   },
   /**
@@ -41,6 +49,11 @@ Page({
         title: '请填写手机号',
         icon:'none'
       })
+    }else   if(this.data.password == ''){
+      wx.showToast({
+        title: '请填写密码',
+        icon:'none'
+      })
     }else{
       wx.showLoading({
         title: '授权中',
@@ -50,33 +63,7 @@ Page({
       userInfo.id = wx.getStorageSync("user").id
       userInfo.phone = this.data.phone
       userInfo.dphone = this.data.dphone
-      app.com.post('wx/user/update', userInfo, function (res) {
-        wx.hideLoading()
-        if(res.code == 1){
-          wx.showToast({
-            title: '授权成功',
-            mask:true,
-            duration:800
-          })
-          let user = res.data
-          user.phone = userInfo.phone
-          wx.setStorage({
-            key: 'user',
-            data: user,
-          })
-          // wx.setStorageSync("user", user)
-          setTimeout(function(){
-            wx.navigateBack({
-              detal:1
-            })
-          },900)
-        }else{
-          wx.showToast({
-            title: '授权失败',
-            icon:'none'
-          })
-        }
-      })
+      
     }
     
   },
