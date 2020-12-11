@@ -26,21 +26,27 @@
             <image src='/img/right.png' class='icon-30 ma-l20'></image>
           </view>
         </view> -->
+        <view class="contract" wx:for="{{contractList}}">
+   <view class='panel-between border-b pa-t30 pa-b10'>
+        <view class='fo-28 bold'>合同编号:</view>
+        <input class='text-right fo-28' type='digit' name='price' value="{{item.no}}" placeholder='输入金额(元)'></input>
+      </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>合同类型:</view>
-        <input class='text-right fo-28' type='digit' name='price' value="按次合同" placeholder='输入金额(元)'></input>
+        <input class='text-right fo-28' type='digit' name='price' value="{{item.type}}" placeholder='输入金额(元)'></input>
       </view>
 
-      <view class='panel-between border-b pa-t30 pa-b10'>
+      <view class='panel-between border-b pa-t30 pa-b10' wx:if="{{item.type=='周期合同'}}">
         <view class='fo-28 bold'>时间段:</view>
-        <input class='text-right fo-28' type='digit' name='price' value="2020-848~13130" placeholder='输入金额(元)'></input>
+        <input class='text-right fo-28' type='digit' name='price'  value="{{item.starttime +'~'+ item.endtime}}" placeholder='输入金额(元)'></input>
       </view>
-         <view class='panel-between border-b pa-t30 pa-b10'>
+         <view class='panel-between border-b pa-t30 pa-b10' wx:if="{{item.type=='按次合同'}}">
         <view class='fo-28 bold'>次数:</view>
-        <input class='text-right fo-28' type='digit' name='price' value="1/9" placeholder='输入金额(元)'></input>
+        <input class='text-right fo-28' type='digit' name='price' value="{{item.left +'/'+item.total}}"  placeholder='输入金额(元)'></input>
       </view>
-      <view class='fo-26 text-center fo-g ma-t30' wx:if="{{msg.des}}">{{msg.des}}</view>
-      <button class='btns ' form-type="submit">返回首页</button>
+      <view class='fo-26 text-center fo-g ma-t30' >相关信息</view>
+      </view>
+      <button class='btns ' bindtap="back">返回首页</button>
     </form>
     
   </view>
@@ -50,3 +56,5 @@
   </view> -->
 
 </view>
+
+<van-dialog id="van-dialog" />
