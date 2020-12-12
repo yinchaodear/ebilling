@@ -1,12 +1,35 @@
 //index.js
 //获取应用实例
 const app = getApp()
+import Dialog from '../../dist/dialog/dialog';
+
 let _this;
 Page({
   data: {
-    price: '',
-    des: '',
-    phone: ''
+    contractList:[
+      {
+        no:"112332",
+        type:"按次合同",
+        starttime:"2011-02",
+        endtime:"2011-021",
+        total:9,
+        left:2
+      },
+      {
+        no:"112332",
+        type:"周期合同",
+        starttime:"2011-02",
+        endtime:"2011-021",
+        total:9,
+        left:2
+      }
+
+    ]
+  },
+  back(){
+    wx.navigateBack({
+      complete: (res) => {},
+    })
   },
   navTo(e) {
     app.com.navTo(e)
@@ -84,38 +107,26 @@ Page({
     })
   },
   onLoad: function (options) {
-    _this = this
-    let msg = wx.getStorageSync("server")[options.index];
-    let tags = msg.tags ?  msg.tags.split(','):[];
-    let arr= []
-    for(let i in tags){
-      arr.push({ label: tags[i], price: tags[i].replace(/[^0-9]/ig, "")})
-    }
-    msg.tagsFilter = arr
-    this.setData({
-      title:options.label,
-      msg: msg,
-    })
-    wx.setNavigationBarTitle({
-      title: options.label,
-    })
-    if (wx.getStorageSync("address")) {
-      let add = wx.getStorageSync("address")
-      this.setData({
-        address: add.address + '-' + add.detail
-      })
-    }
+    
   },
   onShow() {
-    // if (wx.getStorageSync('area')) {
-    //   this.setData({
-    //     area: wx.getStorageSync('area')
-    //   })
-    // } else {
-    //   wx.navigateTo({
-    //     url: '/pages/area/area',
-    //   })
-    // }
+    this.checkcontracts();
+  },
+  checkcontracts(){
+    debugger;
+    let  contractList = this.data.contractList;
+    let msg =""
+    for(var i in contractList){
+      if(contractList[i].type=='按次合同'&&contractList[i].left<3){
+        msg+="编号为"+contractList[i].no+"的合同剩余次数为"+contractList[i].left
+      }
+    }
+    Dialog.alert({
+      title: '合同剩余',
+      message: msg,
+    }).then(() => {
+      // on close
+    });
   }
 
 })

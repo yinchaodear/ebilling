@@ -1,4 +1,5 @@
 const app = getApp()
+const router = require("../../utils/router")
 let _this;
 Page({
 
@@ -8,12 +9,113 @@ Page({
   data: {
     kdtype: [{ la: '金额统计', price: 1 }, { la: '数量统计', price: 2 }, { la: '发票查询', price: 3 }],
     flag:0,
-    address:''
+    address:'',
+    showShare: false,
+
+ 
   },
+
+
+
+
+
   navTo(e) {
-    app.com.navTo(e)
+    var path = e.currentTarget.dataset.path;
+    router.navigateTo(path);
   },
+
+  bindDateChangeStart(e){
+    this.setData({
+      starttime: e.detail.value
+    })
+  },
+  bindDateChangeEnd(e){
+    this.setData({
+      endtime: e.detail.value
+    })
+  },
+  onClose() {
+    this.setData({ showShare: false });
+  },
+  onSelect(event) {
+    debugger;
+    console.log(event.detail.name);
+   
+    if(this.data.title=='时间段'){ 
+      this.setData({
+        duration:event.detail.name
+      })
+    }else  if(this.data.title=='取件方式'){
+      apply.experssway = event.detail.name
+     this.setData({
+       apply:apply
+     })
+   }
+    
+    this.onClose();
+  },
+
+  onClick(e) {
+    var title = e.currentTarget.dataset.title;
+    var options=[]
+    if(title=='时间段'){
+       options =[
+        {
+          name: '月度',
+          icon: '../../img/time.png',
+        },
+        {
+          name: '季度',
+          icon: '../../img/time.png',
+        },
+        {
+          name: '年度',
+          icon: '../../img/time.png',
+        },
+        {
+          name: '区间',
+          icon: '../../img/time.png',
+        },
+      ]
+     
+    }else if(title=='票据种类'){
+      options= [
+        {
+          name: '普票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '专票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '代开专票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '机动车发票',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '通用机打',
+          icon: '../../img/ticket.png',
+        },
+        {
+          name: '电子普票',
+          icon: '../../img/ticket.png',
+        },
+      ]
+    }
+    this.setData({ 
+      showShare: true,
+      title:title,
+      options:options
+    });
+  },
+  
+
   change(e){
+    
     this.setData({
       flag: e.currentTarget.dataset.index
     })

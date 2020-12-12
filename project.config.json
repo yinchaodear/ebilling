@@ -110,8 +110,8 @@
 				},
 				{
 					"id": 8,
-					"name": "pages/mine/addressinfo/addressinfo",
-					"pathName": "pages/mine/addressinfo/addressinfo",
+					"name": "pages/banzu/banzu",
+					"pathName": "pages/banzu/banzu",
 					"query": "",
 					"scene": null
 				},
@@ -238,8 +238,15 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/banzu/banzu",
-					"pathName": "pages/banzu/banzu",
+					"name": "pages/register/register",
+					"pathName": "pages/register/register",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/other/other",
+					"pathName": "pages/other/other",
 					"query": "",
 					"scene": null
 				}

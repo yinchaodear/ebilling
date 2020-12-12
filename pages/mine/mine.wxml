@@ -31,7 +31,7 @@
     </view>
     <image src='/img/right.png' class='icon-25'></image>
   </view>
-  <view class='panel panel-between item-center border-t' data-path='/pages/mine/cash/cash' bindtap='navTo'>
+  <view class='panel panel-between item-center border-t'  bindtap='navTo'>
     <view class='panel-start item-center'>
       <image src='/img/tx.png' class='icon-35 ma-r20'></image>
       <view class='fo-28'>退出</view>
