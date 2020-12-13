@@ -27,18 +27,30 @@ Page({
     wheres:''
   },
   searchInput(e){
+    debugger;
     let search = e.detail.value
-    if(search == ''){
-      this.data.wheres = ''
-    }else{
-      this.data.wheres = 'is_delete=0 and name like "%'+search+'%"'
+    this.setData({
+      search:search
+    })
+    var list  = this.data.list;
+    for(var i in list){
+       if(list[i].accountname.indexOf(search)!=-1){
+         list[i].show=true
+       }else{
+        list[i].show=false
+       }
     }
-    this.getArea()
+    this.setData({
+      list:list
+    })
+    // this.getArea()
   },
 
   QueryMyCompany:function(){
     company.QueryMyCompany().then(res=>{
-
+        this.setData({
+          list:res.data
+        })
     })
   },
   /**
@@ -52,10 +64,11 @@ Page({
     this.QueryMyCompany();
   },
   checkedIt(e){
+    var _this = this;
     let index = e.currentTarget.dataset.index;
     wx.showModal({
       title: '请确认您的选择',
-      content: '您的选择是"' + _this.data.list[index].name+'"',
+      content: '您的选择是"' + _this.data.list[index].accountname+'"',
       cancelText:'我点错了',
       confirmText:'确认',
       confirmColor:'#6887e1',
@@ -73,29 +86,7 @@ Page({
     
   },
   getArea(){
-    this.setData({
-      load:true
-    })
-    app.com.post('area/get',{
-      pageIndex:1,
-      pageSize:1000,
-      wheres:this.data.wheres,
-      sorts:'sort asc'
-    },function(res){
-      if(res.code == 1){
-        _this.setData({
-          list: res.data.list,
-          load:false
-        })
-        
-      }else{
-        wx.showToast({
-          title: '请求失败',
-          icon:'none'
-        })
-      }
-      
-    })
+   
   },
   getDail(aid){
     app.com.post('user/get/aid',{

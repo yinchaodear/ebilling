@@ -1,5 +1,6 @@
 const app = getApp()
 const router = require("../../../utils/router")
+const company = require("../../../utils/company")
 let _this;
 Page({
 
@@ -22,7 +23,15 @@ Page({
     load:false,
     choose:1
   },
+  QueryOtherCompany(ID){
+    company.QueryOtherCompany(ID).then(res=>{
 
+      console.log(res);
+      this.setData({
+        list:res.data
+      })
+    })
+  },
 
   chooseIt(e){
     let index = e.currentTarget.dataset.index
@@ -32,7 +41,9 @@ Page({
     })
   },
   del(e){
+    var _this= this;
     let index = e.currentTarget.dataset.index
+    var id = this.data.list[index].id
     wx.showModal({
       title: '提示',
       content: '删除后该数据将无法恢复，是否继续?',
@@ -42,22 +53,15 @@ Page({
             title: '删除中',
             task:true
           })
-          app.com.post('user/address/del',{
-            ids:_this.data.list[index].id
-          },function(res){
-            wx.hideLoading()
-            if(res.code == 1){
-              wx.showToast({
-                title: '删除成功',
-                task:true
-              })
-              _this.getList()
-            }else{
-              wx.showToast({
-                title: '删除失败',
-                icon: 'none'
-              })
-            }
+          company.DeleteOtherCompany(id).then(res=>{
+                if(res.data.msg==true){
+                  wx.hideLoading({
+                    complete: (res) => {
+                      app.globalData.Toast.showToast("删除成功")
+                      _this.QueryOtherCompany();
+                    },
+                  })
+                }
           })
         }
       }
@@ -76,8 +80,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+     console.log(app)
+    app.Toast.showToast("删除成功")
     _this = this
-    _this.getList()
     _this.setData({
       choose: options.choose ? options.choose:0
     })
@@ -101,8 +106,9 @@ Page({
     })
   },
   onShow: function (){
-    this.setData({
-      defId:wx.getStorageSync("user").default_address
-    })
+     var company = wx.getStorageSync('company');
+     if(company){
+       this.QueryOtherCompany(company.id);
+     }
   }
 })

@@ -69,6 +69,9 @@ Page({
           if(res.data.msg=='success'){
             Toast.showToast("登录成功");
             wx.setStorageSync('currentuser', res.data);
+            wx.switchTab({
+              url: '/pages/index/index',
+            })
           }
 
       })

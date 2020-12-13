@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+const Toast = require("../../utils/Toast")
 const app = getApp()
 let _this;
 Page({
@@ -31,13 +32,19 @@ Page({
     app.com.navTo(e)
   },
   navTo(e) {
-    // if (wx.getStorageSync("user").phone == '' || wx.getStorageSync("user").phone == null || wx.getStorageSync("user").phone == undefined){
-    //   wx.navigateTo({
-    //     url: '/pages/login/login',
-    //   })
-    // }else{
+
       let name = e.currentTarget.dataset.name
       let index = e.currentTarget.dataset.index
+      var currentuser =wx.getStorageSync('currentuser');
+      if(!currentuser){
+        Toast.showToast("未登录");
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
+        }, 1500);
+        return;
+      }
       if(true){
         if (name == '发票统计') {
           wx.navigateTo({
