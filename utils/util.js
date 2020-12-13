@@ -8,15 +8,16 @@ function request(params,method = "GET") {
   return new Promise(function (resolve, reject) {
     let url = API.BaseUrl+params.url;
     let data = params.data;
-    url, data = {}, 
     wx.request({
       url: url,
       data: data,
       method: method,
       header: {
         'Content-Type': 'application/json',
-        'X-Nideshop-Token': wx.getStorageSync('token')
+        'X-Nideshop-Token': wx.getStorageSync('token'),
+        "cookie":wx.getStorageSync('currentuser')?"aid="+wx.getStorageSync('currentuser').f_id:""
       },
+      
       success: function (res) {
         if (res.statusCode == 200) { 
             console.log("success");

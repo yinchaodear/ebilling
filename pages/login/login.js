@@ -1,5 +1,8 @@
 const app = getApp()
 const router = require('../../utils/router')
+const Toast =require("../../utils/Toast")
+const login = require("../../utils/login");
+const loginurl ='ebilling/account/login'
 let _this;
 Page({
 
@@ -7,8 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone:'',
-    password:''
+    phone:'17751765030',
+    password:'8888'
   },
 
 
@@ -55,14 +58,20 @@ Page({
         icon:'none'
       })
     }else{
-      wx.showLoading({
-        title: '授权中',
-        task:true
+      var params ={}
+      var data ={}
+      data.phone =this.data.phone;
+      data.pwd = this.data.password;
+      params.url = loginurl;
+      params.data =data
+      login.login(params).then(res=>{
+          console.log(res);
+          if(res.data.msg=='success'){
+            Toast.showToast("登录成功");
+            wx.setStorageSync('currentuser', res.data);
+          }
+
       })
-      let userInfo = e.detail.userInfo
-      userInfo.id = wx.getStorageSync("user").id
-      userInfo.phone = this.data.phone
-      userInfo.dphone = this.data.dphone
       
     }
     
