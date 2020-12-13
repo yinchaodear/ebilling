@@ -1,4 +1,5 @@
 const app = getApp()
+const company =require("../../utils/company")
 let _this;
 Page({
 
@@ -34,6 +35,12 @@ Page({
     }
     this.getArea()
   },
+
+  QueryMyCompany:function(){
+    company.QueryMyCompany().then(res=>{
+
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -42,8 +49,7 @@ Page({
       frontColor: '#ffffff',
       backgroundColor: '#6e42d3',
     })
-    _this = this
-    this.getArea()
+    this.QueryMyCompany();
   },
   checkedIt(e){
     let index = e.currentTarget.dataset.index;

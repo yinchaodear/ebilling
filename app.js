@@ -1,9 +1,10 @@
 let utils = require('./utils/util.js')
+let login =require('./utils/login')
 App({
 
   onLaunch: function () {
     let _this = this;
-    utils.Login();
+    login.loginDaily();
   },
   
 
