@@ -1,7 +1,7 @@
 <view class="pa-30">
   <view class='panel shadow ra-10 ma-b30' wx:for="{{list}}" wx:key="{{index}}" data-index='{{index}}' bindtap='{{choose == 1 ? "chooseIt":""}}'>
-    <view class='fo-30'> 企业名称:{{item.account_name }}</view>
-     <view class='fo-30'>社会信用代码 :{{item.account_code }}</view>
+    <view class='fo-30'> 企业名称:{{item.accountname }}</view>
+     <view class='fo-30'>社会信用代码 :{{item.accountcode }}</view>
      <view class='fo-30'>开户银行 :{{item.bank }}</view>
       <view class='fo-30'>银行账号 :{{item.bankaccount}}</view>
     <view class='panel-between item-center ma-t20'>
@@ -40,4 +40,4 @@
   <view class='fg1'></view>
 </view>
 
-<view class='btnns' data-path='/pages/mine/addressinfo/addressinfo' bindtap='navTo'>+</view>
+<view class='btnns' data-path='/pages/mine/addressinfo/addressinfo' bindtap='navToAdd'>+</view>

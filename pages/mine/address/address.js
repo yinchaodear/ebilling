@@ -58,7 +58,7 @@ Page({
                   wx.hideLoading({
                     complete: (res) => {
                       app.globalData.Toast.showToast("删除成功")
-                      _this.QueryOtherCompany();
+                      _this.QueryOtherCompany(_this.data.companyid);
                     },
                   })
                 }
@@ -71,21 +71,23 @@ Page({
     var path = e.currentTarget.dataset.path;
     router.navigateTo(path)
   },
+  navToAdd(e) {
+    var path = e.currentTarget.dataset.path;
+    path+="?companyid="+this.data.companyid;
+    router.navigateTo(path)
+  },
   bj(e){
+    let index = e.currentTarget.dataset.index
+    var id = this.data.list[index].id
     wx.navigateTo({
-      url: '/pages/mine/addressinfo/addressinfo?data='+JSON.stringify(this.data.list[e.currentTarget.dataset.index]),
+      url: '/pages/mine/addressinfo/addressinfo?otherid='+id,
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     console.log(app)
-    app.Toast.showToast("删除成功")
-    _this = this
-    _this.setData({
-      choose: options.choose ? options.choose:0
-    })
+ 
   },
   getList(){
     this.setData({
@@ -106,8 +108,12 @@ Page({
     })
   },
   onShow: function (){
-     var company = wx.getStorageSync('company');
+    debugger;
+     var company = wx.getStorageSync('company');//当前选择的公司
      if(company){
+       this.setData({
+         companyid:company.id
+       })
        this.QueryOtherCompany(company.id);
      }
   }

@@ -74,65 +74,50 @@
   
   </view>
 
-     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
-    <view class='panel-start item-center'>
-      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
-      <view class='fo-30 ma-l20'>收件人</view>
-       
-    </view>
-    
-      <input class='fo-30 fo-g text-center' value='{{detail.receipt}}'  data-name='receipt' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
-  
-  </view>
 
-      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
-    <view class='panel-start item-center'>
-      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
-      <view class='fo-30 ma-l20'>收件电话</view>
-       
-    </view>
-    
-      <input class='fo-30 fo-g text-center' value='{{detail.receiptel}}'  data-name='receiptel' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
-  
-  </view>
 
-      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
-    <view class='panel-start item-center'>
-      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
-      <view class='fo-30 ma-l20'>地区</view>
+  <van-collapse value="{{ activeNames }}" accordion='true'  bind:change="onItemChange">
+  <van-collapse-item title="收件地址" name="1"  value ="">
+  <view class="pannel-item" wx:for='{{ItemList}}'>
+     <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>收件人</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="receipt" placeholder=""  value="{{item.receipt}}" ></input>
+         </view>
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>收件电话</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="receiptel" placeholder="" value="{{item.receiptel}}"  ></input>
        
-    </view>
-    
-      <input class='fo-30 fo-g text-center' value='{{detail.area}}'  data-name='area' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
-  
-  </view>
+      </view>
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>收件地区</view>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptarea" value="{{item.receiptarea}}"  placeholder=""  ></input>
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>收件地址</view>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptaddress" value="{{item.receiptaddress}}"  placeholder=""  ></input>
+      </view>
+       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>邮政编号</view>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptecode" value="{{item.receiptecode}}"  placeholder=""  ></input>
+      </view>
+         <view class='pa-t30 pa-b30 panel-end item-center'>
+      <view class='fo-26 fo-g'>是否设为默认地址</view>
+      <switch checked='{{item.f_defaultflag==0?true:false}}' bindchange='dchange'  data-index='{{index}}' color='#0099ff' class='ma-l20'></switch>
+         </view> 
+      <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
+        删除此项
+      </view>
+    </view>   
+  </van-collapse-item>
 
-      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
-    <view class='panel-start item-center'>
-      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
-      <view class='fo-30 ma-l20'>详细地址</view>
-       
-    </view>
+      <view class='additem'  bindtap="additem" >
+         添加收件地址
+      </view>
+</van-collapse>
     
-      <input class='fo-30 fo-g text-center' value='{{detail.addressdetail}}'  data-name='addressdetail' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
   
-  </view>
 
-     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
-    <view class='panel-start item-center'>
-      <!-- <image src='/img/d5.png' class='icon-35'></image> -->
-      <view class='fo-30 ma-l20'>邮政编码</view>
-       
-    </view>
-    
-      <input class='fo-30 fo-g text-center' value='{{detail.shipcode}}'  data-name='shipcode' bindinput='bInput' placeholder='开票选择邮寄时有用'></input>
-  
-  </view>
-  
-   <view class='pa-t30 pa-b30 panel-end item-center'>
-    <view class='fo-26 fo-g'>是否设为默认地址</view>
-    <switch checked='{{mo}}' bindchange='dchange' color='#0099ff' class='ma-l20'></switch>
-  </view> 
+
 
   <view class='pa-30'>
     <button class='btns' bindtap='submit'>保存</button>

@@ -1,3 +1,7 @@
 {
-  "navigationBarTitleText": "新增企业信息"
+  "navigationBarTitleText": "新增企业信息",
+  "usingComponents": {
+    "van-collapse": "../../../dist/collapse/index",
+    "van-collapse-item": "../../../dist/collapse-item/index"
+  }
 }

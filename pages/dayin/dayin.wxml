@@ -30,7 +30,7 @@
         <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address' bindtap='navTo'>
         <view class='fo-30'>对方单位</view>
         <view class='panel-end item-center'>
-          <view class='fo-30 fo-g'>{{apply.company1 ? apply.company1.account_name:'从通讯录选择'}}</view>
+          <view class='fo-30 fo-g'>{{apply.company1 ? apply.company1.accountname:'从通讯录选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
