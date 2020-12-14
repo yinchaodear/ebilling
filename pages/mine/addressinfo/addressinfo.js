@@ -1,6 +1,6 @@
 const app = getApp()
 const company =require("../../../utils/company")
-
+import Notify from '../../../dist/notify/notify';
 let _this;
 Page({
 
@@ -26,7 +26,6 @@ Page({
     })
   },
   deleteitem(e){
-    debugger;
     var _this =this;
     var index = e.currentTarget.dataset.index;
     var addressid = this.data.ItemList[index].id;
@@ -102,12 +101,46 @@ Page({
   submit(){
     console.log(this.data.detail);
     console.log(this.data.ItemList)
-    company.AddCompanyotherAddress(this.data.detail,this.data.ItemList).then(res=>{
-          if(res.data.msg==true){
-             app.globalData.Toast.showToast("操作成功");
-             this.GetCompanyOtherInfo(this.data.otherid)
-          }
+    var detail =this.data.detail;
+    if(detail.name==''){
+      app.globalData.Toast.showToast("企业名称为空");
+      return;
+    }
+
+    if(detail.code==''){
+      app.globalData.Toast.showToast("社会信用代码为空");
+      return;
+    }
+
+    company.QccCompany(detail.name,detail.code).then(res=>{
+         if(res.data.msg==1){
+           console.log("企业查查对的");
+           this.AddCompanyotherAddress();
+         }else if(res.data.msg==0){
+           Notify({
+            message: '企业名称或者社会信用代码有误,无法保存',
+            duration: 2000,
+           });
+           return;
+         }else if(res.data.msg==4){
+          Notify({
+            message: '企业查询接口出错,请联系客服',
+            duration: 2000,
+          });
+          this.AddCompanyotherAddress();
+        }
     })
+return;
+  
+  },
+
+  AddCompanyotherAddress(){
+    company.AddCompanyotherAddress(this.data.detail,this.data.ItemList).then(res=>{
+      if(res.data.msg==true){
+         app.globalData.Toast.showToast("操作成功");
+         this.GetCompanyOtherInfo(this.data.otherid)
+      }
+})
   },
   
   GetCompanyOtherInfo(otherid){
