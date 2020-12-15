@@ -127,6 +127,7 @@
 .ma-t30{
   margin-top: 30rpx
 }
+
 .ma-b30{
   margin-bottom: 30rpx
 }

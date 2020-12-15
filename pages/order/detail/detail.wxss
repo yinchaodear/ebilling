@@ -166,3 +166,9 @@ page {
   box-shadow: 5rpx 10rpx 10rpx 0rpx hsla(36, 100%, 50%, 0.267);
   margin-right: 30rpx
 }
+
+.orderitem{
+  margin-top: 5px;
+  padding: 10px;
+  box-shadow: 0 0 3px #e1e1e1;
+}

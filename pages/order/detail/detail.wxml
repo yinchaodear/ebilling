@@ -7,37 +7,49 @@
       <view class='panel-start item-center'>
         <!-- <image class='avatar' src='{{list.avatar_url}}' mode='aspectFill'></image> -->
         <view class='ma-l30'>
-          <view class='fo-36 bold '>开票编号:{{detail.serino}}</view>
-          <view class='fo-26 fo-g'>开票单位:{{detail.company.name}}</view>
-             <view class='fo-26 fo-g'>对方单位:{{detail.company1.name}}</view>
+          <view class='fo-36 bold '>开票编号:{{detail.no}}</view>
+          <view class='fo-26 fo-g'>开票单位:{{detail.company.accountname}}</view>
+             <view class='fo-26 fo-g'>对方单位:{{detail.company1.accountname}}</view>
+        
         </view>
       </view>
       <view class='state {{list.state== 0 ?"ste4":list.state== 1 ? "ste1":list.state== 2 ? "ste2":list.state == 3?"ste3":"ste5"}}'>{{detail.status}}</view>
     </view>
      <!-- <view class='w-20 border-b ma-t30'></view> -->
+    <view class='fo-30 ma-t30'>审核信息</view>
+    <view class='fo-26 ma-t30 fo-g'>审核结果：{{detail.approvestatus}}</view>
+    <view class='fo-26 ma-t30 fo-g' wx:if="{{detail.approvestatus=='审核不通过'}}">原因：{{detail.reason}}</view>
+
+
      <view class='fo-30 ma-t30'>相关信息</view>
-    <view class='fo-26 ma-t30 fo-g'>票据种类：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>开票人：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>复核人：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>收款人：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>取件方式：{{list.mu}}</view>
-    <view class='fo-26 ma-t30 fo-g'>备注：{{list.mu}}</view>
+    <view class='fo-26 ma-t30 fo-g'>票据种类：{{detail.type}}</view>
+    <view class='fo-26 ma-t30 fo-g'>申请时间:{{detail.operationtime}}</view>
+    <view class='fo-26 ma-t30 fo-g'>开票人：{{detail.drawer}}</view>
+    <view class='fo-26 ma-t30 fo-g'>复核人：{{detail.Checker}}</view>
+    <view class='fo-26 ma-t30 fo-g'>收款人：{{detail.payee}}</view>
+    <view class='fo-26 ma-t30 fo-g'>取件方式：{{detail.expressway}}</view>
+    <view class='fo-26 ma-t30 fo-g'>备注：{{detail.remark}}</view>
    
     <view class='fo-30 ma-t30'>开票明细</view>
-    <view class='fo-26 ma-t30 fo-g'>开票项：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>开票金额：{{list.mu}}</view>
-    <view class='fo-26 ma-t30 fo-g'>税率：{{list.mu}}</view>
+    <view wx:for="{{orderitem}}" class="orderitem">
+    <view class='fo-26 ma-t10 fo-g'>开票项：{{item.name}}</view>
+     <view class='fo-26 ma-t10 fo-g'>发票抬头：{{item.taxno}}</view>
+    <view class='fo-26 ma-t10 fo-g'>单价：{{item.unitprice}}</view>
+    <view class='fo-26 ma-t10 fo-g'>数量：{{item.number}}</view>
+    <view class='fo-26 ma-t10 fo-g'>开票金额：{{item.money}}</view>
+    <view class='fo-26 ma-t10 fo-g'>税率：{{item.tax}}</view>
+    </view>
 
-
-
+   <view wx:if="{{detail.expressway=='邮寄'}}"> 
     <view class='fo-30 ma-t30'>收件信息</view>
     <view class='fo-26 ma-t30 fo-g'>运费：{{list.mu}}</view>
-    <view class='fo-26 ma-t30 fo-g' >收件人：{{list.qi}}</view>
-    <view class='fo-26 ma-t30 fo-g'>收件电话：{{list.mu}}</view>
-    <view class='fo-26 ma-t30 fo-g'>收件地址：{{list.mu}}</view>
-    <view class='fo-26 ma-t30 fo-g'>收件邮编：{{list.mu}}</view>
-    <view class='state ste4 ma-t30'>确认收货</view>
-
+    <view class='fo-26 ma-t30 fo-g' >收件人：{{detail.receipt}}</view>
+    <view class='fo-26 ma-t30 fo-g'>收件电话：{{detail.receiptel}}</view>
+    <view class='fo-26 ma-t30 fo-g'>收件地址：{{detail.area}}{{detail.addressdetail}}</view>
+    <view class='fo-26 ma-t30 fo-g'>收件邮编：{{detail.shipcode}}</view>
+    <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
+    <!-- <view class='state ste4 ma-t30'>确认收货</view> -->
+   </view>
 
  
     <view class='panel-end' style='height:30rpx'>
@@ -63,7 +75,7 @@
   <view class='border-b ' style='width:50rpx'></view>
 </view> -->
 
-<view class='pa-30 ' >
+<!--<view class='pa-30 ' >
   <view class='panel ra-10 shadow'>
     <view class='panel-between item-center'>
       <view class='panel-start item-center'>
@@ -76,12 +88,12 @@
       </view>
     </view>
   </view>
-</view>
+</view>-->
 
 <view class='fix-b panel-end itme-center'>
-  <view class='bzbtn '  bindtap='takeIt'>帮助TA</view>
-  <view class='bzbtn3 '  data-id='{{list.id}}' bindtap='cancel'>取消</view>
-  <view class='bzbtn2 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view>
-  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  bindtap='comfirm'>确认完成</view>
+  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&detail.approvestatus=='审核不通过')}}" > 继续编辑</view>
+  <!-- <view class='bzbtn3 '  data-id='{{list.id}}' bindtap='cancel'>取消</view>
+  <view class='bzbtn2 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view> -->
+  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.expressway=='邮寄'}}"  bindtap='comfirm'>确认收货</view>
 </view>
 

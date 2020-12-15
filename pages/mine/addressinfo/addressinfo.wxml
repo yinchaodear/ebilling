@@ -49,7 +49,7 @@
        
     </view>
     
-      <input class='fo-30 fo-g text-center' value='{{detail.phone}}'  data-name='phone' bindinput='bInput' placeholder='请输入企业注册电话'></input>
+      <input class='fo-30 fo-g text-center' value='{{detail.phone}}'  type="number" data-name='phone' bindinput='bInput' placeholder='请输入企业注册电话'></input>
   
   </view>
      <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
@@ -85,7 +85,7 @@
          </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件电话</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="receiptel" placeholder="" value="{{item.receiptel}}"  ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList"  type="number" data-index='{{index}}' data-name="receiptel" placeholder="" value="{{item.receiptel}}"  ></input>
        
       </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >

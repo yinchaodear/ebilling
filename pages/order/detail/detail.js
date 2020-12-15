@@ -1,5 +1,7 @@
 const app = getApp()
 let _this;
+const salesorder = require('../../../utils/salesorder')
+const router =require('../../../utils/router')
 Page({
 
   /**
@@ -37,25 +39,7 @@ Page({
     })
   },
   takeIt(e) {
-    let msg = this.data.list
-    if (wx.getStorageSync("res").state == 1) {
-      this.takeDo(msg)
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '您还不是接单员，是否前往申请',
-        confirmText: '立即前往',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/register/register',
-            })
-          }
-        }
-      })
-    }
-
-
+    router.navigateTo("/pages/dayin/dayin?orderid="+this.data.detail.id);
   },
   takeDo(msg) {
     wx.showLoading({
@@ -127,11 +111,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    _this = this
-    this.setData({
-      id:options.id
-    })
-    this.getList(options.id)
+    if(options.orderid){
+      salesorder.GetSalesOrderInfo(options.orderid).then(res=>{
+        if(res.data.msg==true){
+          this.setData({
+            detail:res.data.orderdetail,
+            orderitem:res.data.orderitem
+          })
+       }
+      })
+    }
   },
   getList(id) {
     app.com.post('help/get2', {

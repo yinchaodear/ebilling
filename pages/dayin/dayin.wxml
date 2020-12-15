@@ -56,14 +56,26 @@
         <view class='fo-26'>项目名</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
          </view>
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+             <view class='fo-26'>发票号</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写发票号"  value="{{item.taxno}}" ></input>
+         </view>
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>单价</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  type="number" data-name="unitprice" placeholder="填写单价"  value="{{item.unitprice}}" ></input>
+         </view>
+              <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>数量</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   type="number"  data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
+         </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>对应金额</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="填写对应金额" value="{{item.money}}"  ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
        
       </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>税率(%)</view>
-        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'  type="number" data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
       </view>
       <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
         删除此项
@@ -92,13 +104,13 @@
             <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='取件方式' bindtap="onClick" >
         <view class='fo-30'>取件方式</view>
         <view class='panel-end item-center'>
-          <view class='fo-30 fo-g'>{{apply.experssway ?apply.experssway:'请选择'}}</view>
+          <view class='fo-30 fo-g'>{{apply.expressway ?apply.expressway:'请选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
 
 
-<van-collapse value="{{ activeNames2 }}" accordion='true'  bind:change="onItemChange2" wx:if="{{apply.experssway=='邮寄'}}">
+<van-collapse value="{{ activeNames2 }}" accordion='true'  bind:change="onItemChange2" wx:if="{{apply.expressway=='邮寄'}}">
   <van-collapse-item title="收件信息" name="1"  value ="">
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
            <view class='fo-26'>姓名</view>
@@ -107,7 +119,7 @@
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
            <view class='fo-26'>电话</view>
-          <input class='fo-26 text-right' name="des" data-type='receiptel' bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
+          <input class='fo-26 text-right' name="des" data-type='receiptel'  type="number" bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
         
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
@@ -166,7 +178,8 @@
       <view class='fo-26 text-center ma-t30'>需支付</view>
       <view class='text-center fo-40 bold ma-t20 fo-m'>{{total_fee}}
         <text class='fo-26'>元</text> </view> -->
-      <button class='btns ' bindtap="submit">申请开票</button>
+      <button class='btns ' data-status='审核中' bindtap="submit">申请开票</button>
+      <button class='btns ' data-status='暂存' bindtap="submit">暂存</button>
     </form>
   </view>
 </view>

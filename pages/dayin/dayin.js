@@ -1,6 +1,7 @@
 const app = getApp()
 const router =require('../../utils/router')
 const Toast =require('../../utils/Toast')
+const salesorder =require('../../utils/salesorder')
 let _this;
 Page({
 
@@ -17,7 +18,7 @@ Page({
     showShare: false,
     title:'',
     apply:{
-     
+      
       company1:{
         name:"测试1",
         id:'1112'
@@ -48,6 +49,9 @@ Page({
     var value =e.detail.value;
     var ItemList = this.data.ItemList;
     ItemList[index][name] =value;
+    if(ItemList[index].number!=''&&ItemList[index].unitprice!=''){
+      ItemList[index].money=ItemList[index].number*ItemList[index].unitprice
+    }
     this.setData({
       ItemList:ItemList
     })
@@ -154,7 +158,7 @@ Page({
         apply:apply
       })
     }else  if(this.data.title=='取件方式'){
-      apply.experssway = event.detail.name
+      apply.expressway = event.detail.name
      this.setData({
        apply:apply
      })
@@ -190,7 +194,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+        if(options.orderid){
+          salesorder.GetSalesOrderInfo(options.orderid).then(res=>{
+            if(res.data.msg==true){
+              this.setData({
+                apply:res.data.orderdetail,
+                ItemList:res.data.orderitem
+              })
+           }
+          })
+        }
   },
   onShow(){
     var company = wx.getStorageSync("company");
@@ -212,12 +225,30 @@ Page({
  
   },
 
-  submit(){
+
+
+  submit(e){
+    console.log(e);
+    var status = e.currentTarget.dataset.status;
+    var apply =this.data.apply;
+    apply.status =status;
+    this.setData({
+      apply:apply
+    })
     console.log(this.data.apply);
     console.log(this.data.ItemList);
-  }
+    this.addSalesOrder(this.data.apply,this.data.ItemList);
+  },
  
-  
+  addSalesOrder(salesorder1,salesorderitem){
+    salesorder.AddSalesOrder(salesorder1,salesorderitem).then(res=>{
+        if(res.data.msg==true){
+            router.switchTab("/pages/banzu/banzu")
+        }else{
+          app.globalData.Toast.showToast("保存失败")
+        }
+    })
+  }
   
 
 })
