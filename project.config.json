@@ -111,7 +111,7 @@
 				{
 					"id": 8,
 					"name": "pages/banzu/banzu",
-					"pathName": "pages/banzu/banzu",
+					"pathName": "pages/mine/chooseaddress/chooseaddress",
 					"query": "",
 					"scene": null
 				},
@@ -268,6 +268,14 @@
 					"id": -1,
 					"name": "pages/mine/addressinfo/addressinfo",
 					"pathName": "pages/mine/addressinfo/addressinfo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/chooseaddress/chooseaddress",
+					"pathName": "pages/mine/chooseaddress/chooseaddress",
+					"query": "oid=1",
 					"scene": null
 				}
 			]

@@ -17,27 +17,18 @@ Page({
       applytime:'2011-20-20'
     }
   },
-  comfirm(e) {
-    let id = e.currentTarget.dataset.id
-    wx.showLoading({
-      title: '请稍等',
-      task:true
-    })
-    app.com.post('help/confirm', { id: id }, function (res) {
-      wx.hideLoading()
-      if (res.code == 1) {
-        wx.showToast({
-          title: '订单已完成',
-        })
-        _this.getList(_this.data.list.id)
-      } else {
-        wx.showToast({
-          title: '确认失败',
-          icon: 'none'
-        })
+  comfirm() {
+    this.ChangeOrderStatus();
+  },
+  
+  ChangeOrderStatus(){
+    salesorder.ChangeOrderStatus(this.data.detail.id).then(res=>{
+      if(res.data.msg==true){
+        this.GetSalesOrderInfo(this.data.detail.id);
       }
     })
   },
+
   takeIt(e) {
     router.navigateTo("/pages/dayin/dayin?orderid="+this.data.detail.id);
   },
@@ -90,72 +81,27 @@ Page({
     })
 
   },
-  pay(e){
-    app.com.post('help/pay',{
-      title: e.currentTarget.dataset.title,
-      openid:wx.getStorageSync("user").openid,
-      oid: e.currentTarget.dataset.id,
-      total_fee: e.currentTarget.dataset.price
-    },function(res){
-      if(res.code == 1){
-        app.com.wxpay(res,function(res){
-          wx.hideLoading()
-          if (res) {
-            _this.getList(_this.data.id)
-          }
-        })
-      }
-    })
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     if(options.orderid){
-      salesorder.GetSalesOrderInfo(options.orderid).then(res=>{
-        if(res.data.msg==true){
-          this.setData({
-            detail:res.data.orderdetail,
-            orderitem:res.data.orderitem
-          })
-       }
-      })
+        this.GetSalesOrderInfo(options.orderid);
     }
   },
-  getList(id) {
-    app.com.post('help/get2', {
-      fields: 'helplist.*,wxuser.phone,wxuser.dphone,wxuser.avatar_url,wxuser.nick_name',
-      wheres:'helplist.id='+id,
-      sorts:'helplist.create_time asc'
-    }, function (res) {
-      if (res.code == 1) {
-        let re = res.data.list
-        _this.setData({
-          list: re[0],
-          total: res.data.total
+  
+  GetSalesOrderInfo(ID){
+    salesorder.GetSalesOrderInfo(ID).then(res=>{
+      if(res.data.msg==true){
+        this.setData({
+          detail:res.data.orderdetail,
+          orderitem:res.data.orderitem
         })
-        if(re[0].jd_id){
-          _this.getJd(re[0].jd_id)
-        }
-      } else {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        })
-      }
+     }
     })
   },
-  getJd(id){
-    app.com.post('wx/user/get/id',{
-      id: id
-    },function(res){
-      if(res.code == 1){
-        _this.setData({
-          jduser:res.data
-        })
-      }
-    })
-  },
+
   makePhoneCall(e){
     let ty = e.currentTarget.dataset.type
     if (this.data.wx_id == this.data.list.wx_id || this.data.wx_id == this.data.list.jd_id){

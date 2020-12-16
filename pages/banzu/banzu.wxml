@@ -27,7 +27,7 @@
         <view class='panel-start item-center'>
           <!-- <image src='{{item.avatar_url}}' class='avatar' mode='aspectFill'></image> -->
           <view class='ma-l20'>
-            <view class='fo-30 bold'>开票编号{{item.serino}}</view>
+            <view class='fo-30 bold'>开票编号:{{item.f_salesorder_no}}</view>
             <view class='fo-26 fo-g'>开票单位:{{item.f_accountname}}</view>
             <view class='fo-26 fo-g'>对方单位:{{item.f_account_name}}</view>
             <view class='fo-26 fo-g' wx:if="{{item.f_approvestatus=='审核不通过'}}" >驳回理由:{{item.f_reason}}</view>
@@ -35,7 +35,8 @@
              <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'}}">收件状态:{{item.f_express_status}}</view>
           </view>
         </view>
-        <view class='state {{item.state== 0 ?"ste4":item.state== 1 ? "ste1":item.state== 2 ? "ste2":item.state == 3?"ste3":"ste5"}}'>{{item.f_sostatus}}</view>
+        <view wx:if='{{item.f_urgent=="是"}}' class='state ste4'>{{item.f_sostatus}}(急)</view>
+        <view wx:if='{{item.f_urgent!="是"}}' class='state ste5'>{{item.f_sostatus}}</view>
       </view>
       <!-- <view style='margin-left:80rpx'>
         <view class='fo-28 ma-t10'>{{item.des}}</view>

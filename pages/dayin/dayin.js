@@ -2,6 +2,7 @@ const app = getApp()
 const router =require('../../utils/router')
 const Toast =require('../../utils/Toast')
 const salesorder =require('../../utils/salesorder')
+const company =require("../../utils/company")
 let _this;
 Page({
 
@@ -61,9 +62,23 @@ Page({
   deleteitem(e){
     var index = e.currentTarget.dataset.index;
     var ItemList =this.data.ItemList;
-    ItemList.splice(index,1);
-    this.setData({
-      ItemList:ItemList
+    var item =ItemList[index];
+    console.log(item);
+    if(item.id){
+      console.log("数据删除");
+      this.RemoveSalesOrderItem(item.id);
+    }else{
+      ItemList.splice(index,1);
+      this.setData({
+        ItemList:ItemList
+      })
+    }
+  },
+  RemoveSalesOrderItem(id){
+    salesorder.RemoveSalesOrderItem(id).then(res=>{
+      if(res.data.msg==true){
+        this.GetSalesOrderInfo(this.data.apply.id);
+      }
     })
   },
   
@@ -158,6 +173,10 @@ Page({
         apply:apply
       })
     }else  if(this.data.title=='取件方式'){
+      if(event.detail.name=='邮寄'&&this.data.apply.company1){
+        //查找对方单位的默认地址
+         this.AddressDetail();
+      }
       apply.expressway = event.detail.name
      this.setData({
        apply:apply
@@ -167,6 +186,30 @@ Page({
     this.onClose();
   },
 
+
+  AddressDetail(){
+    company.AddressList(this.data.apply.company1.id,true).then(res=>{
+      var apply =this.data.apply;
+      if(res.data.msg==true&&res.data.addressList.length!=0){
+        var obj = res.data.addressList[0]
+        apply.receipt = obj.f_receipt;
+        apply.receiptel = obj.f_receiptel;
+        apply.area = obj.f_receiptarea;
+        apply.addressdetail = obj.f_receiptaddress;
+        apply.shipcode = obj.f_receiptecode;    
+      }else{
+        var apply =this.data.apply;
+        apply.receipt = ""
+        apply.receiptel = ""
+        apply.area = ""
+        apply.addressdetail = ""
+        apply.shipcode =""
+      }
+      this.setData({
+        apply:apply
+      })
+   })
+  },
 
 
   navTo(e) {
@@ -195,19 +238,31 @@ Page({
    */
   onLoad: function (options) {
         if(options.orderid){
-          salesorder.GetSalesOrderInfo(options.orderid).then(res=>{
-            if(res.data.msg==true){
-              this.setData({
-                apply:res.data.orderdetail,
-                ItemList:res.data.orderitem
-              })
-           }
-          })
+           this.GetSalesOrderInfo(options.orderid);
         }
   },
+
+  GetSalesOrderInfo(id){
+    salesorder.GetSalesOrderInfo(id).then(res=>{
+      if(res.data.msg==true){
+        this.setData({
+          apply:res.data.orderdetail,
+          ItemList:res.data.orderitem
+        })
+     }
+    })
+  },
+  
+  onUnload(){
+      console.log("我被销毁了");
+      wx.removeStorageSync('company1');       
+      wx.removeStorageSync('address');
+  },
+
   onShow(){
     var company = wx.getStorageSync("company");
     var company1 = wx.getStorageSync("company1");
+    var address  =wx.getStorageSync('address');
     if(company){
       var apply =this.data.apply;
       apply.company =company
@@ -221,6 +276,21 @@ Page({
       this.setData({
        apply:apply
       })
+      if(this.data.apply.expressway=='邮寄'&&address==''){
+        this.AddressDetail();
+      }else{
+        console.log("加载刚才存进来的");
+        var apply =this.data.apply;
+        apply.receipt = address.f_receipt
+        apply.receiptel =address.f_receiptel
+        apply.area = address.f_receiptarea
+        apply.addressdetail = address.f_receiptaddress
+        apply.shipcode = address.f_receiptecode;
+        this.setData({
+          apply:apply
+        })
+        wx.removeStorageSync('address');   
+      }
     }
  
   },
@@ -230,6 +300,9 @@ Page({
   submit(e){
     console.log(e);
     var status = e.currentTarget.dataset.status;
+    wx.showLoading({
+      title: '提交中',
+    })
     var apply =this.data.apply;
     apply.status =status;
     this.setData({
@@ -242,11 +315,20 @@ Page({
  
   addSalesOrder(salesorder1,salesorderitem){
     salesorder.AddSalesOrder(salesorder1,salesorderitem).then(res=>{
-        if(res.data.msg==true){
-            router.switchTab("/pages/banzu/banzu")
+      app.globalData.Toast.showToast("申请成功"); 
+      setTimeout(() => {
+          if(res.data.msg==true){
+            wx.removeStorageSync('company1')
+            if(salesorder1.status=="审核中"||salesorder1.status=='加急'){
+              router.switchTab("/pages/banzu/banzu?type=审核中");
+            }else{
+              router.switchTab("/pages/banzu/banzu?type=暂存");
+            }           
         }else{
           app.globalData.Toast.showToast("保存失败")
         }
+        }, 1500);
+      
     })
   }
   

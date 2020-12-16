@@ -138,7 +138,7 @@ return;
     company.AddCompanyotherAddress(this.data.detail,this.data.ItemList).then(res=>{
       if(res.data.msg==true){
          app.globalData.Toast.showToast("操作成功");
-         this.GetCompanyOtherInfo(this.data.otherid)
+         this.GetCompanyOtherInfo(res.data.id);
       }
 })
   },

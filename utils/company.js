@@ -8,7 +8,7 @@ const AddCompanyotherAddressUrl = 'ebilling/companyaccount/addcompanyotheraddres
 const GetCompanyOtherInfoUrl = 'ebilling/companyaccount/getcompanyotherinfo'
 const DeleteCompanyOtherAddressUrl = 'ebilling/companyaccount/deletecompanyotheraddress'
 const QccCompanyUrl = 'ebilling/companyaccount/qcccompany'
-
+const AddressListUrl = 'ebilling/companyaccount/addresslist'
 function QueryMyCompany() {
   //Map.phone map.pwd
   var params={
@@ -120,6 +120,22 @@ function QccCompany(name,code){
 }
 
 
+function AddressList(oid,flag){
+  var params={
+    url:AddressListUrl,
+    data:{
+      oid,
+      flag
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "Get").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 
 module.exports = {
@@ -129,5 +145,6 @@ module.exports = {
   AddCompanyotherAddress,
   GetCompanyOtherInfo,
   DeleteCompanyOtherAddress,
-  QccCompany
+  QccCompany,
+  AddressList
 }

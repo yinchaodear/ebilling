@@ -1,4 +1,5 @@
 const app = getApp()
+const company =require("../../../utils/company")
 let _this;
 Page({
 
@@ -6,21 +7,25 @@ Page({
    * 页面的初始数据
    */
   data: {
-    cate:[],
+    cate:[
+      {
+        name:'ccc'
+      },
+      {
+        name:'dddd'
+      }
+    ],
     flag:0,
     load:false,
-    lisst:[]
+    list:[  
+  ]
   },
   chooseIt(e){
     let index = e.currentTarget.dataset.index
-    let pages = getCurrentPages();
-    let currPage = pages[pages.length - 1];   //当前页面
-    let prevPage = pages[pages.length - 2];
-    prevPage.setData({
-      address: this.data.cate[this.data.flag].name+'-'+this.data.list[index].name
-    })
+    var address = this.data.list[index];
+    wx.setStorageSync('address', address);
     wx.navigateBack({
-      delta:1
+      complete: (res) => {},
     })
   },
   changeTag(e){
@@ -33,8 +38,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    _this = this
-    this.getCate()
+    console.log(options);
+    if(options.oid){
+         this.AddressDetail(options.oid)
+    }
+  },
+  AddressDetail(id){
+    company.AddressList(id,false).then(res=>{
+     if(res.msg=='操作成功'){
+       this.setData({
+         list:res.data.addressList
+       })
+     }
+   })
   },
 
   getCate(){

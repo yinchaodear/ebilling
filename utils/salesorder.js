@@ -4,7 +4,8 @@ const Toast =require("./Toast")
 const AddSalesOrderUrl ='ebilling/salesorder/addsalesorder'
 const GetSalesOrderInfoUrl ='ebilling/salesorder/getsalesorderinfo'
 const SalesOrderListUrl ='ebilling/salesorder/salesorderlist'
-  
+const ChangeOrderStatusUrl ='ebilling/salesorder/changeorderstatus'
+const RemoveSalesOrderItemUrl ='ebilling/salesorder/removesalesorderitem'
 
 
 function AddSalesOrder(salesorder,salesorderitem) {
@@ -59,11 +60,41 @@ function SalesOrderList(status,expressstatus,pageno,pagesize,){
   })
 }
 
+function ChangeOrderStatus(orderid){
+  var params={
+    url: ChangeOrderStatusUrl,
+    data:{
+      orderid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
+function RemoveSalesOrderItem(id){
+  var params={
+    url: RemoveSalesOrderItemUrl,
+    data:{
+     id
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
 
 module.exports = {
   AddSalesOrder,
   GetSalesOrderInfo,
-  SalesOrderList
+  SalesOrderList,
+  ChangeOrderStatus,
+  RemoveSalesOrderItem
 }
