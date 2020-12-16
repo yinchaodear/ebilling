@@ -57,8 +57,18 @@ Page({
       ItemList:ItemList
     })
     console.log(ItemList)
-  },
+  },  
 
+  del(){
+     salesorder.RemoveSalesOrder(this.data.apply.id).then(res=>{
+       if(res.data.msg==true){
+         wx.navigateBack({
+           complete: (res) => {},
+         })
+       }
+     })
+  },
+   
   deleteitem(e){
     var index = e.currentTarget.dataset.index;
     var ItemList =this.data.ItemList;
