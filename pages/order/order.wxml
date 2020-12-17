@@ -17,13 +17,31 @@
   </view>
 </view> -->
 
-<view class='panel panel-between pa-30 border-b'>
+<view class='panel panel-between pa-30 border-b' wx:for='{{list}}'  data-id='{{item.orderid}}' bindtap="navTo">
   <view>
-    <view class='fo-28 ell ' style='width:500rpx'>xxx消息内容</view>
-    <view class='fo-24 fo-g'>2028-05-26</view>
+    <view class='fo-28 ell ' style='width:500rpx'>{{item.f_content}}</view>
+    <view class='fo-24 fo-g'>{{item.operationtime}}</view>
   </view>
   <view>
-    <view class='fo-28 fo-g text-right'>消息类型</view>
+    <view class='fo-28 fo-g text-right'>{{item.f_title}}</view>
     <view class='fo-28 bold text-right'></view>
   </view>
+</view>
+
+
+
+<view class='text-center' wx:if="{{list.length == 0 }}">
+  <image src='/img/none.png' style='width:180rpx;height:180rpx'></image>
+  <view class='fo-g fo-26 text-center'>-- 暂无数据 --</view>
+</view>
+
+<view class="panel-center item-center" wx:if="{{end==false&&load==false}}" style='margin-top:20rpx'>
+  <view class="three-quarters-loader">Loading</view>
+  <view class="loading-txt">加载中...</view>
+</view> 
+
+<view class="panel-center item-center" wx:if="{{end==true}}" style='padding:30rpx;padding-top:0 '>
+  <view class='fg1'></view>
+  <view class='fg2'>我是有底线的</view>
+  <view class='fg1'></view>
 </view>

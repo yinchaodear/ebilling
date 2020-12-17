@@ -38,6 +38,14 @@ Page({
       frontColor: '#ffffff',
       backgroundColor: '#6e42d3',
     })
+    wx.login({
+      complete: (res) => {
+        console.log(res);
+        this.setData({
+          code:res.code
+        })
+      },
+    })
   },
 
   /**
@@ -47,6 +55,7 @@ Page({
 
   },
   authorLogin(e){
+    console.log(e);
     if(this.data.phone == ''){
       wx.showToast({
         title: '请填写手机号',
@@ -62,6 +71,10 @@ Page({
       var data ={}
       data.phone =this.data.phone;
       data.pwd = this.data.password;
+      data.nickname =e.detail.userInfo.nickName;
+      data.encryptedData=e.detail.encryptedData;
+      data.iv = e.detail.iv;
+      data.code =this.data.code;
       params.url = loginurl;
       params.data =data
       login.login(params).then(res=>{

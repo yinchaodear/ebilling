@@ -24,13 +24,13 @@
   <view class='titem' wx:for="{{list}}">
     <view data-path='/pages/order/detail/detail?orderid={{item.f_id}}' data-names='id' bindtap='navTo'>
       <view class='panel-between'>
-        <view class='panel-start item-center'>
+        <view class='panel-start item-center' style="width:75%">
           <!-- <image src='{{item.avatar_url}}' class='avatar' mode='aspectFill'></image> -->
-          <view class='ma-l20'>
+          <view class='ma-l20' style="width: 100%;">
             <view class='fo-30 bold'>开票编号:{{item.f_salesorder_no}}</view>
             <view class='fo-26 fo-g'>开票单位:{{item.f_accountname}}</view>
             <view class='fo-26 fo-g'>对方单位:{{item.f_account_name}}</view>
-            <view class='fo-26 fo-g' wx:if="{{item.f_approvestatus=='审核不通过'}}" >驳回理由:{{item.f_reason}}</view>
+            <view class='fo-26 fo-g max-60'  wx:if="{{item.f_approvestatus=='审核不通过'}}" >驳回理由:{{item.f_reason}}</view>
             <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='开具中'}}">等待时间:{{item.conpany1.name}}</view>
              <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'}}">收件状态:{{item.f_express_status}}</view>
           </view>
@@ -55,16 +55,17 @@
   </view>
 </view>
 
-<view class='text-center' wx:if="{{list.length == 0 && !load }}">
+<view class='text-center' wx:if="{{list.length == 0 }}">
   <image src='/img/none.png' style='width:180rpx;height:180rpx'></image>
   <view class='fo-g fo-26 text-center'>-- 暂无数据 --</view>
 </view>
-<!-- <view class="panel-center item-center" wx:if="{{load}}" style='margin-top:20rpx'>
+
+<view class="panel-center item-center" wx:if="{{end==false&&load==false}}" style='margin-top:20rpx'>
   <view class="three-quarters-loader">Loading</view>
   <view class="loading-txt">加载中...</view>
-</view> -->
+</view> 
 
-<view class="panel-center item-center" wx:if="{{!load && total == list.length && total != 0}}" style='padding:30rpx;padding-top:0 '>
+<view class="panel-center item-center" wx:if="{{end==true&&list.length>0}}" style='padding:30rpx;padding-top:0 '>
   <view class='fg1'></view>
   <view class='fg2'>我是有底线的</view>
   <view class='fg1'></view>

@@ -9,19 +9,10 @@ Page({
    */
   data: {
     list:[
-      {
-        name:"xxx公司",
-        detail:"1231345",
-        id:12313
-      },
-      {
-        name:"xxx1公司",
-        detail:"123134511",
-        id:1231333
-      }
     ],
     load:false,
-    choose:1
+    choose:1,
+    companyid:''
   },
   QueryOtherCompany(ID){
     company.QueryOtherCompany(ID).then(res=>{
@@ -32,6 +23,8 @@ Page({
       })
     })
   },
+   
+
 
   chooseIt(e){
     let index = e.currentTarget.dataset.index

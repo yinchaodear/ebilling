@@ -29,26 +29,46 @@ Page({
     sorts:"",
     fields:'',
     pageno:0,
-    pagesize:20,
+    pagesize:4,
+    load:true,
+    end:false,
     type:'全部',
     text:"全部"
   },
   SalesOrderList(type,expressstaus){
+    if(this.data.load==true&&this.data.end==false){
        saleorder.SalesOrderList(type,  expressstaus,this.data.pageno,this.data.pagesize).then(res=>{
-          if(res.msg =='操作成功'){
-            var list=  this.data.list;
-            if(res.data.list.length>0){
-              list = list.concat(res.data.list);
-            }
+         this.setData({
+          load:false
+         })
+         var list = this.data.list;
+          if(res.msg =='操作成功'&&res.data.list.length>0){         
+              list = list.concat(res.data.list);      
+              this.setData({
+              list:list,
+              load:true
+              })
+          } else if(res.data.msg==true&&res.data.list.length==0){
             this.setData({
-              list:list
+              end:true
             })
-          } 
-         
-
+            console.log("已经没有更多")
+         }
        })
+      }else{
+        console.log("正在加载");
+      }
+
   },
 
+  onReachBottom(){
+    console.log("上拉加载");
+    this.setData({
+      pageno:this.data.pageno+1
+    })
+    this.SalesOrderList(this.data.type,this.data.text)
+
+ },
 
 
   //这边是筛选条件
@@ -58,7 +78,11 @@ Page({
     var text = this.data.option1[index].text;
     this.setData({
       text,
-      list:[]
+      pageno:0,
+      pagesize:4,
+      load:true,
+      end:false,
+      list:[],
     })
      this.SalesOrderList(this.data.type,text);
   },
@@ -90,7 +114,11 @@ Page({
       flag: e.currentTarget.dataset.index,
       type:this.data.tag[index],
       list:[],
-      text:"全部"
+      text:"全部",
+      pageno:0,
+      pagesize:4,
+      load:true,
+      end:false,
     })
     this.SalesOrderList(this.data.type,this.data.text)
   },
@@ -113,10 +141,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      list:[]
-    })
-    this.SalesOrderList(this.data.type)
+    // this.setData({
+    //   list:[]
+    // })
+    // this.SalesOrderList(this.data.type)
   },
 
   
@@ -125,17 +153,18 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    _this.getList(0)
+    console.log("刷新");
+    this.setData({
+      list:[],
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+    })
+    this.SalesOrderList(this.data.type)
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    if(this.data.list.length < this.data.total){
-      _this.getList(1)
-    }
-  },
+ 
 
   /**
    * 用户点击右上角分享

@@ -106,6 +106,13 @@
 }
 .fo-g{
   color: #999
+ 
+}
+.max-60{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 65%;
+  white-space: nowrap;
 }
 .fo-f3{
   color: #f3f3f3

@@ -8,6 +8,21 @@ Page({
   data: {
 
   },
+  exit:function(){
+    wx.showModal({
+      title: '提示',
+      content: '确认退出当前账户?',
+      success(res){
+        if(res.confirm){
+          wx.clearStorage({
+            complete: (res) => {
+              app.globalData.Toast.showToast("退出成功");
+            },
+          })
+        }
+      }
+    })
+  },
   swtobz(e){
     wx.setStorageSync("bzflag", e.currentTarget.dataset.index)
     wx.switchTab({
