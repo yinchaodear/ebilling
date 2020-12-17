@@ -189,7 +189,7 @@
       <button class='btns-40 ' data-status='审核中' bindtap="submit">申请开票</button>
       <button class='btns-40 ' data-status='暂存' bindtap="submit">暂存</button>
        <button class='btns-40 ' data-status='加急' bindtap="submit">申请开票(加急)</button>
-        <button class='btns-40 ' bindtap="del">删除</button>
+        <button class='btns-40 '  wx:if="{{apply.id!=''&&apply.id!=undefined}}" bindtap="del">删除</button>
     </form>
   </view>
 </view>

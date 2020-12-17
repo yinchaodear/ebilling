@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "注册"
+  "navigationBarTitleText": "注册",
+  "usingComponents": {
+    "van-notify": "../../../dist/notify/index"
+  }
 }

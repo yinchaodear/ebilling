@@ -1,6 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const login = require("../../utils/login")
+import Notify from '../../dist/notify/notify';
 let _this;
 Page({
   data: {
@@ -10,12 +12,55 @@ Page({
     cert:'',
     stu_card:'',
     show:true,
-    isUpdate:false
+    isUpdate:false,
+    name:'',
+    disabled:false,
+    text:"发送",
+    number:5
   },
 
+  PhoneCode(){
+     var name = this.data.name;
+     if(name==''){
+       app.globalData.Toast.showToast("电话号码为空");
+       return;
+     }
+     login.PhoneCode(name).then(res=>{
+       if(res.data.msg=='none'){
+        Notify({
+          message: '您还不是该企业客户,请联系客服',
+          duration: 2000,
+         });
+       }else if(res.data.msg==true){
+         this.setData({
+           disabled:true,
+           code1:res.data.code
+         })
+         this.count(this.data.number)
+       }
+     })
+  },
+
+  count(number){
+    var _this =this;
+    if(number>0){
+      setTimeout(function(){
+         _this.setData({
+            text:number+"秒"
+          })
+          number= number-1;
+          _this.count(number);
+      },1000)
+    }else{
+      this.setData({
+        disabled:false,
+        number:60,
+        text:"发送"
+      })
+    }
+  },
 
    complete(e){
-     debugger
     console.log(e);
     var type = e.currentTarget.dataset.type;
     var value =e.detail.value;
@@ -92,7 +137,7 @@ Page({
   },
   
   submit() {
-    console.log(this);
+    console.log(this.data);
   },
   makePhone(){
     wx.makePhoneCall({

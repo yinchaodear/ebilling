@@ -12,7 +12,7 @@
   </view>
 </view>
 
-<view class='text-center' wx:if="{{list.length == 0 && !load }}">
+<view class='text-center' wx:if="{{list.length == 0 }}">
   <image src='/img/none.png' style='width:180rpx;height:180rpx'></image>
   <view class='fo-g fo-26 text-center'>-- 暂无数据 --</view>
 </view>
@@ -21,8 +21,8 @@
   <view class="loading-txt">加载中...</view>
 </view> -->
 
-<view class="panel-center item-center ma-t30" wx:if="{{!load }}" style='padding:30rpx;padding-top:0 '>
+<!-- <view class="panel-center item-center ma-t30" wx:if="{{!load }}" style='padding:30rpx;padding-top:0 '>
   <view class='fg1'></view>
   <view class='fg2'>我是有底线的</view>
   <view class='fg1'></view>
-</view>
+</view> -->

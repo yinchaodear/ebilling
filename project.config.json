@@ -277,6 +277,12 @@
 					"pathName": "pages/mine/chooseaddress/chooseaddress",
 					"query": "oid=1",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/register/register",
+					"pathName": "pages/register/register",
+					"scene": null
 				}
 			]
 		}

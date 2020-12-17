@@ -15,7 +15,7 @@
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>短信验证码:</view>
         <input class='text-right fo-28' type='number' data-type='code' bindinput="complete" value="{{code}}" placeholder='请输入短信验证码'></input>
-        <view class="submit-code">发送</view>
+        <button class="submit-code" disabled="{{disabled}}" bindtap="PhoneCode">{{text}}</button>
       </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>密码:</view>
@@ -38,15 +38,15 @@
     </form>
 
   </view>
-  <view wx:if="{{!show && !isUpdate}}">
-    <view wx:if="{{res.state == 0}}">
+  <view >
+    <!-- <view >
       <view class='text-center'>
         <image src='/img/sh.png' style='width:200rpx;height:200rpx'></image>
       </view>
       <view class='fo-30 text-center'>需要1-3个工作日完成审核，请耐心等待</view>
-    </view>
+    </view> -->
 
-    <view wx:if="{{res.state == 1}}">
+    <!-- <view >
       <view class='text-center'>
         <image src='/img/sh1.png' style='width:200rpx;height:200rpx'></image>
       </view>
@@ -64,20 +64,23 @@
           <view class='text-center fo-28' style='width:150rpx'>{{item.user_sy*100}}%</view>
         </view>
       </view>
-    </view>
+    </view> -->
 
-    <view wx:if="{{res.state == 2  && !isUpdate}}">
-      <view class='text-center'>
+   <!-- <view >
+       <view class='text-center'>
         <image src='/img/sh2.png' style='width:200rpx;height:200rpx'></image>
       </view>
-      <view class='fo-30 text-center'>审核失败</view>
+      <view class='fo-30 text-center'>审核失败</view> 
       <view class='fo-30 text-center'>{{res.msg}}</view>
       <view class='fo-30 text-center fo-t' bindtap='gotoUpdate'>去修改</view>
-    </view>
-    <view class="fo-30 text-center fo-t" style='margin-top:100rpx' bindtap='makePhone'>联系客服</view>
+    </view> -->
+    <view class="fo-30 text-center fo-t" style='margin-top:20rpx' bindtap='makePhone'>联系客服</view>
   </view>
 
 
 
 
 </view>
+
+
+<van-notify id="van-notify" />

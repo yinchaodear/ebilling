@@ -17,7 +17,7 @@
        <view class='required'>*</view>
     </view>
     
-      <input class='fo-30 fo-g text-center' value='{{detail.name}}' data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
+      <input class='fo-30 fo-g text-center' value='{{detail.name}}' bindblur="GetCompanyInfo" data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
   
   </view>
 

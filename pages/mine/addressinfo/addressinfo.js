@@ -15,7 +15,25 @@ Page({
     ItemList:[{}]
   },
 
-
+  GetCompanyInfo(){
+     console.log(this.data.detail.name);
+     company.GetCompanyInfo(this.data.detail.name).then(res=>{
+       if(res.data.msg==true){
+         var qcresult =res.data.qcresult;
+         var detail =this.data.detail;
+         detail.code = qcresult.creditCode
+         detail.address= qcresult.address
+         detail.phone =qcresult.tel
+         this.setData({
+          detail
+         })
+         Notify({
+          message: '该企业状态:'+qcresult.status,
+          duration: 2000,
+         });
+       }
+     })
+  },
   additem(){
     var obj ={};
     var ItemList = this.data.ItemList;
@@ -29,6 +47,7 @@ Page({
     var _this =this;
     var index = e.currentTarget.dataset.index;
     var addressid = this.data.ItemList[index].id;
+    var ItemList =this.data.ItemList;
     if(addressid==''||addressid==undefined){
     ItemList.splice(index,1);
     this.setData({
@@ -158,7 +177,6 @@ return;
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-       debugger;
         console.log(options)
         var  otherid  =options.otherid;
         if(otherid){

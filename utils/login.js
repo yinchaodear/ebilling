@@ -3,6 +3,7 @@ const util = require('../utils/util');
 const Toast =require("../utils/Toast")
 const LOGINAPI = '/rest/customer/login'
 const SystemMessageUrl = 'ebilling/account/systemmessage'
+const PhoneCodeUrl ='ebilling/account/phonecode'
 function login(map) {
   //Map.phone map.pwd
   return new Promise(function (resolve, reject) {
@@ -50,8 +51,24 @@ function SystemMessage(pageno,pagesize){
   })
 }
 
+function PhoneCode(phone){
+  var params={
+    url:PhoneCodeUrl,
+    data:{
+      phone
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "Get").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 module.exports = {
   login,
   loginDaily,
-  SystemMessage
+  SystemMessage,
+  PhoneCode
 }

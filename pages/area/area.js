@@ -8,19 +8,7 @@ Page({
    */
   data: {
     list:[
-      {
-        name:"A公司",
-        id:1
-      },
-      {
-        name:"B公司",
-        id:2
-      },
-      {
-        name:"C公司",
-        id:3
-      }
-
+   
     ],
     load:false,
     search:'',
