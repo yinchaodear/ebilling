@@ -27,7 +27,7 @@
         </view>
       </view>
 
-        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address' bindtap='navTo'>
+        <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/address/address?from=form' bindtap='navTo'>
         <view class='fo-30'>对方单位</view>
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{apply.company1 ? apply.company1.accountname:'从通讯录选择'}}</view>

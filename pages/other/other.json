@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "合同信息",
+  "navigationBarTitleText": "企业以及合同信息",
   "usingComponents": {
     "van-dialog": "../../dist/dialog/index"
   }

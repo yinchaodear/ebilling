@@ -29,7 +29,7 @@ Page({
     sorts:"",
     fields:'',
     pageno:0,
-    pagesize:4,
+    pagesize:10,
     load:true,
     end:false,
     type:'全部',

@@ -1,6 +1,7 @@
 let API = require('../config/api')
 const util = require('../utils/util');
 const Toast =require("../utils/Toast")
+const router= require("../utils/router")
 const LOGINAPI = '/rest/customer/login'
 const SystemMessageUrl = 'ebilling/account/systemmessage'
 const PhoneCodeUrl ='ebilling/account/phonecode'
@@ -90,6 +91,8 @@ function JudgeLogin(){
             }else{
               if(res.data.msg=='none'){
                 wx.clearStorageSync();
+                Toast.showToast("未登录");
+                router.navigateTo("/pages/login/login")
               }
             }
           })    

@@ -20,7 +20,11 @@ Page({
                if(res.data.msg=='success'){
                  wx.clearStorage({
                    complete: (res) => {
-                     app.globalData.Toast.showToast("退出成功")
+                     app.globalData.Toast.showToast("退出成功");
+                     setTimeout(function(){
+                      router.navigateTo("/pages/login/login")
+                     },1500)
+                    
                    },
                  })
                }

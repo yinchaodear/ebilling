@@ -26,12 +26,14 @@ function QueryMyCompany() {
   })
 }
 
-function QueryOtherCompany(cid) {
+function QueryOtherCompany(cid,pageno,pagesize) {
   //Map.phone map.pwd
   var params={
     url:QueryMyCompanyOtherUrl,
     data:{
-      cid:cid
+      cid:cid,
+      pageno,
+      pagesize
     }
   }
   return new Promise(function (resolve, reject) {
@@ -42,12 +44,13 @@ function QueryOtherCompany(cid) {
   })
 }
 
-function DeleteOtherCompany(otherid) {
+function DeleteOtherCompany(otherid,cid) {
   //Map.phone map.pwd
   var params={
     url:DeleteMyCompanyOtherUrl,
     data:{
-      otherid:otherid
+      otherid:otherid,
+      cid
     }
   }
   return new Promise(function (resolve, reject) {

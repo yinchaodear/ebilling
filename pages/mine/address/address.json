@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "企业通讯录"
+  "navigationBarTitleText": "企业通讯录",
+  "usingComponents": {
+    "van-dialog": "../../../dist/dialog/index"
+  }
 }

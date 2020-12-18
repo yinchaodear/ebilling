@@ -16,7 +16,6 @@ Page({
   },
 
   GetCompanyInfo(name){
- 
      var namenow=''
      if(typeof name =='string'){
          namenow=name;
@@ -24,9 +23,11 @@ Page({
        namenow =this.data.detail.name;
      }
      console.log(namenow);
-   
+     this.setData({
+      searchlist:[]
+     })
      company.GetCompanyInfo(namenow).then(res=>{
-       if(res.data.msg==true){
+       if(res.data.msg==true&&res.data.qcresult!=null){
          var qcresult =res.data.qcresult;
          var detail =this.data.detail;
          detail.code = qcresult.creditCode
@@ -39,9 +40,43 @@ Page({
           message: '该企业状态:'+qcresult.status,
           duration: 2000,
          });
+       }else if(res.data.msg==false){
+         this.GetCompanyOtherInfo(res.data.id);
        }
      })
   },
+
+
+  GetCompanyInfo1(name){
+    var namenow=''
+    if(typeof name =='string'){
+        namenow=name;
+    }else{
+      namenow =this.data.detail.name;
+    }
+    console.log(namenow);
+    this.setData({
+     searchlist:[]
+    })
+    company.GetCompanyInfo(namenow).then(res=>{
+      if(res.data.msg==true&&res.data.qcresult!=null){
+        var qcresult =res.data.qcresult;
+        var detail =this.data.detail;
+        detail.code = qcresult.creditCode
+        detail.address= qcresult.address
+        detail.phone =qcresult.tel
+        this.setData({
+         detail
+        })
+        Notify({
+         message: '该企业状态:'+qcresult.status,
+         duration: 2000,
+        });
+      }else if(res.data.msg==false){
+        this.GetCompanyOtherInfo(res.data.id);
+      }
+    })
+ },
 
 
   GetCompanyInfoList(name){
@@ -65,7 +100,7 @@ Page({
       detail,
       searchlist:[]
     })
-    this.GetCompanyInfo(name);
+    this.GetCompanyInfo1(name);
   },
 
 
@@ -146,7 +181,6 @@ Page({
     console.log(e);
     var value =e.detail.value;
     var name =e.currentTarget.dataset.name;
-    debugger;
     if(name=='name'){
       this.GetCompanyInfoList(value);
     }
@@ -161,16 +195,16 @@ Page({
     console.log(this.data.detail);
     console.log(this.data.ItemList)
     var detail =this.data.detail;
-    if(detail.name==''){
+    if(detail.name==''||detail.name==undefined){
       app.globalData.Toast.showToast("企业名称为空");
       return;
     }
 
-    if(detail.code==''){
+    if(detail.code==''||detail.code==undefined){
       app.globalData.Toast.showToast("社会信用代码为空");
       return;
     }
-
+    detail.companyid = this.data.companyid
     company.QccCompany(detail.name,detail.code).then(res=>{
          if(res.data.msg==1){
            console.log("企业查查对的");
@@ -198,6 +232,11 @@ return;
       if(res.data.msg==true){
          app.globalData.Toast.showToast("操作成功");
          this.GetCompanyOtherInfo(res.data.id);
+      }else if(res.data.msg==false){
+        Notify({
+          message: '该单位已经创建过,请勿重复创建',
+          duration: 2000,
+        });
       }
 })
   },
@@ -221,7 +260,8 @@ return;
         var  otherid  =options.otherid;
         if(otherid){
           this.setData({
-            otherid:otherid
+            otherid:otherid,
+            companyid:options.companyid
           })
           this.GetCompanyOtherInfo(otherid)
         }else{

@@ -56,7 +56,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '/pages/other/other?label=' + name + '&index=' + index,
+            url: '/pages/other/other?from=index',
           })
 
         }

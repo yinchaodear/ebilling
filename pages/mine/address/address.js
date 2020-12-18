@@ -1,6 +1,7 @@
 const app = getApp()
 const router = require("../../../utils/router")
 const company = require("../../../utils/company")
+import Dialog from '../../../dist/dialog/dialog';
 let _this;
 Page({
 
@@ -10,28 +11,64 @@ Page({
   data: {
     list:[
     ],
-    load:false,
+    
     choose:1,
-    companyid:''
+    companyid:'',
+    pageno:0,
+    pagesize:10,
+    load:true,
+    end:false,
   },
   QueryOtherCompany(ID){
-    company.QueryOtherCompany(ID).then(res=>{
-
-      console.log(res);
+    if(this.data.load==true&&this.data.end==false){
+    company.QueryOtherCompany(ID,this.data.pageno,this.data.pagesize).then(res=>{
       this.setData({
-        list:res.data
-      })
+        load:false
+       })
+      var list =this.data.list;
+      if(res.msg=='操作成功'&&res.data.length>0){
+        list= list.concat(res.data);
+        this.setData({
+          list:list,
+          load:true
+        })
+      } else if(res.msg=='操作成功'&&res.data.length==0){
+        this.setData({
+          end:true
+        })
+        console.log("已经没有更多")
+     }
+       
     })
+    }else{
+      console.log("正在加载");
+    }
   },
    
+  onReachBottom(){
+    console.log("上拉加载");
+    this.setData({
+      pageno:this.data.pageno+1
+    })
+    if(this.data.from=='form'){
+      this.QueryOtherCompany(this.data.companyid);
+    }else{
+      this.QueryOtherCompany()
+    }
+    
 
+ },
 
   chooseIt(e){
     let index = e.currentTarget.dataset.index
     wx.setStorageSync('company1', this.data.list[index]);
-    wx.navigateBack({
-      
-    })
+    if(this.data.from=='form'){
+      wx.navigateBack({   
+      })
+    }else{
+        
+    }
+
   },
   del(e){
     var _this= this;
@@ -46,8 +83,15 @@ Page({
             title: '删除中',
             task:true
           })
-          company.DeleteOtherCompany(id).then(res=>{
+          company.DeleteOtherCompany(id,_this.data.companyid).then(res=>{
                 if(res.data.msg==true){
+                  _this.setData({
+                    pageno:0,
+                    pagesize:10,
+                    load:true,
+                    end:false,
+                    list:[]
+                  })
                   wx.hideLoading({
                     complete: (res) => {
                       app.globalData.Toast.showToast("删除成功")
@@ -73,41 +117,52 @@ Page({
     let index = e.currentTarget.dataset.index
     var id = this.data.list[index].id
     wx.navigateTo({
-      url: '/pages/mine/addressinfo/addressinfo?otherid='+id,
+      url: '/pages/mine/addressinfo/addressinfo?otherid='+id+"&companyid="+this.data.companyid,
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+       if(options.from=='form'){
+        var company = wx.getStorageSync('company');//当前选择的公司
+        if(company!=''){
+          this.setData({
+            companyid:company.id,
+            from:options.from
+          })
+          //this.QueryOtherCompany(company.id);
+        }else{
+          Dialog.alert({
+            title: '',
+            message: "没有选择开票单位,请返回上一页选择后再进行查看",
+          }).then(() => {
+            // on close
+            wx.navigateBack({
+              complete: (res) => {},
+            })
+          });
+        }
+       }else if(options.from='index'){
+            console.log("加载全部的");
+            this.QueryOtherCompany();
+       }
+  },
  
-  },
-  getList(){
-    this.setData({
-      load:true
-    })
-    app.com.post('user/address/get',{
-      pageIndex:1,
-      pageSize:1000,
-      wheres:'is_delete=0 and wx_id='+wx.getStorageSync("user").id,
-      sorts:'create_time desc'
-    },function(res){
-      if(res.code == 1){
-        _this.setData({
-          list:res.data.list,
-          load:false
-        })
-      }
-    })
-  },
   onShow: function (){
-    debugger;
-     var company = wx.getStorageSync('company');//当前选择的公司
-     if(company){
-       this.setData({
-         companyid:company.id
-       })
-       this.QueryOtherCompany(company.id);
-     }
+    this.setData({
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+      list:[]
+    })
+    if(this.data.companyid!=''&&this.data.from=='form'){
+    
+      this.QueryOtherCompany(this.data.companyid);
+    }else{
+      this.QueryOtherCompany()
+    }
+    
   }
 })

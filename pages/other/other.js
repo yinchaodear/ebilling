@@ -107,10 +107,23 @@ Page({
     })
   },
   onLoad: function (options) {
-    
+      if(options.from=='index'){
+        var company = wx.getStorageSync('company');
+        if(company==''){
+          Dialog.alert({
+            title: '',
+            message: "没有选择相关企业,请返回首页选择后再进行查看",
+          }).then(() => {
+            // on close
+            wx.navigateBack({
+              complete: (res) => {},
+            })
+          });
+        }
+      }
   },
   onShow() {
-    this.checkcontracts();
+    // this.checkcontracts();
   },
   checkcontracts(){
     debugger;
