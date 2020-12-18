@@ -3,6 +3,7 @@ const router = require('../../utils/router')
 const Toast =require("../../utils/Toast")
 const login = require("../../utils/login");
 const loginurl ='ebilling/account/login'
+import Notify from '../../dist/notify/notify';
 let _this;
 Page({
 
@@ -10,8 +11,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone:'17751765030',
-    password:'8888'
+    phone:'',
+    password:''
   },
 
 
@@ -85,6 +86,16 @@ Page({
             wx.switchTab({
               url: '/pages/index/index',
             })
+          }else{
+            if(res.data.msg=='nopwd'){
+              Notify({
+                message: '用户暂不可用,请先注册',
+                duration: 2000,
+               });
+               setTimeout(function(){
+                    router.navigateTo("/pages/register/register")
+               },1500)
+            }
           }
 
       })

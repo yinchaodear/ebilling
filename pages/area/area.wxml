@@ -8,8 +8,10 @@
 
 <view class='pa-l30 pa-r30'>
   <view class='pa-t30 pa-b30 border-b fo-28' wx:for="{{list}}" data-index='{{index}}' bindtap='checkedIt' wx:if="{{search==''||item.show}}">
-    {{item.accountname}}
+    <view class="fo-30">{{item.accountname}} </view> 
+     <view class="fo-26"> 税号:{{item.accountcode}}  </view>
   </view>
+
 </view>
 
 <view class='text-center' wx:if="{{list.length == 0 }}">

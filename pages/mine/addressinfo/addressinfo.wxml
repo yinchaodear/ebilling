@@ -16,9 +16,11 @@
       <view class='fo-30 ma-l20'>企业名称</view>
        <view class='required'>*</view>
     </view>
-    
-      <input class='fo-30 fo-g text-center' value='{{detail.name}}' bindblur="GetCompanyInfo" data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
-  
+    <!--bindblur="GetCompanyInfo"-->
+      <input class='fo-30 fo-g text-center' value='{{detail.name}}'  bindconfirm="GetCompanyInfo"  data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
+     <view wx:for="{{searchlist}}" wx:if="{{searchlist.length>0}}" >
+        <view class='searchitem fo-26' bindtap="confirmname" data-name="{{item.f_companyname}}">{{item.f_companyname}}</view>
+     </view>
   </view>
 
     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>

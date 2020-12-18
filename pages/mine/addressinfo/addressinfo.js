@@ -15,9 +15,17 @@ Page({
     ItemList:[{}]
   },
 
-  GetCompanyInfo(){
-     console.log(this.data.detail.name);
-     company.GetCompanyInfo(this.data.detail.name).then(res=>{
+  GetCompanyInfo(name){
+ 
+     var namenow=''
+     if(typeof name =='string'){
+         namenow=name;
+     }else{
+       namenow =this.data.detail.name;
+     }
+     console.log(namenow);
+   
+     company.GetCompanyInfo(namenow).then(res=>{
        if(res.data.msg==true){
          var qcresult =res.data.qcresult;
          var detail =this.data.detail;
@@ -34,6 +42,33 @@ Page({
        }
      })
   },
+
+
+  GetCompanyInfoList(name){
+     company.GetCompanyInfoList(name).then(res=>{
+       if(res.data.msg==true){
+         this.setData({
+          searchlist:res.data.list
+         })
+       }else{
+        this.setData({
+          searchlist:[]
+         })
+       }
+     })
+  },
+  confirmname(e){
+    var name =e.currentTarget.dataset.name;
+    var detail =this.data.detail;
+    detail.name =name;
+    this.setData({
+      detail,
+      searchlist:[]
+    })
+    this.GetCompanyInfo(name);
+  },
+
+
   additem(){
     var obj ={};
     var ItemList = this.data.ItemList;
@@ -75,6 +110,7 @@ Page({
     var index =e.currentTarget.dataset.index;
     var name= e.currentTarget.dataset.name;
     var value =e.detail.value;
+
     var ItemList = this.data.ItemList;
     ItemList[index][name] =value;
     this.setData({
@@ -110,6 +146,10 @@ Page({
     console.log(e);
     var value =e.detail.value;
     var name =e.currentTarget.dataset.name;
+    debugger;
+    if(name=='name'){
+      this.GetCompanyInfoList(value);
+    }
     var detail =this.data.detail;
     detail[name]=value;
     this.setData({

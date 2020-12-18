@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const login = require("../../utils/login")
+const router =require("../../utils/router")
 import Notify from '../../dist/notify/notify';
 let _this;
 Page({
@@ -34,7 +35,8 @@ Page({
        }else if(res.data.msg==true){
          this.setData({
            disabled:true,
-           code1:res.data.code
+           code1:res.data.code,
+           id:res.data.id
          })
          this.count(this.data.number)
        }
@@ -75,69 +77,36 @@ Page({
       isUpdate:true
     })
   },
-  choose(e){
-    let name = e.currentTarget.dataset.name
-    wx.chooseImage({
-      count:1,
-      success(res) {
-        const tempFilePaths = res.tempFilePaths
-        if(name=='cert'){
-          _this.setData({
-            cert: tempFilePaths[0]
-          })
-          
-        }else{
-          _this.setData({
-            stu_card: tempFilePaths[0]
-          })
-        }
-        _this.upload(name)
-      }
-    })
-  },
-  upload(name){
-    if (this.data[name] != '' && this.data[name].indexOf('tmp')>0){
-      wx.showLoading({
-        title: '上传中',
-        mask: true
-      })
-      wx.uploadFile({
-        url: app.com.API + 'file/upload', // 仅为示例，非真实的接口地址
-        filePath: this.data[name],
-        name: 'file',
-        formData:{
-          wx_id:wx.getStorageSync("user").id,
-          a_id:wx.getStorageSync("area").pk_id,
-          is_temp: 0
-        },
-        success(res) {
-          wx.hideLoading()
-          let red = JSON.parse(res.data)
-          if (red.code == 1) {
-            
-            if(name == 'cert'){
-              _this.setData({
-                cert: red.data.url
-              })
-            }else{
-              _this.setData({
-                stu_card: red.data.url
-              })
-            }
-            
-          }
-        }
-      })
-    }else{
-      wx.showToast({
-        title: '请选择图后再上传',
-        icon:'none'
-      })
-    }
-  },
+
+
   
   submit() {
     console.log(this.data);
+    if(this.data.code!=this.data.code1){
+      Notify({
+        message: '验证码不正确',
+        duration: 2000,
+       });
+       return;
+    }
+    if(this.data.pw1!=this.data.pw2){
+      Notify({
+        message: '两次密码不统一',
+        duration: 2000,
+       });
+       return;
+    }
+    login.Register(this.data.id,this.data.pw1).then(res=>{
+       if(res.data.msg==true){
+        Notify({
+          message: '注册成功,即将返回登录页面',
+          duration: 2000,
+         });
+         setTimeout(function(){
+           router.navigateTo("/pages/login/login");
+         },2000)
+       }
+    })
   },
   makePhone(){
     wx.makePhoneCall({

@@ -33,3 +33,9 @@ margin: 0 auto;
 width: 50%;
 margin-top: 10rpx;
 }
+.searchitem{
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 10px;
+
+}

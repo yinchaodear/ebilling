@@ -5,7 +5,7 @@ App({
 
   onLaunch: function () {
     let _this = this;
-    login.loginDaily();
+    login.JudgeLogin();
   },
   
 

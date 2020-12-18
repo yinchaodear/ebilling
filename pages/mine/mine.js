@@ -1,5 +1,6 @@
 const app = getApp()
 const router = require("../../utils/router")
+const login=require("../../utils/login")
 Page({
 
   /**
@@ -14,11 +15,17 @@ Page({
       content: '确认退出当前账户?',
       success(res){
         if(res.confirm){
-          wx.clearStorage({
-            complete: (res) => {
-              app.globalData.Toast.showToast("退出成功");
-            },
-          })
+
+            login.Exit().then(res=>{
+               if(res.data.msg=='success'){
+                 wx.clearStorage({
+                   complete: (res) => {
+                     app.globalData.Toast.showToast("退出成功")
+                   },
+                 })
+               }
+            })
+            
         }
       }
     })
