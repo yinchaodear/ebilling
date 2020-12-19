@@ -90,10 +90,17 @@
         <input class='fo-26 text-right' bindinput="confirmitemList"  type="number" data-index='{{index}}' data-name="receiptel" placeholder="" value="{{item.receiptel}}"  ></input>
        
       </view>
+        <picker mode="region"  data-index='{{index}}'  bindchange="bindRegionChange">
+    <view class="picker">
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件地区</view>
-        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptarea" value="{{item.receiptarea}}"  placeholder=""  ></input>
+        
+       <view class='fo-30 fo-g'>{{item.receiptarea?item.receiptarea:'请选择地区'}}</view>        
+    </view>
+ 
+       <!-- <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptarea" value="{{item.receiptarea}}"  placeholder=""  ></input>-->
       </view>
+       </picker>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件地址</view>
         <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}' data-name="receiptaddress" value="{{item.receiptaddress}}"  placeholder=""  ></input>

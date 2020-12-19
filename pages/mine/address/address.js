@@ -18,14 +18,61 @@ Page({
     pagesize:10,
     load:true,
     end:false,
-    value:''
+    value:'',
+    show: false,
+    actions: [
+      
+    ],
   },
 
+  fast(e){
+     console.log(e.currentTarget.dataset.id);
+     const index = e.currentTarget.dataset.index;
+     console.log(this.data.list[index]);
+     this.setData({
+       company1:this.data.list[index]
+     })
+     this.setData({
+       show:true
+     })
+     this.GetCompanyAccountInfoList(e.currentTarget.dataset.id);
+  },
+
+  GetCompanyAccountInfoList(ID){
+    company.GetCompanyAccountInfoList(ID).then(res=>{
+        if(res.data.msg==true){
+          this.setData({
+            actions:res.data.list
+          })
+        }
+    })
+  },
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  onSelect(event) {
+    console.log(event.detail);
+    var company ={}
+    company.id=event.detail.id
+    company.accountname=event.detail.name
+    company.accountcode=event.detail.subname
+    wx.setStorageSync('company', company);
+    wx.setStorageSync('company1', this.data.company1)
+    router.navigateTo("/pages/dayin/dayin")
+  },
+  
   onChange(e) {
     this.setData({
       value: e.detail,
+     
     });
     if(e.detail==''){
+      this.setData(
+        {
+          list:[]
+        }
+      )
       this.SearchChose()
     }
   },
@@ -166,8 +213,11 @@ Page({
             })
           });
         }
-       }else if(options.from='index'){
+       }else if(options.from=='index'){
             console.log("加载全部的");
+            this.setData({
+              from:options.from
+            })
             // this.QueryOtherCompany();
        }
   },

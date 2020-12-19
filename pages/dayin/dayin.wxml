@@ -130,16 +130,19 @@
           <input class='fo-26 text-right' name="des" data-type='receiptel'  type="number" bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
         
       </view>
+      <picker mode="region"   bindchange="bindRegionChange">
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             <view class='fo-26'>地区</view>
-          <input class='fo-26 text-right' name="des" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
+          <input class='fo-26 text-right' name="des" disabled="true" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
         
       </view>
+      </picker>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             <view class='fo-26'>详细地址</view>
           <input class='fo-26 text-right' name="des" data-type='addressdetail' bindinput="applycomplete" value="{{apply.addressdetail}}" placeholder=''></input>
         
       </view>
+  
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             <view class='fo-26'>邮政编码</view>
           <input class='fo-26 text-right' name="des" data-type='shipcode' bindinput="applycomplete" value="{{apply.shipcode}}" placeholder=''></input>

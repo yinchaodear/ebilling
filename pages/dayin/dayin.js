@@ -31,6 +31,16 @@ Page({
     ItemList:[{}]
   
   },
+
+  bindRegionChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    const value =e.detail.value.join("");
+    var apply =this.data.apply;
+    apply.area = value;
+    this.setData({
+      apply
+    })
+  },
   additem(){
     var obj ={};
     var ItemList = this.data.ItemList;

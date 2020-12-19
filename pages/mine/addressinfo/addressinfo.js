@@ -15,6 +15,19 @@ Page({
     ItemList:[{}]
   },
 
+
+  bindRegionChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    const value =e.detail.value.join("");
+    var ItemList = this.data.ItemList;
+    ItemList[e.currentTarget.dataset.index]['receiptarea'] =value;
+    this.setData({
+      ItemList:ItemList
+    })
+    this.setData({
+      region: e.detail.value
+    })
+  },
   GetCompanyInfo(name){
      var namenow=''
      if(typeof name =='string'){
@@ -31,8 +44,7 @@ Page({
          var qcresult =res.data.qcresult;
          var detail =this.data.detail;
          detail.code = qcresult.creditCode
-         detail.address= qcresult.address
-         detail.phone =qcresult.tel
+         detail.name =qcresult.name;
          this.setData({
           detail
          })
@@ -63,8 +75,7 @@ Page({
         var qcresult =res.data.qcresult;
         var detail =this.data.detail;
         detail.code = qcresult.creditCode
-        detail.address= qcresult.address
-        detail.phone =qcresult.tel
+        detail.name =qcresult.name;
         this.setData({
          detail
         })
@@ -204,6 +215,9 @@ Page({
       app.globalData.Toast.showToast("社会信用代码为空");
       return;
     }
+    wx.showLoading({
+      title: '保存中',
+    })
     detail.companyid = this.data.companyid
     company.QccCompany(detail.name,detail.code).then(res=>{
          if(res.data.msg==1){

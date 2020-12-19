@@ -2,6 +2,7 @@
   "navigationBarTitleText": "企业通讯录",
   "usingComponents": {
     "van-dialog": "../../../dist/dialog/index",
-    "van-search": "../../../dist/search/index"
+    "van-search": "../../../dist/search/index",
+    "van-action-sheet": "../../../dist/action-sheet/index"
   }
 }

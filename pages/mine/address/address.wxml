@@ -31,6 +31,10 @@
           <image src='/img/ljt.png' class='icon-30'></image>
           <view class='fo-26 ma-l10' style='color:#ff6666' >删除</view>
         </view>
+        <view class='panel-start item-center ma-l30' wx:if="{{from=='index'}}" data-id='{{item.id}}' data-index='{{index}}' catchtap='fast'>
+          <image src='/img/sh1.png' class='icon-30'></image>
+          <view class='fo-26 ma-l10'  >快速开票</view>
+        </view>
       </view>
     </view>
   </view>
@@ -56,3 +60,12 @@
 
 
 <van-dialog id="van-dialog" />
+
+
+<van-action-sheet
+  show="{{ show }}"
+  actions="{{ actions }}"
+  bind:close="onClose"
+  bind:select="onSelect"
+   description="选择一个开票单位"
+/>
