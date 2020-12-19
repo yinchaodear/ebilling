@@ -18,10 +18,33 @@ Page({
     pagesize:10,
     load:true,
     end:false,
+    value:''
+  },
+
+  onChange(e) {
+    this.setData({
+      value: e.detail,
+    });
+    if(e.detail==''){
+      this.SearchChose()
+    }
+  },
+  
+  onSearch(e) {
+    console.log(e.detail)
+    if(e.detail ==''){
+      app.globalData.Toast.showToast("输入为空")
+      return;
+    }
+    this.setData({
+      value:e.detail,
+      list:[]
+    })
+    this.SearchChose()
   },
   QueryOtherCompany(ID){
     if(this.data.load==true&&this.data.end==false){
-    company.QueryOtherCompany(ID,this.data.pageno,this.data.pagesize).then(res=>{
+    company.QueryOtherCompany(ID,this.data.pageno,this.data.pagesize,this.data.value).then(res=>{
       this.setData({
         load:false
        })
@@ -145,7 +168,7 @@ Page({
         }
        }else if(options.from='index'){
             console.log("加载全部的");
-            this.QueryOtherCompany();
+            // this.QueryOtherCompany();
        }
   },
  
@@ -157,12 +180,15 @@ Page({
       end:false,
       list:[]
     })
-    if(this.data.companyid!=''&&this.data.from=='form'){
+      this.SearchChose()
     
+  },
+
+  SearchChose(){
+    if(this.data.companyid!=''&&this.data.from=='form'){   
       this.QueryOtherCompany(this.data.companyid);
     }else{
       this.QueryOtherCompany()
     }
-    
   }
 })

@@ -26,14 +26,15 @@ function QueryMyCompany() {
   })
 }
 
-function QueryOtherCompany(cid,pageno,pagesize) {
+function QueryOtherCompany(cid,pageno,pagesize,value) {
   //Map.phone map.pwd
   var params={
     url:QueryMyCompanyOtherUrl,
     data:{
       cid:cid,
       pageno,
-      pagesize
+      pagesize,
+      value
     }
   }
   return new Promise(function (resolve, reject) {

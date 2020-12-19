@@ -1,4 +1,14 @@
+<van-search
+  value="{{ value }}"
+  shape="round"
+  background="#6183dd"
+  placeholder="请输入企业名称或者社会信用代码"
+  bind:search="onSearch"
+  bind:change="onChange"
+/>  
 <view class="pa-30">
+
+
   <view class='panel shadow ra-10 ma-b30' wx:for="{{list}}" wx:key="{{index}}" data-index='{{index}}' bindtap='{{choose == 1 ? "chooseIt":""}}'>
     <view class='fo-30'> 企业名称:{{item.accountname }}</view>
      
