@@ -7,7 +7,7 @@ const SalesOrderListUrl ='ebilling/salesorder/salesorderlist'
 const ChangeOrderStatusUrl ='ebilling/salesorder/changeorderstatus'
 const RemoveSalesOrderItemUrl ='ebilling/salesorder/removesalesorderitem'
 const RemoveSalesOrderUrl ='ebilling/salesorder/removesalesorder'
-
+const ShipmoneyUrl =  'ebilling/salesorder/shipmoney' 
 function AddSalesOrder(salesorder,salesorderitem) {
   //Map.phone map.pwd
   var params={
@@ -106,11 +106,27 @@ function RemoveSalesOrder(id){
 }
 
 
+function Shipmoney(name){
+  var params={
+    url: ShipmoneyUrl,
+    data:{
+     name
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 module.exports = {
   AddSalesOrder,
   GetSalesOrderInfo,
   SalesOrderList,
   ChangeOrderStatus,
   RemoveSalesOrderItem,
-  RemoveSalesOrder
+  RemoveSalesOrder,
+  Shipmoney
 }

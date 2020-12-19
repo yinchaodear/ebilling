@@ -46,7 +46,7 @@
     <view class='fo-30 ma-t30'>收件信息</view>
       <view class='fo-26 ma-t30 fo-g'>取件方式：{{detail.expressway}}</view>
      <view wx:if="{{detail.expressway=='邮寄'}}"> 
-    <view class='fo-26 ma-t30 fo-g'>运费：{{list.mu}}</view>
+    <view class='fo-26 ma-t30 fo-g'>运费：{{detail.expressmoney}}</view>
     <view class='fo-26 ma-t30 fo-g' >收件人：{{detail.receipt}}</view>
     <view class='fo-26 ma-t30 fo-g'>收件电话：{{detail.receiptel}}</view>
     <view class='fo-26 ma-t30 fo-g'>收件地址：{{detail.area}}{{detail.addressdetail}}</view>

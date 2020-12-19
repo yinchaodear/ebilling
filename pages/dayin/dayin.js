@@ -35,11 +35,15 @@ Page({
   bindRegionChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value);
     const value =e.detail.value.join("");
+    var nowarea =this.data.apply.area;
     var apply =this.data.apply;
     apply.area = value;
     this.setData({
       apply
     })
+    if(value!=nowarea){
+      this.Shipmoney()
+    }
   },
   additem(){
     var obj ={};
@@ -174,6 +178,17 @@ Page({
           icon: '../../img/ticket.png',
         },
       ]
+    }else if(title=='付款方式'){
+      options= [
+        {
+          name: '寄付',
+          icon: '../../img/jifu.png',
+        },
+        {
+          name: '到付',
+          icon: '../../img/daofu.png',
+        },
+      ]
     }
     this.setData({ 
       showShare: true,
@@ -201,11 +216,36 @@ Page({
      this.setData({
        apply:apply
      })
-   }
+   }else  if(this.data.title=='付款方式'){
+
+    apply.paytype = event.detail.name
+    if(event.detail.name=='寄付'){
+      this.Shipmoney()
+    }
+   this.setData({
+     apply:apply
+   })
+ }
     
     this.onClose();
   },
 
+  Shipmoney(){
+     if(this.data.apply.expressway=='邮寄'&&this.data.apply.paytype=='寄付'){
+          var reg = /.+?(省|市|自治区|自治州|县|区)/g;
+          var city = this.data.apply.area.match(reg)
+          console.log(city);
+          salesorder.Shipmoney(city[0]).then(res=>{
+              if(res.data.msg==true){
+                var apply =this.data.apply;
+                apply.expressmoney =res.data.postfee;
+                this.setData({
+                  apply:apply
+                })
+              }
+          })
+     }
+  },
 
   AddressDetail(){
     company.AddressList(this.data.apply.company1.id,true).then(res=>{
@@ -301,6 +341,7 @@ Page({
       }else{
         console.log("加载刚才存进来的");
         var apply =this.data.apply;
+        var nowarea =apply.area;
         apply.receipt = address.f_receipt
         apply.receiptel =address.f_receiptel
         apply.area = address.f_receiptarea
@@ -309,6 +350,9 @@ Page({
         this.setData({
           apply:apply
         })
+        if(address.f_receiptarea!=nowarea){
+          this.Shipmoney();
+        }
         wx.removeStorageSync('address');   
       }
     }

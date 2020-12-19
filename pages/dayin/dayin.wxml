@@ -101,7 +101,7 @@
         <input class='fo-30 text-right' name="des" data-type='remark' bindinput="applycomplete" value="{{apply.remark}}" placeholder='发票备注信息'></input>
       </view> 
 
-            <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='取件方式' bindtap="onClick" >
+        <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='取件方式' bindtap="onClick" >
         <view class='fo-30'>取件方式</view>
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{apply.expressway ?apply.expressway:'请选择'}}</view>
@@ -152,11 +152,20 @@
   </van-collapse-item>
 
 </van-collapse>
-    <!--  <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.experssway=='邮寄'}}" >
+ 
+    <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='付款方式' bindtap="onClick" wx:if="{{apply.expressway=='邮寄'&&apply.area!=''&&apply.area!=undefined}}"  >
+        <view class='fo-30'>付款方式</view>
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{apply.paytype ?apply.paytype:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+      </view>
+
+      <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.expressway=='邮寄'&&apply.paytype=='寄付'}}" >
         <view class='fo-30'>快递费用</view>
-        <view class='fo-30 fo-g'>{{apply.experssmoney}}</view>
+        <view class='fo-30 fo-g'>{{apply.expressmoney}}</view>
     
-      </view>-->
+      </view>
       
 
  <!-- <van-collapse value="{{ activeNames1 }}" accordion='true'  bind:change="onItemChange1">

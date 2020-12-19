@@ -79,7 +79,7 @@ Page({
     this.setData({
       text,
       pageno:0,
-      pagesize:4,
+      pagesize:10,
       load:true,
       end:false,
       list:[],
@@ -130,21 +130,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-     if(options.type){
-       this.SalesOrderList(options.type,this.data.text)
-     }else{
-       this.SalesOrderList(this.data.type)
-     }
+    //  if(options.type){
+    //    this.SalesOrderList(options.type,this.data.text)
+    //  }else{
+    //    this.SalesOrderList(this.data.type)
+    //  }
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.setData({
-    //   list:[]
-    // })
-    // this.SalesOrderList(this.data.type)
+    this.setData({
+      list:[]
+    })
+    this.SalesOrderList(this.data.type)
   },
 
   
