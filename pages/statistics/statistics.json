@@ -1,8 +1,11 @@
 {
-  "navigationBarTitleText": "开票记录",
+  "navigationBarTitleText": "费用明细",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "van-dropdown-menu": "../../dist/dropdown-menu/index",
-    "van-dropdown-item": "../../dist/dropdown-item/index"
+    "van-dropdown-item": "../../dist/dropdown-item/index",
+    "van-tab": "../../dist/tab/index",
+    "van-tabs": "../../dist/tabs/index",
+    "van-popup": "../../dist/popup/index"
   }
 }

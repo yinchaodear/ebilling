@@ -116,7 +116,7 @@ Page({
       list:[],
       text:"全部",
       pageno:0,
-      pagesize:4,
+      pagesize:10,
       load:true,
       end:false,
     })

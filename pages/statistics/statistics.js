@@ -1,6 +1,7 @@
 const app = getApp()
 const router =require('../../utils/router')
 const Toast =require('../../utils/Toast')
+const account =require('../../utils/account')
 let _this;
 Page({
 
@@ -8,36 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list:[
-      {
-        serino:'20111111',
-        status:'审核中',
-        company:{name:"a公司"},
-        company1:{name:"b公司"},
-        applytime:'2011-20-20'
-      },
-      {
-        serino:'20111111',
-        status:'开具中',
-        company:{name:"a公司"},
-        company1:{name:"b公司"},
-        applytime:'2011-20-20'
-      },
-      {
-        serino:'2055153135',
-        status:'已开具',
-        company:{name:"a公司"},
-        company1:{name:"b公司"},
-        applytime:'2011-20-20'
-      },
-      {
-        serino:'2055153135',
-        status:'暂存',
-        company:{name:"a公司"},
-        company1:{name:"b公司"},
-        applytime:'2011-20-20'
-      }
-    
+    list:[   
     ],
     option1:[
       { text: '全部', value: 0 },
@@ -50,172 +22,187 @@ Page({
     page:1,
     load:false,
     size:10,
-    tag:['全部','审核中','开具中','已开具','暂存','已作废','待确认'],
-    flag:2,
-    url:'get',
+    tag:[],
+    active: 0,
+    flag:0,
+    info:{},
     wheres:"",
     sorts:"",
     fields:'',
-    wx_id:wx.getStorageSync("user").id
+    pageno:0,
+    pagesize:10,
+    load:true,
+    end:false,
+    type:'全部',
+    text:"全部",
+    show:false,
+    starttime:"",
+    endtime:'',
+    companyname:''
   },
+
+  del(){
+    this.setData({
+      starttime:"",
+      endtime:'',
+      companyname:''
+    })
+  },
+
+  companyname(e){
+   this.setData({
+     companyname:e.detail.value
+   })
+  },
+  bindStarttimeDateChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      starttime: e.detail.value
+    })
+  },
+
+  bindEndtimeDateChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      endtime: e.detail.value
+    })
+  },
+  submit(){
+      this.onClose()
+     
+      this.Statics(this.data.type,this.data.id)
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  showPopup() {
+    this.setData({ show: true });
+  },
+
+  deatail(e){
+    router.navigateTo("/pages/order/detail/detail?orderid="+e.currentTarget.dataset.id);
+  },
+
+  onClick(event) {
+    console.log(event);
+    var index =event.detail.index;
+    if(index==0){
+      console.log("统计全部的");
+      this.setData({
+        type:'全部'
+      })
+      this.Statics("全部");
+    }else{
+      var id = this.data.tag[index].id;
+      this.setData({
+        id,
+        type:'公司'
+
+      })
+      console.log("查询id为"+id+'的公司')
+      this.Statics("公司",id);
+    }
+   
+
+  },
+
+  Statics(name,id,json){
+    var json ={}
+    json.starttime =this.data.starttime;
+    json.endtime = this.data.endtime;
+    json.companyname =this.data.companyname;
+    var jsonstr =JSON.stringify(json)
+     account.Statics(name,id,jsonstr).then(res=>{
+        if(res.data.msg ==true){
+          var info =res.data.list[0];
+          info.count =res.data.list1[0].count;
+          this.setData({
+            info,
+            list:res.data.list2
+          })
+
+        }
+     })
+  },
+
+  AccountInfoList(){
+    account.AccountInfo().then(res=>{
+        if(res.data.msg==true){
+          var obj={
+            name:'全部'
+          }
+          var tag = this.data.tag.concat(obj).concat(res.data.list);
+          this.setData({
+            tag
+          })
+          this.Statics("全部");
+        }
+    })
+
+  },
+
+  onReachBottom(){
+    console.log("上拉加载");
+    this.setData({
+      pageno:this.data.pageno+1
+    })
+    this.SalesOrderList(this.data.type,this.data.text)
+
+ },
+
 
   //这边是筛选条件
   itemchange(e){
     console.log(e);
     var index = e.detail;
     var text = this.data.option1[index].text;
-    console.log(text)
+    this.setData({
+      text,
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+      list:[],
+    })
+     this.SalesOrderList(this.data.type,text);
   },
 
-  getWxsmData(){
-    let date = new Date()
-    let m = date.getMonth() + 1
-    let month = m < 10 ? ""+"0"+m:m
-    let com = date.getFullYear() + '-' + month+'%'
-    app.com.post('anlysis/get/wx/sm',{wx_id:wx.getStorageSync("user").id,com_time:com},function(res){
-      console.log(res)
-      if(res.code == 1){
-        _this.setData({
-          anlysis:res.data
-        })
-      }
-    })
-  },
+
   comfirm(e){
-    let id = e.currentTarget.dataset.id
-    wx.showLoading({
-      title: '请稍等',
-      task:true
-    })
-    app.com.post('help/confirm',{id:id},function(res){
-      wx.hideLoading()
-      if(res.code == 1){
-        wx.showToast({
-          title: '订单已完成',
-        })
-        _this.getList(0)
-      }else{
-        wx.showToast({
-          title: '确认失败',
-          icon: 'none'
-        })
-      }
-    })
+    console.log(e);
+    let id = e.currentTarget.dataset.id;
+    router.navigateTo("/pages/dayin/dayin?orderid="+id);
+
   },
   takeIt(e){
-    let index = e.currentTarget.dataset.index
-    let msg = this.data.list[index]
-    if (wx.getStorageSync("res").state == 1){
-      if (wx.getStorageSync("res").a_id == wx.getStorageSync("area").pk_id) {
-        this.takeDo(msg)
-      }else{
-        wx.showModal({
-          title: '提示',
-          content: '您不是该学校的接单员',
-          confirmText: '朕知道了',
-          showCancel:false,
-          success(res) {
-            if (res.confirm) {
-              wx.navigateTo({
-                url: '/pages/register/register',
-              })
-            }
-          }
-        })
-      }
-    } else{
-      wx.showModal({
-        title: '提示',
-        content: '您还不是接单员，是否前往申请',
-        confirmText:'立即前往',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/register/register',
-            })
-          }
-        }
-      })
-    }
-    
+
     
   },
   takeDo(msg){
-    wx.showLoading({
-      title: '请稍等',
-      task:true
-    })
-    app.com.post('help/jd', {
-      jd_id: wx.getStorageSync("user").id,
-      id: msg.id,
-      openid:msg.openid,
-      form_id:msg.form_id,
-      title:msg.title,
-      order_num:msg.order_num
-    }, function (res) {
-      wx.hideLoading()
-      if (res.code == 1) {
-        wx.showToast({
-          title: '接单成功',
-        })
-        _this.getList(0)
-      } else {
-        wx.showToast({
-          title: '接单失败',
-          icon: 'none'
-        })
-      }
-    })
+
   },
   pay(e) {
-    wx.showLoading({
-      title: '请稍等',
-      task: true
-    })
-    app.com.post('help/pay', {
-      title: e.currentTarget.dataset.title,
-      openid: wx.getStorageSync("user").openid,
-      oid: e.currentTarget.dataset.id,
-      total_fee: e.currentTarget.dataset.price
-    }, function (res) {
-      if (res.code == 1) {
-        app.com.wxpay(res,function(res){
-          wx.hideLoading()
-          if(res){
-            _this.getList(0)
-          }
-        })
-      }
-    })
+
   },
   cancel(e){
-    wx.showModal({
-      title: '提示',
-      content: '确定要取消吗？',
-      success(res){
-        if(res.confirm){
-          wx.showLoading({
-            title: '请稍等',
-            task: true
-          })
-          app.com.cancel(e.currentTarget.dataset.id, 'navigateTo',function(res){
-            wx.hideLoading()
-            if(res){
-              _this.getList(0)
-            }
-          })
-        }
-      }
-    })
+
     
   },
   changeTag(e) {
     let index = e.currentTarget.dataset.index
     this.setData({
       flag: e.currentTarget.dataset.index,
-      type:this.data.tag[index]
+      type:this.data.tag[index],
+      list:[],
+      text:"全部",
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
     })
-    console.log(this.data)
+    this.SalesOrderList(this.data.type,this.data.text)
   },
   navTo(e) {
     var path = e.currentTarget.dataset.path;
@@ -225,14 +212,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.AccountInfoList();
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      list:[]
+    })
+    this.SalesOrderList(this.data.type)
   },
 
   
@@ -241,17 +231,18 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    _this.getList(0)
+    console.log("刷新");
+    this.setData({
+      list:[],
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+    })
+    this.SalesOrderList(this.data.type)
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    if(this.data.list.length < this.data.total){
-      _this.getList(1)
-    }
-  },
+ 
 
   /**
    * 用户点击右上角分享

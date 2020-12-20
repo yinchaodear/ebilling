@@ -27,21 +27,18 @@ Page({
    */
   onLoad: function (options) {
     _this = this
-    this.getData()
-  },
-  getData(){
-    app.com.post('wallet/get/uid',{
-      wx_id:wx.getStorageSync("user").id,
-      type:1
-    },function(res){
-      if(res.code == 1){
-        _this.setData({
-          showFee:res.data.showFee,
-          realFee:res.data.realFee
+     var company =wx.getStorageSync('company');
+     if(company!=''){
+       if(options.leftmoney){
+        this.setData({
+          company,
+          leftmoney:options.leftmoney
         })
-      }
-    })
+       }
+         
+     }
   },
+ 
   cashAll(){
     if(this.data.realFee > 0.3){
       this.setData({
@@ -55,6 +52,11 @@ Page({
     }
   },
   cashIt(){
+    wx.showToast({
+      title: '暂不支持线上充值,请联系客服',
+      icon:'none'
+    })
+    return;
     if (this.data.cashFee <=0.3){
       wx.showToast({
         title: '单笔提现金额不能小于0.3元',

@@ -3,6 +3,7 @@
   "usingComponents": {
     "van-share-sheet": "../../dist/share-sheet",
     "van-collapse": "../../dist/collapse/index",
-    "van-collapse-item": "../../dist/collapse-item/index"
+    "van-collapse-item": "../../dist/collapse-item/index",
+    "van-notify": "../../dist/notify/index"
   }
 }

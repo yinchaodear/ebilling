@@ -3,6 +3,7 @@ const router =require('../../utils/router')
 const Toast =require('../../utils/Toast')
 const salesorder =require('../../utils/salesorder')
 const company =require("../../utils/company")
+import Notify from '../../dist/notify/notify';
 let _this;
 Page({
 
@@ -10,21 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    address:'',
-    no:'',
-    page:0,
-    cai:false,
-    total_fee:0,
-    address:'',
+    redirect:'',
     showShare: false,
     title:'',
-    apply:{
-      
-      company1:{
-        name:"测试1",
-        id:'1112'
-      }
-    },
+    apply:{ },
     activeNames: ['1'],
     activeNames1:['1'],
     activeNames2:['1'],
@@ -246,7 +236,6 @@ Page({
           })
      }
   },
-
   AddressDetail(){
     company.AddressList(this.data.apply.company1.id,true).then(res=>{
       var apply =this.data.apply;
@@ -276,23 +265,8 @@ Page({
     var path = e.currentTarget.dataset.path;
     router.navigateTo(path);
   },
-  chooseFile(){
-    wx.navigateTo({
-      url: '/pages/dayin/dy/dy',
-    })
-    // wx.chooseMessageFile({
-    //   count: 1,
-    //   type: 'all',
-    //   success(res) {
-    //     const tempFilePaths = res.tempFilePaths
-    //     console.log(res)
-    //   }
-    // })
-  },
-  pageInput(e){
-    this.data.page = e.detail.value
-    this.init()
-  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -364,34 +338,77 @@ Page({
   submit(e){
     console.log(e);
     var status = e.currentTarget.dataset.status;
-    wx.showLoading({
-      title: '提交中',
-    })
     var apply =this.data.apply;
     apply.status =status;
     this.setData({
       apply:apply
     })
-    console.log(this.data.apply);
-    console.log(this.data.ItemList);
-    this.addSalesOrder(this.data.apply,this.data.ItemList);
+    wx.showLoading({
+      title: '提交中',
+    })
+    if(status=='暂存'){
+      console.log("不做事");
+      this.addSalesOrder(this.data.apply,this.data.ItemList);
+    }else{
+      console.log("进行一系列判断");
+      this.CheckSalesOrder();
+    }
+    return;
+
   },
+
+  CheckSalesOrder(){
+      var apply =this.data.apply;
+      var ItemList =this.data.ItemList;
+      if(this.data.apply.expressway=='邮寄'&&this.data.apply.paytype=='寄付'&&this.data.apply.alreadypay!='是'){
+           //先进行运费的判断,如果小于 先把订单保存为暂存状态,然后提示要去充值
+        salesorder.CompareShipmoney(this.data.apply.company.id,this.data.apply.expressmoney).then(res=>{
+            if(res.data.msg==false){
+              Notify({
+                message: '当前开票单位余额为'+res.data.leftmoney+",订单转为暂存状态,请及时充值",
+                duration: 2000,
+               });      
+               apply.status='暂存';
+               this.setData({
+                 redirect:'充值'
+               })
+               this.addSalesOrder(apply,ItemList,res.data.leftmoney);
+            }else{
+              //余额充足,先扣除余额,
+               this.addSalesOrder(apply,ItemList);
+            }
+        })
+      }else{
+        console.log("不用校验运费")
+        this.addSalesOrder(apply,ItemList);
+      }    
+       // this.addSalesOrder(this.data.apply,this.data.ItemList);
+      
+  },
+
  
-  addSalesOrder(salesorder1,salesorderitem){
+  addSalesOrder(salesorder1,salesorderitem,leftmoney){
+    var _this =this
     salesorder.AddSalesOrder(salesorder1,salesorderitem).then(res=>{
-      app.globalData.Toast.showToast("申请成功"); 
-      setTimeout(() => {
           if(res.data.msg==true){
             wx.removeStorageSync('company1')
-            if(salesorder1.status=="审核中"||salesorder1.status=='加急'){
-              router.switchTab("/pages/banzu/banzu?type=审核中");
-            }else{
-              router.switchTab("/pages/banzu/banzu?type=暂存");
-            }           
+            setTimeout(function(){
+              if(_this.data.redirect=='充值'){
+                router.redirectTo("/pages/mine/cash/cash?leftmoney="+leftmoney)
+              }else{
+                if(salesorder1.status=="审核中"||salesorder1.status=='加急'){
+                  router.switchTab("/pages/banzu/banzu?type=审核中");
+                }else{
+                  router.switchTab("/pages/banzu/banzu?type=暂存");
+                }    
+              }
+            },1500 )
+           
+                
         }else{
           app.globalData.Toast.showToast("保存失败")
         }
-        }, 1500);
+        
       
     })
   }

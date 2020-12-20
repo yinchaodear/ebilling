@@ -105,3 +105,20 @@ page{
 .width-77{
   width: 77%;
 }
+
+.dobtn{
+  position: fixed;
+  bottom: 30rpx;
+  right: 0rpx;
+  padding: 0 40rpx;
+  background: linear-gradient(to right top,#6183dd,#6e42d3);
+  line-height: 90rpx;
+  font-size: 28rpx;
+  color: #fff;
+  text-align: center;
+  border-radius: 90rpx 0 0 90rpx;
+  box-shadow: 0 0 10rpx 0 #6e42d3
+}
+.padd{
+  padding:  0 20px;
+}

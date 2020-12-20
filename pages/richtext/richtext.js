@@ -6,7 +6,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    msg:{}
+    msg:{
+      title:"ces",
+      author:45153,
+      contact:'wq423'
+    }
   },
 
   /**

@@ -8,6 +8,8 @@ const ChangeOrderStatusUrl ='ebilling/salesorder/changeorderstatus'
 const RemoveSalesOrderItemUrl ='ebilling/salesorder/removesalesorderitem'
 const RemoveSalesOrderUrl ='ebilling/salesorder/removesalesorder'
 const ShipmoneyUrl =  'ebilling/salesorder/shipmoney' 
+const CompareShipmoneyUrl =  'ebilling/salesorder/compareshipmoney' 
+
 function AddSalesOrder(salesorder,salesorderitem) {
   //Map.phone map.pwd
   var params={
@@ -121,6 +123,22 @@ function Shipmoney(name){
   })
 }
 
+function CompareShipmoney(cid,fee){
+  var params={
+    url: CompareShipmoneyUrl,
+    data:{
+    cid,fee
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+
 module.exports = {
   AddSalesOrder,
   GetSalesOrderInfo,
@@ -128,5 +146,6 @@ module.exports = {
   ChangeOrderStatus,
   RemoveSalesOrderItem,
   RemoveSalesOrder,
-  Shipmoney
+  Shipmoney,
+  CompareShipmoney
 }
