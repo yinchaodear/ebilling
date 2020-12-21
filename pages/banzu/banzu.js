@@ -33,11 +33,96 @@ Page({
     load:true,
     end:false,
     type:'全部',
-    text:"全部"
+    text:"全部",
+    array: ['大于等于','等于','小于等于'],
+    show:false,
+    starttime:"",
+    endtime:'',
+    companyname:'',
+    ordermoney:'',
+    condition:''
   },
+
+  del(){
+    this.setData({
+      starttime:"",
+      endtime:'',
+      companyname:'',
+      ordermoney:'',
+      condition:'',
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+    })
+  },
+
+  ordermoney(e){
+    this.setData({
+      ordermoney:e.detail.value
+    })
+  },
+  companyname(e){
+   this.setData({
+     companyname:e.detail.value
+   })
+  },
+  bindStarttimeDateChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      starttime: e.detail.value
+    })
+  },
+
+  bindCondtionDateChange:function(e){
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      condition: this.data.array[e.detail.value]
+    })
+  },
+  bindEndtimeDateChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      endtime: e.detail.value
+    })
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  showPopup() {
+    this.setData({ show: true });
+  },
+
+  sure(){
+    this.setData({
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
+      list:[]
+    })
+     this.onClose();
+     debugger;
+     this.SalesOrderList(this.data.type,this.data.text)
+  },
+
+
+  //这上面都是查询条件相关的东西
+
+
   SalesOrderList(type,expressstaus){
+    var json ={}
+    json.starttime =this.data.starttime;
+    json.endtime = this.data.endtime;
+    json.companyname =this.data.companyname;
+    json.ordermoney =this.data.ordermoney;
+    json.condition =this.data.condition;
+    var jsonstr =JSON.stringify(json)
+
     if(this.data.load==true&&this.data.end==false){
-       saleorder.SalesOrderList(type,  expressstaus,this.data.pageno,this.data.pagesize).then(res=>{
+       saleorder.SalesOrderList(type,  expressstaus,this.data.pageno,this.data.pagesize,jsonstr).then(res=>{
          this.setData({
           load:false
          })

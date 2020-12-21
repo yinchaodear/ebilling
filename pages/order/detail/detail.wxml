@@ -29,9 +29,8 @@
     <view class='fo-26 ma-t30 fo-g'>开票人：{{detail.drawer}}</view>
     <view class='fo-26 ma-t30 fo-g'>复核人：{{detail.Checker}}</view>
     <view class='fo-26 ma-t30 fo-g'>收款人：{{detail.payee}}</view>
- 
     <view class='fo-26 ma-t30 fo-g'>备注：{{detail.remark}}</view>
-   
+    <view class='fo-26 ma-t30 fo-g'>是否需要手动确认：{{detail.commit}}</view>
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
     <view class='fo-26 ma-t10 fo-g'>开票项：{{item.name}}</view>

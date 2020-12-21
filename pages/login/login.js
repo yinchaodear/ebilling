@@ -96,6 +96,16 @@ Page({
                     router.navigateTo("/pages/register/register")
                },1500)
             }
+            if(res.data.msg=='none'){
+              Notify({
+                message: '无此用户',
+                duration: 2000,
+               });
+               setTimeout(function(){
+                    router.navigateTo("/pages/register/register")
+               },1500)
+            }
+            
           }
 
       })

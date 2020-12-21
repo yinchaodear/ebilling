@@ -2,6 +2,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "van-dropdown-menu": "../../dist/dropdown-menu/index",
-    "van-dropdown-item": "../../dist/dropdown-item/index"
+    "van-dropdown-item": "../../dist/dropdown-item/index",
+    "van-popup": "../../dist/popup/index"
   }
 }

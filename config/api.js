@@ -1,5 +1,5 @@
 
-var BaseUrl = 'https://qlife.yuqiaoerp.com/';  
+var BaseUrl = 'https://ebilling.yuqiaoerp.com/';  
 BaseUrl ='http://localhost:9095/'
 var PicBaseUrl = 'https://hhjc.yuqiaoerp.com/';  
 var RpcUrl = BaseUrl + 'JSON-RPC';

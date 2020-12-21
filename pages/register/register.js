@@ -17,7 +17,7 @@ Page({
     name:'',
     disabled:false,
     text:"发送",
-    number:5
+    number:60
   },
 
   PhoneCode(){

@@ -70,3 +70,64 @@
   <view class='fg2'>我是有底线的</view>
   <view class='fg1'></view>
 </view>
+
+
+
+
+<view class='dobtn'  bindtap='showPopup' >查询</view>
+
+<van-popup show="{{ show }}" bind:close="onClose"  position="top" >
+<view class="padd">
+  <picker mode="date"  value  bindchange="bindStarttimeDateChange" >
+  <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>开始时间</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{starttime!=''? starttime:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+   <picker mode="date"  value   bindchange="bindEndtimeDateChange"  >
+   <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>结束时间</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{endtime!=''? endtime:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+  
+    <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>单位名称</view>
+        
+        <input class='fo-30 text-right' name="des" data-type='remark' bindinput="companyname" value="{{companyname}}"  placeholder='对方单位名称'></input>
+       
+  </view>
+
+  <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>开票金额</view>
+        
+        <input class='fo-30 text-right' name="des" type="number" data-type='remark' bindinput="ordermoney" value="{{ordermoney}}"  placeholder='输入金额'></input>
+       
+  </view>
+
+    <picker mode="selector"  range="{{array}}"  bindchange="bindCondtionDateChange" >
+  <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>开票金额条件</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{ condition!=''? condition:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="del">置空</button>
+  </view>
+
+</van-popup>
