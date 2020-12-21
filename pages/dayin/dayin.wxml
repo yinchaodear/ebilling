@@ -198,10 +198,13 @@
       <view class='fo-26 text-center ma-t30'>需支付</view>
       <view class='text-center fo-40 bold ma-t20 fo-m'>{{total_fee}}
         <text class='fo-26'>元</text> </view> -->
-      <button class='btns-40 ' data-status='审核中' bindtap="submit">申请开票</button>
-      <button class='btns-40 ' data-status='暂存' bindtap="submit">暂存</button>
+      <view class="panel-between">   
+       <button class='btns-40-30 ' data-status='审核中' bindtap="submit">申请开票</button>
+      <button class='btns-40-30 ' data-status='暂存' bindtap="submit">暂存</button>
       <!-- <button class='btns-40 ' data-status='加急' bindtap="submit">申请开票(加急)</button>-->
-        <button class='btns-40 '  wx:if="{{apply.id!=''&&apply.id!=undefined}}" bindtap="del">删除</button>
+        <button class='btns-40-30-del'  wx:if="{{apply.id!=''&&apply.id!=undefined}}" bindtap="del">删除</button>
+      </view>
+     
     </form>
   </view>
 </view>

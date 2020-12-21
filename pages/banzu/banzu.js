@@ -120,7 +120,6 @@ Page({
     json.ordermoney =this.data.ordermoney;
     json.condition =this.data.condition;
     var jsonstr =JSON.stringify(json)
-
     if(this.data.load==true&&this.data.end==false){
        saleorder.SalesOrderList(type,  expressstaus,this.data.pageno,this.data.pagesize,jsonstr).then(res=>{
          this.setData({
@@ -227,9 +226,13 @@ Page({
    */
   onShow: function () {
     this.setData({
+      pageno:0,
+      pagesize:10,
+      load:true,
+      end:false,
       list:[]
     })
-    this.SalesOrderList(this.data.type)
+    this.SalesOrderList(this.data.type,this.data.text);
   },
 
   

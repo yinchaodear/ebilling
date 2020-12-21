@@ -50,13 +50,13 @@ margin-top: 10rpx;
 }
 
 .additem-small{
-  line-height:40rpx;
+line-height:50rpx;
 text-align: center;
 color: #fff;
-font-size:15rpx;
+font-size:20rpx;
 border-radius: 100rpx;
-background: linear-gradient(to right top,#6183dd,#6e42d3);
+background: linear-gradient(to right top,#eb7474,#e01b35);
 margin: 0 auto;
-width: 50%;
+width: 40%;
 margin-top: 10rpx;
 }

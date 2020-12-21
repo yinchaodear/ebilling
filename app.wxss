@@ -73,6 +73,26 @@
   background: linear-gradient(to right top,#6183dd,#6e42d3);
   margin-top: 40rpx;
 }
+.btns-40-30{
+  line-height: 90rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 100rpx;
+  background: linear-gradient(to right top,#6183dd,#6e42d3);
+  margin-top: 40rpx;
+  width: 30%;
+}
+.btns-40-30-del{
+  line-height: 90rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 100rpx;
+  background: linear-gradient(to right top,#eb7474,#e01b35);
+  margin-top: 40rpx;
+  width: 30%;
+}
 .btns:active{
   background: linear-gradient(to right top,#6183dd,#6e42d3);
 }

@@ -66,13 +66,26 @@ Page({
   },
 
   del() {
-    salesorder.RemoveSalesOrder(this.data.apply.id).then(res => {
-      if (res.data.msg == true) {
-        wx.navigateBack({
-          complete: (res) => {},
-        })
-      }
+    Dialog.confirm({
+      title: '删除确认',
+      message: '删除后将无法恢复数据',
     })
+    .then(() => {
+      // on confirm
+      salesorder.RemoveSalesOrder(this.data.apply.id).then(res => {
+        if (res.data.msg == true) {
+          wx.navigateBack({
+            complete: (res) => {},
+          })
+        }
+      })
+    })
+    .catch(() => {
+      // on cancel
+    
+    });
+
+
   },
 
   deleteitem(e) {
