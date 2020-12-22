@@ -1,4 +1,4 @@
-<view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*该服务由平台承包*</view>
+<view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*数据仅包含在本公司开具的发票*</view>
 
 <view class='pa-30'>
 
@@ -10,7 +10,10 @@
     </view>
     
      <view class='panel ra-10 '>
+  
+         
         <view class=' pa-b30 border-b'>
+         <view class='fo-30'>当前公司:{{company.accountname}}</view>
           <view class='fo-30'>统计类型</view>
           <view class='panel-around'>
             <view wx:for="{{kdtype}}" class='{{index == flag ? "fgh2":"fgh"}}' data-index='{{index}}' bindtap='change'>{{item.la}}</view>
@@ -19,22 +22,30 @@
 
        
 
-      <view wx:if="{{flag==0}}">
+      <view wx:if="{{flag==0&&starttime==''&&endtime==''}}">
         <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
           <view class='fo-30'>本月累计</view>
-          <van-circle value="{{70 }}" size="100" text="￥15000" />
+          <van-circle value="{{ month.value }}" size="100" text="{{month.text}}" />
         </view> 
         <view class='pa-t30 panel-between item-center border-b pa-b20'>
           <view class='fo-30'>本季度累计</view>
-          <van-circle value="{{70 }}" color="#ee0a24" size="100" text="￥15000" />
+            <van-circle value="{{ quarter.value }}" size="100" text="{{quarter.text}}" />
         </view> 
           <view class='pa-t30 panel-between item-center border-b pa-b20'>
           <view class='fo-30'>本年累计</view>
-          <van-circle value="{{70 }}" color="#07c160" size="100" text="￥15000" />
+         <van-circle value="{{ year.value }}" size="100" text="{{year.text}}" />
         </view> 
             <view class='pa-t30 panel-between item-center border-b pa-b20'>
           <view class='fo-30'>12个月累计</view>
-          <van-circle value="{{70 }}" color="#ffd01e" size="100" text="￥15000" />
+          <van-circle value="{{ month12.value }}" size="100" text="{{month12.text}}" />
+        </view> 
+   </view>
+
+   
+   <view wx:if="{{flag==0&&(starttime!=''||endtime!='')}}">
+        <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
+          <view class='fo-30'>累计</view>
+          <van-circle value="{{usualcount.value }}" size="100" text="{{usualcount.text}}" />
         </view> 
    </view>
       
@@ -89,7 +100,7 @@
         </view> -->
         <button class='btns ' form-type="submit">发票查询</button>
 
-          <view wx:if="{{flag==2}}">
+      <view wx:if="{{flag==2}}">
         <view class='pa-t30 panel-between item-center border-b pa-b20'>
           <view class='fo-30'>月度</view>
           <van-circle value="{{70 }}" size="100" text="￥15000" />
@@ -134,3 +145,56 @@
   bind:select="onSelect"
   bind:close="onClose"
 />    
+
+
+<view class='dobtn'  bindtap='showPopup' >查询</view>
+
+<van-popup show="{{ show }}" bind:close="onClose"  position="top" >
+<view class="padd">
+  <picker mode="date"  value  bindchange="bindStarttimeDateChange" >
+  <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>开始时间</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{starttime!=''? starttime:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+   <picker mode="date"  value   bindchange="bindEndtimeDateChange"  >
+   <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>结束时间</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{endtime!=''? endtime:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+  
+    <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>单位名称</view>
+        
+        <input class='fo-30 text-right' name="des" data-type='remark' bindinput="companyname" value="{{companyname}}"  placeholder='对方单位名称'></input>
+       
+  </view>
+
+
+    <picker mode="selector"  range="{{array}}"  bindchange="bindCondtionDateChange" >
+  <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+        <view class='fo-30'>是否只查看当前公司</view>
+        
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{ condition!=''? condition:'请选择'}}</view>
+          <image src='/img/right.png' class='icon-30 ma-l20'></image>
+        </view>
+       
+  </view>
+ </picker>
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="del">置空</button>
+  </view>
+
+</van-popup>

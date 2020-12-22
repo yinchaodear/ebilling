@@ -20,8 +20,8 @@
      <!-- <view class='w-20 border-b ma-t30'></view> -->
     <view class='fo-30 ma-t30'>审核信息</view>
     <view class='fo-26 ma-t30 fo-g'>审核结果：{{detail.approvestatus}}</view>
-    <view class='fo-26 ma-t30 fo-g' wx:if="{{detail.approvestatus=='审核不通过'}}">原因：{{detail.reason}}</view>
-     <view class='fo-26 ma-t30 fo-g' style="color:red" wx:if="{{detail.approvestatus=='审核不通过'&&detail.refusednumber>=2}}">已无法再编辑,请联系客服人员,在指导下完成</view>
+    <view class='fo-26 ma-t30 fo-g' wx:if="{{detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问'}}">原因：{{detail.reason}}</view>
+     <view class='fo-26 ma-t30 fo-g' style="color:red" wx:if="{{(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber>=2}}">已无法再编辑,请联系客服人员,在指导下完成</view>
 
      <view class='fo-30 ma-t30'>相关信息</view>
     <view class='fo-26 ma-t30 fo-g'>票据种类：{{detail.type}}</view>
@@ -34,6 +34,8 @@
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
     <view class='fo-26 ma-t10 fo-g'>开票项：{{item.name}}</view>
+     <view class='fo-26 ma-t10 fo-g'>规格型号：{{item.model}}</view>
+     <view class='fo-26 ma-t10 fo-g'>单位：{{item.unit}}</view>
      <view class='fo-26 ma-t10 fo-g'>发票抬头：{{item.taxno}}</view>
     <view class='fo-26 ma-t10 fo-g'>单价：{{item.unitprice}}</view>
     <view class='fo-26 ma-t10 fo-g'>数量：{{item.number}}</view>
@@ -57,7 +59,7 @@
  
 
  
-    <view class='panel-end' style='height:30rpx'>
+    <!-- <view class='panel-end' style='height:30rpx'>
       <view class='cri2 panel-center item-center' style='background-color:rgb(51, 153, 255);box-shadow: 0 0 10rpx 0 rgb(51, 153, 255)' data-type='dphone' bindtap='makePhoneCall'>
         <view class='text-center'>
           <image src='/img/pjh.png' class='icon-30'></image>
@@ -70,7 +72,7 @@
           <view class='fo-20 fo-w'>手机号</view>
         </view>
       </view>
-    </view>
+    </view> -->
   </view>
 </view>
 
@@ -96,7 +98,7 @@
 </view>-->
 
 <view class='fix-b panel-end itme-center'>
-  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&detail.approvestatus=='审核不通过'&&detail.refusednumber<2)}}" > 继续编辑</view>
+  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<2)}}" > 继续编辑</view>
   <!-- <view class='bzbtn3 '  data-id='{{list.id}}' bindtap='cancel'>取消</view>
   <view class='bzbtn2 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view> -->
   <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'}}"  bindtap='comfirm'>确认收货</view>

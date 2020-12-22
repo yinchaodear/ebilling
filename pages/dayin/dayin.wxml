@@ -60,6 +60,16 @@
              <view class='fo-26'>发票号</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写发票号"  value="{{item.taxno}}" ></input>
          </view>
+
+              <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>规格型号</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="model" placeholder="填写规格型号"  value="{{item.model}}" ></input>
+         </view>
+
+          <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>单位</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="unit" placeholder="填写单位"  value="{{item.unit}}" ></input>
+         </view>
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>单价</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  type="number" data-name="unitprice" placeholder="填写单价"  value="{{item.unitprice}}" ></input>

@@ -12,7 +12,7 @@ const AddressListUrl = 'ebilling/companyaccount/addresslist'
 const GetCompanyInfoUrl ='ebilling/companyaccount/getcompanyinfo'
 const GetCompanyInfoListUrl ='ebilling/companyaccount/getcompanyinfolist'
 const GetCompanyAccountInfoListUrl ='ebilling/companyaccount/getcompanyaccountinfolist'
-
+const ChargeUrl = 'ebilling/companyaccount/charge'
 function QueryMyCompany() {
   //Map.phone map.pwd
   var params={
@@ -192,6 +192,21 @@ function GetCompanyAccountInfoList(otherid){
   })
 }
 
+
+function Charge(cid,Money){
+  var params={
+    url: ChargeUrl,
+    data:{
+    cid,Money
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 module.exports = {
   QueryMyCompany,
   QueryOtherCompany,
@@ -203,5 +218,6 @@ module.exports = {
   AddressList,
   GetCompanyInfo,
   GetCompanyInfoList,
-  GetCompanyAccountInfoList
+  GetCompanyAccountInfoList,
+  Charge
 }

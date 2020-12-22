@@ -14,8 +14,8 @@
       <view class='pa-b10 pa-t30 border-b'>
         <view class='panel-between item-center'>
           <view class='fo-50'>￥</view>
-          <input placeholder='充值到该公司余额' type='digit' bindinput='cashInput' value='{{cashFee}}' placeholder-class='fo-28'></input>
-          <view class='fo-t fo-28' bindtap='cashAll'>全部</view>
+          <input placeholder='充值到该公司余额' type='digit' bindinput='cashInput' value='{{money}}' placeholder-class='fo-28'></input>
+          <view class='fo-t fo-28' ></view>
         </view>
       </view>
       <!-- <view class='fo-26 fo-g pa-t30'>单次提现金额至少0.3元,最多1000元,每日提现2次</view> -->
@@ -23,7 +23,7 @@
     </view>
   </view>
 </view>
-<view class='pa-30 text-center fo-30'>提现申请将在1-3个工作日内到账</view>
+<!-- <view class='pa-30 text-center fo-30'>提现申请将在1-3个工作日内到账</view> -->
 <view class=" pa-30 panel-center">
   <button class='filter-btn fo-30 fo-t'  open-type='contact'>联系客服</button>
 </view>

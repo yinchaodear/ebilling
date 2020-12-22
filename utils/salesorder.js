@@ -10,6 +10,8 @@ const RemoveSalesOrderUrl ='ebilling/salesorder/removesalesorder'
 const ShipmoneyUrl =  'ebilling/salesorder/shipmoney' 
 const CompareShipmoneyUrl =  'ebilling/salesorder/compareshipmoney' 
 const KaiPiaoJudgeUrl = 'ebilling/salesorder/kaipiaojudge'
+const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
+
 function AddSalesOrder(salesorder,salesorderitem) {
   //Map.phone map.pwd
   var params={
@@ -154,6 +156,23 @@ function KaiPiaoJudge(cid){
   })
 }
 
+function SalesOrderStatics(cid,json){
+  var params={
+    url: SalesOrderStaticsUrl,
+    data:{
+    cid,json
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+
+
 
 module.exports = {
   AddSalesOrder,
@@ -164,5 +183,6 @@ module.exports = {
   RemoveSalesOrder,
   Shipmoney,
   CompareShipmoney,
-  KaiPiaoJudge
+  KaiPiaoJudge,
+  SalesOrderStatics,
 }

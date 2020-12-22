@@ -375,6 +375,20 @@
 					"pathName": "pages/statistics/statistics",
 					"query": "leftmoney=8",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cash/cash",
+					"pathName": "pages/mine/cash/cash",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cash/cash",
+					"pathName": "pages/mine/cash/cash",
+					"query": "leftmoney=0",
+					"scene": null
 				}
 			]
 		}

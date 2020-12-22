@@ -1,4 +1,6 @@
 const app = getApp()
+const salesorder =require("../../../utils/salesorder")
+const company =require("../../../utils/company")
 let _this;
 Page({
 
@@ -8,19 +10,33 @@ Page({
   data: {
     showFee:'0.00',
     realFee:0,
-    cashFee:null
+    cashFee:null,
+    money:100
   },
   cashInput(e){
-    if(e.detail.value > 1000){
-      wx.showToast({
-        title: '单笔提现金额不能大于1000元',
-        icon: 'none'
-      })
-    } else{
-      this.setData({
-        cashFee: e.detail.value
-      })
-    }
+     this.setData({
+       money:e.detail.value
+     })
+  },
+
+  Charge(id){
+    company.Charge(this.data.company.id,this.data.money).then(res=>{
+       if(res.data.msg==true){
+         wx.showToast({
+           title: '充值成功',
+         })
+         setTimeout(function(){
+          wx.navigateBack({
+            complete: (res) => {},
+          })
+         },1500)
+        
+       }else{
+        wx.showToast({
+          title: '充值失败',
+        })
+       }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -52,46 +68,6 @@ Page({
     }
   },
   cashIt(){
-    wx.showToast({
-      title: '暂不支持线上充值,请联系客服',
-      icon:'none'
-    })
-    return;
-    if (this.data.cashFee <=0.3){
-      wx.showToast({
-        title: '单笔提现金额不能小于0.3元',
-        icon:'none'
-      })
-    } else if (this.data.cashFee >1000){
-      wx.showToast({
-        title: '单笔提现金额不能大于1000元',
-        icon: 'none'
-      })
-    } else if (this.data.cashFee > this.data.realFee+0.01) {
-      wx.showToast({
-        title: '提现金额不能大于余额',
-        icon: 'none'
-      })
-      this.setData({
-        cashFee: this.data.realFee.toFixed(2)
-      })
-    }else{
-      wx.showLoading({
-        title: '请求中',
-        task:true
-      })
-      app.com.post('wallet/cash',{cashFee:this.data.cashFee},function(res){
-        if(res.code == 1){
-          wx.hideLoading()
-      
-          wx.showModal({
-            title: '提现结果',
-            content: res.msg,
-            showCancel:false,
-          })
-          _this.getData()
-        }
-      })
-    }
+    this.Charge()
   }
 })
