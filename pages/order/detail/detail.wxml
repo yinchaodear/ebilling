@@ -78,8 +78,40 @@
         </view>
       </view>
     </view> -->
+
+
+    <view wx:if='{{cancelimglist.length>0}}'>
+    <view class='fo-30 ma-t30'>作废申请图片</view>
+    <van-grid column-num="3" border="{{ false }}">
+  <van-grid-item use-slot wx:for="{{ cancelimglist}}">
+    <image
+      style="width: 100%; height: 90px;"
+      src="{{item}}" 
+      bindtap="showimage"
+      data-url="{{item}}"
+    />
+  </van-grid-item>
+</van-grid>
+  </view>
+      <view wx:if='{{FapiaoList.length>0}}'>
+    <view class='fo-30 ma-t30'>发票图片</view>
+    <van-grid column-num="3" border="{{ false }}">
+  <van-grid-item use-slot wx:for="{{ FapiaoList}}">
+    <image
+      style="width: 100%; height: 90px;"
+      src="{{item}}" 
+      bindtap="showimage1"
+      data-url="{{item}}"
+    />
+  </van-grid-item>
+</van-grid>
+  </view>
+
+
   </view>
 </view>
+
+
 
 <!-- <view class='panel-center item-center ma-t30'>
   <view class='border-b ' style='width:50rpx'></view>
@@ -105,7 +137,7 @@
 <view class='fix-b panel-end itme-center'>
   <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<1)}}" > 继续编辑</view>
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
-  <!--<view class='bzbtn3 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view> -->
+  <view class='bzbtn3 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='showPopup1'>补充照片</view> 
   <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>确认收货</view>
 </view>
 
@@ -114,13 +146,18 @@
 <van-dialog id="van-dialog" />
 
 
-<van-popup show="{{ show }}" bind:close="onClose"  round position="center" >
-<view class="padd">
+<van-popup show="{{ show }}" custom-style="width:90%;min-height:30%" bind:close="onClose"  round position="center" >
+<view class="padd" wx:if='{{step==1}}'>
    <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请填写需要作废的发票号*</view>
    <textarea class="border-1" bindinput="textareainput" placeholder="请在此输入发票号,多张发票以空格分开">  
    </textarea>
    <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>
   
   </view>
-
+ <view  class="padd-1" wx:if='{{step==2}}'>
+   <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请上传作废发票的照片*</view>
+  <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="upload">确定</button>
+</view>
 </van-popup>
+

@@ -180,3 +180,6 @@ page {
   border-radius: 5px;
   box-shadow: 0 0 5px #e1e1e1;
 }
+.padd-1{
+  padding:  0 20px;
+}

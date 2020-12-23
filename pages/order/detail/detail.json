@@ -2,6 +2,9 @@
   "navigationBarTitleText": "详情",
   "usingComponents": {
     "van-dialog": "../../../dist/dialog/index",
-    "van-popup": "../../../dist/popup/index"
+    "van-popup": "../../../dist/popup/index",  
+    "van-uploader": "../../../dist/uploader/index",
+    "van-grid": "../../../dist/grid/index",
+     "van-grid-item": "../../../dist/grid-item/index"
   }
 }
