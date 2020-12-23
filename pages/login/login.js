@@ -105,6 +105,15 @@ Page({
                     router.navigateTo("/pages/register/register")
                },1500)
             }
+            if(res.data.msg=='oversize'){
+              Notify({
+                message: '有重复用户,请联系客服',
+                duration: 2000,
+               });
+               setTimeout(function(){
+                    router.navigateTo("/pages/register/register")
+               },1500)
+            }
             
           }
 

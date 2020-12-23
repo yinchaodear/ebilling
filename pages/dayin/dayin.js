@@ -374,13 +374,13 @@ Page({
   submit(e) {
     console.log(e);
     //先判断是否能开票 //先注释掉，然后后面再判断
-    // if(this.data.forbidden==true){
-    //   Notify({
-    //     message:this.data.message,
-    //     duration: 2000,
-    //    });   
-    //    return
-    // }
+    if(this.data.forbidden==true){
+      Notify({
+        message:this.data.message,
+        duration: 2000,
+       });   
+       return
+    }
     //先判断是否能开票
     var status = e.currentTarget.dataset.status;
     var apply = this.data.apply;
