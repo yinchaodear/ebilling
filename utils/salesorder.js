@@ -11,6 +11,24 @@ const ShipmoneyUrl =  'ebilling/salesorder/shipmoney'
 const CompareShipmoneyUrl =  'ebilling/salesorder/compareshipmoney' 
 const KaiPiaoJudgeUrl = 'ebilling/salesorder/kaipiaojudge'
 const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
+const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
+const CancelApplyUrl ='ebilling/salesorder/cancelapply'
+
+function CancelApply(oid,taxno){
+  var params={
+    url: CancelApplyUrl,
+    data:{
+     oid,taxno
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "POST").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 function AddSalesOrder(salesorder,salesorderitem) {
   //Map.phone map.pwd
@@ -68,6 +86,21 @@ function SalesOrderList(status,expressstatus,pageno,pagesize,json){
 function ChangeOrderStatus(orderid){
   var params={
     url: ChangeOrderStatusUrl,
+    data:{
+      orderid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+function ChangeOrderConfirmStatus(orderid){
+  var params={
+    url: changeorderconfirmstatusUrl,
     data:{
       orderid
     }
@@ -174,6 +207,8 @@ function SalesOrderStatics(cid,json){
 
 
 
+
+
 module.exports = {
   AddSalesOrder,
   GetSalesOrderInfo,
@@ -185,4 +220,6 @@ module.exports = {
   CompareShipmoney,
   KaiPiaoJudge,
   SalesOrderStatics,
+  ChangeOrderConfirmStatus,
+  CancelApply
 }

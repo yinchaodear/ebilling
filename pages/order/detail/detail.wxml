@@ -31,6 +31,8 @@
     <view class='fo-26 ma-t30 fo-g'>收款人：{{detail.payee}}</view>
     <view class='fo-26 ma-t30 fo-g'>备注：{{detail.remark}}</view>
     <view class='fo-26 ma-t30 fo-g'>是否需要手动确认：{{detail.commit}}</view>
+     <view class='fo-26 ma-t30 fo-g' wx:if="{{detail.commit=='是'&&detail.confirmstatus!=null}}" >确认状态：{{detail.confirmstatus}}</view> 
+       <view class='fo-26 ma-t30 fo-g color-1' wx:if="{{detail.cancel!=null}}" >作废状态：{{detail.cancel}}</view> 
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
     <view class='fo-26 ma-t10 fo-g'>开票项：{{item.name}}</view>
@@ -41,6 +43,7 @@
     <view class='fo-26 ma-t10 fo-g'>数量：{{item.number}}</view>
     <view class='fo-26 ma-t10 fo-g'>开票金额：{{item.money}}</view>
     <view class='fo-26 ma-t10 fo-g'>税率：{{item.tax}}</view>
+     <view class='fo-26 ma-t10 fo-g color-1' wx:if='{{item.cancel!=null}}'>作废状态：{{item.cancel}}</view>
     </view>
 
   
@@ -52,6 +55,8 @@
     <view class='fo-26 ma-t30 fo-g'>收件电话：{{detail.receiptel}}</view>
     <view class='fo-26 ma-t30 fo-g'>收件地址：{{detail.area}}{{detail.addressdetail}}</view>
     <view class='fo-26 ma-t30 fo-g'>收件邮编：{{detail.shipcode}}</view>
+     <view class='fo-26 ma-t30 fo-g'>快递公司：{{detail.expresscompany}}</view>
+      <view class='fo-26 ma-t30 fo-g'>快递单号：{{detail.expressno}}</view>
    </view>
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
@@ -98,9 +103,24 @@
 </view>-->
 
 <view class='fix-b panel-end itme-center'>
-  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<2)}}" > 继续编辑</view>
-  <!-- <view class='bzbtn3 '  data-id='{{list.id}}' bindtap='cancel'>取消</view>
-  <view class='bzbtn2 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view> -->
-  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'}}"  bindtap='comfirm'>确认收货</view>
+  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<1)}}" > 继续编辑</view>
+   <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
+  <!--<view class='bzbtn3 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='pay'>立即付款</view> -->
+  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>确认收货</view>
 </view>
 
+
+
+<van-dialog id="van-dialog" />
+
+
+<van-popup show="{{ show }}" bind:close="onClose"  round position="center" >
+<view class="padd">
+   <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请填写需要作废的发票号*</view>
+   <textarea class="border-1" bindinput="textareainput" placeholder="请在此输入发票号,多张发票以空格分开">  
+   </textarea>
+   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>
+  
+  </view>
+
+</van-popup>

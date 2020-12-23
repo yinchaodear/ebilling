@@ -172,3 +172,11 @@ page {
   padding: 10px;
   box-shadow: 0 0 3px #e1e1e1;
 }
+
+.padd{
+  padding:  0 20px;
+}
+.border-1{
+  border-radius: 5px;
+  box-shadow: 0 0 5px #e1e1e1;
+}

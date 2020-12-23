@@ -389,6 +389,27 @@
 					"pathName": "pages/mine/cash/cash",
 					"query": "leftmoney=0",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cash/cash",
+					"pathName": "pages/mine/cash/cash",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cash/cash",
+					"pathName": "pages/mine/cash/cash",
+					"query": "leftmoney=0",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/order/detail/detail",
+					"pathName": "pages/order/detail/detail",
+					"query": "orderid=5",
+					"scene": null
 				}
 			]
 		}

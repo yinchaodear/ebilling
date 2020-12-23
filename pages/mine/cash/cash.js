@@ -18,6 +18,31 @@ Page({
        money:e.detail.value
      })
   },
+  Wxpay(){
+    var _this =this;
+     company.WxPay(this.data.company.id,this.data.money).then(res=>{
+        if(res.data.msg==true){
+          wx.requestPayment(
+            {
+            'timeStamp': res.data.params.timeStamp,
+            'nonceStr': res.data.params.nonceStr,
+            'package': res.data.params.package,
+            'signType': 'MD5',
+            'paySign': res.data.params.paySign,
+            'success':function(res){
+              console.log(res);
+              _this.Charge();
+            },
+            'fail':function(res){
+                console.log('充值失败')
+            },
+            'complete':function(res){
+
+            }
+            })
+        }
+     })
+  },
 
   Charge(id){
     company.Charge(this.data.company.id,this.data.money).then(res=>{

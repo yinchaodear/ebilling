@@ -19,7 +19,7 @@
         </view>
       </view>
       <!-- <view class='fo-26 fo-g pa-t30'>单次提现金额至少0.3元,最多1000元,每日提现2次</view> -->
-      <button type='primary' class='ma-t30'  bindtap='cashIt'>充值</button>
+      <button type='primary' class='ma-t30'  bindtap='Wxpay'>充值</button>
     </view>
   </view>
 </view>

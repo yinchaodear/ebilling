@@ -56,6 +56,9 @@ Page({
     var value = e.detail.value;
     var ItemList = this.data.ItemList;
     ItemList[index][name] = value;
+    if(ItemList[index].number==undefined||ItemList[index].number==''){
+      ItemList[index].number =1
+    }
     if (ItemList[index].number != '' && ItemList[index].unitprice != '') {
       ItemList[index].money = ItemList[index].number * ItemList[index].unitprice
     }

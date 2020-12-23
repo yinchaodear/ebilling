@@ -2,6 +2,8 @@ const app = getApp()
 let _this;
 const salesorder = require('../../../utils/salesorder')
 const router =require('../../../utils/router')
+
+import Dialog from '../../../dist/dialog/dialog';
 Page({
 
   /**
@@ -14,12 +16,103 @@ Page({
       status:'审核中',
       company:{name:"a公司"},
       company1:{name:"b公司"},
-      applytime:'2011-20-20'
+      applytime:'2011-20-20',
+      show:false,
     }
   },
-  comfirm() {
-    this.ChangeOrderStatus();
+
+  sure(){
+     this.onClose();
+     var taxno = this.data.taxno;
+     if(taxno==''){
+       app.globalData.Toast.showToast("输入为空")
+        return; 
+     }
+     taxno =taxno.split(" ");
+     console.log(taxno);
+     var taxnoList =[]
+     for(var i in taxno){
+       if(taxno[i]!=''){
+         taxnoList.push(taxno[i])
+       }
+     }
+     this.cancelApply(taxnoList);
   },
+
+  cancelApply(taxno){
+    salesorder.CancelApply(this.data.detail.id,taxno).then(res=>{
+          if(res.data.msg==true){
+            app.globalData.Toast.showToast("申请成功");
+            this.GetSalesOrderInfo(this.data.detail.id);
+          }else{
+            Dialog.alert({
+              title: '申请失败',
+              message: '未找到所填发票号的开票项',
+            }).then(() => {
+              // on close
+            });
+          }
+    })
+  },
+
+  textareainput(e){
+     console.log(e);
+     this.setData({
+       taxno:e.detail.value
+     })
+  },
+
+  onClose() {
+    this.setData({ show: false });
+  },
+
+  showPopup() {
+    this.setData({ show: true });
+  },
+  comfirm() {
+    var _this =this;
+    Dialog.confirm({
+      title: '发票确认',
+      message: '现场收到的发票是否有问题',
+      confirmButtonText:"有",
+      cancelButtonText:"无"
+    })
+    .then(() => {
+      // on confirm
+      console.log("有问题")
+      setTimeout(() => {
+        _this.cancel1()
+      }, 1000);
+    })
+    .catch(() => {
+      // on cancel
+  
+      console.log("没问题")
+      this.ChangeOrderStatus();
+    });
+   
+  },
+
+  cancel1:function(){
+    Dialog.confirm({
+      title: '作废申请',
+      message: '是否对发票进行作废处理',
+      confirmButtonText:"是",
+      cancelButtonText:"否"
+    })
+    .then(() => {
+      // on confirm
+      console.log("有问题")
+      this.showPopup(); 
+    })
+    .catch(() => {
+      // on cancel
+     
+    });
+  },
+
+  
+
   
   ChangeOrderStatus(){
     salesorder.ChangeOrderStatus(this.data.detail.id).then(res=>{
@@ -60,26 +153,32 @@ Page({
       }
     })
   },
-  cancel(e) {
-    wx.showModal({
-      title: '提示',
-      content: '确定要取消吗？',
-      success(res) {
-        if (res.confirm) {
-          wx.showLoading({
-            title: '请稍等',
-            task: true
-          })
-          app.com.cancel(e.currentTarget.dataset.id, 'navigateTo', function (res) {
-            wx.hideLoading()
-            if (res) {
-              _this.getList(e.currentTarget.dataset.id)
-            }
-          })
-        }
+  cancel() {
+    Dialog.confirm({
+      title: '发票确认',
+      message: '开具发票是否有问题',
+      confirmButtonText:"无",
+      cancelButtonText:"有"
+    })
+    .then(() => {
+      // on confirm
+       console.log("没问题")
+       this.ChangeOrderConfirmStatus();
+    })
+    .catch(() => {
+      // on cancel
+      console.log("有问题")
+    });
+
+  },
+
+  ChangeOrderConfirmStatus(){
+    salesorder.ChangeOrderConfirmStatus(this.data.detail.id).then(res=>{
+      if(res.data.msg==true){
+        app.globalData.Toast.showToast("确认完成");
+        this.GetSalesOrderInfo(this.data.detail.id);
       }
     })
-
   },
 
   /**

@@ -7,7 +7,7 @@
 
 <!--这里是筛选条件-->
 <view style='height:90rpx'></view>
-<van-dropdown-menu  wx:if='{{flag==3}}'  >
+<van-dropdown-menu  wx:if='{{flag==4}}'  >
   <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="itemchange" />
 </van-dropdown-menu>
 <!-- <view class='pa-30 panel-around' style='padding-bottom:0' wx:if="{{flag == 2}}">
@@ -32,7 +32,10 @@
             <view class='fo-26 fo-g'>对方单位:{{item.f_account_name}}</view>
             <view class='fo-26 fo-g max-60'  wx:if="{{item.f_approvestatus=='审核不通过'||item.f_approvestatus=='审核有疑问'}}" >驳回理由:{{item.f_reason}}</view>
             <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='开具中'}}">等待时间:{{item.conpany1.name}}</view>
-             <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'}}">收件状态:{{item.f_express_status}}</view>
+             <view class='fo-26 fo-g' >收件方式:{{item.f_express_type}}</view>
+            <view class='fo-26 fo-g color-1'  wx:if='{{item.f_confirm_status=="待确认"}}' >点击查看详情,进行发票确认</view>
+             <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'&&item.f_confirm_status!='待确认'}}">收件状态:{{item.f_express_status}}</view>
+            <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_sostatus=='已开具'&&item.f_express_status=='待取件'&&item.f_express_type=='自取'}}">温馨提示:请尽快前来取件</view>
           </view>
         </view>
         <view wx:if='{{item.f_urgent=="是"}}' class='state ste4'>{{item.f_sostatus}}(急)</view>
@@ -49,7 +52,7 @@
       <!-- <view class='state ste4'>具体操作</view> -->
        <view class='bzBtn ma-l30' data-index='{{index}}' wx:if="{{item.f_sostatus=='审核中'&&item.f_approvestatus!=null&&item.f_approvestatus!=''}}"   bindtap='takeIt'>{{item.f_approvestatus}}</view>
       <view class='bzBtn3 ma-l30'  data-id='{{item.id}}' wx:if="{{item.f_sostatus=='开具中'}}" bindtap='cancel'>等待10人</view>
-      <view class='bzBtn2 ma-l30'  data-title='{{item.title}}' wx:if="{{item.f_sostatus=='已开具'||item.status=='待确认'}}" data-id='{{item.id}}' data-price='{{item.total_fee}}' >查看详情</view>
+      <view class='bzBtn2 ma-l30'  data-title='{{item.title}}' wx:if="{{item.f_sostatus!='暂存'&&item.f_sostatus!='开具中'}}"  data-path='/pages/order/detail/detail?orderid={{item.f_id}}'  bindtap='navTo' >查看详情</view>
       <view class='bzBtn4 ma-l30' data-id='{{item.f_id}}'  wx:if="{{item.f_sostatus=='暂存'}}" bindtap='comfirm'>继续编辑</view> 
     </view>
   </view>
