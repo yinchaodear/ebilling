@@ -390,30 +390,157 @@ Page({
         duration: 2000,
        });   
        return
-    }
+    } 
+    var _this=this;
     //先判断是否能开票
+    
+    //再进行 页面上字段的校验
     var status = e.currentTarget.dataset.status;
     var apply = this.data.apply;
-    apply.status = status;
-
-
-    Dialog.confirm({
-        title: '发票确认',
-        message: '发票开具后是否需要手动确认',
-      })
-      .then(() => {
-        // on confirm
-        console.log("需要")
-        apply.commit = "是"
-        this.Checkcommit(apply, status)
-      })
-      .catch(() => {
-        // on cancel
-        console.log("不需要")
-        apply.commit = "否"
-        this.Checkcommit(apply, status)
+    apply.status = status;    
+    
+    var result = this.checknum(this.data.ItemList,apply)
+    console.log(result);
+    if(result!='检验正确'){
+      Notify({
+        message: result,
+        duration: 2000,
       });
+      return;
+    }
+    Dialog.confirm({
+      title: '数据确认',
+      message: this.data.str,
+      messageAlign:"left"
+    })
+    .then(() => {
+      // on confirm  
+      setTimeout(() => {
+        _this.checkconfirm(apply, status);
+      }, 500);    
+      
+    })
+    .catch(() => {
+      // on cancel
+    });
+ 
   },
+  checknum(item,apply){
+    console.log(item);
+    console.log(apply);
+    if(apply.company==undefined||apply.company==''){
+      return "未选择开票单位";
+    }
+    if(apply.company1==undefined||apply.company1==''||apply.company1.accountcode==''||apply.company1.accountcode==undefined){
+      return "对方单位信息有误";
+    }
+
+    if(apply.  type==undefined||apply.  type==''){
+      return "票据种类未选择";
+    }
+  
+    var orderitem =[];
+    for(var i in item ){
+      var obj ={}
+      var detailList =[];
+      var taxno =item[i].taxno 
+      obj.taxno =taxno;
+      var detail={}
+      let name =item[i].name;
+      if(name==''||name==undefined){
+        return "开票项第"+i+"项,项目名为空"
+      }
+      detail.name =name;
+      detail.money =item[i].money;
+      detail.model =item[i].model;
+      let number =item[i].number
+      if(number==''||number==undefined){
+        return "开票项第"+i+"项,数量为空"
+      }else{
+        if(isNaN(number)){
+          return "开票项第"+i+"项,数量填的不是数字"
+        }
+      }
+      detail.number =number;
+      let tax =item[i].tax;
+      if((tax==''||tax==undefined)&&tax!=0){
+        return "开票项第"+i+"项,税率为空"
+      }else{
+        if(isNaN(tax)){
+          return "开票项第"+i+"项,税率填的不是数字"
+        }
+      }
+      detail.tax =tax;
+      detail.unit =item[i].unit;
+      let unitprice  =item[i].unitprice;
+      if(unitprice==''||unitprice==undefined){
+        return "开票项第"+i+"项,单价为空"
+      }else{
+        if(isNaN(unitprice)){
+          return "开票项第"+i+"项,单价填的不是数字"
+        }
+      }
+      detail.unitprice = unitprice
+      detail.cancel =item[i].cancel;
+      detailList.push(detail);
+      obj.detailList =detailList
+      if(orderitem.length==0){
+        orderitem.push(obj);
+      }else{
+        var flag =true;
+        for(var j in orderitem){
+          if(obj.taxno ==orderitem[j].taxno){
+            orderitem[j].detailList.push(detail);
+            flag=false;
+            break;
+          }
+        }
+        if(flag){
+         orderitem.push(obj);
+        }
+      }
+   }
+   console.log(orderitem)
+   var str=''
+   for(var i in orderitem){
+      var obj = orderitem[i];
+      str += "票号"+obj.taxno +"\n"
+      for(var j in orderitem[i].detailList){
+          var item =orderitem[i].detailList[j]
+           str+='  项目名'+item.name
+           str+='  数量'+item.number
+           str+='  单价'+item.unitprice
+           str+='  金额'+item.money
+           str+='  税率'+item.tax+"\n"
+      }
+   }
+   console.log(str);
+   this.setData({
+     str:str
+   })
+   return "检验正确";
+  },
+  
+  checkconfirm(apply,status){
+    Dialog.confirm({
+      title: '发票确认',
+      message: '发票开具后是否需要手动确认',
+    })
+    .then(() => {
+      // on confirm
+      console.log("需要")
+      apply.commit = "是"
+      this.Checkcommit(apply, status)
+    })
+    .catch(() => {
+      // on cancel
+      console.log("不需要")
+      apply.commit = "否"
+      this.Checkcommit(apply, status)
+    });
+  },
+  
+
   Checkcommit(apply, status) {
     this.setData({
       apply: apply

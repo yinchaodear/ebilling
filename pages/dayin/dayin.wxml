@@ -72,7 +72,7 @@
          </view>
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>单价</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  type="number" data-name="unitprice" placeholder="填写单价"  value="{{item.unitprice}}" ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   data-name="unitprice" placeholder="填写单价"  value="{{item.unitprice}}" ></input>
          </view>
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>数量</view>
@@ -85,7 +85,7 @@
       </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>税率(%)</view>
-        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'  type="number" data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
+        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'   data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
       </view>
       <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
         删除此项
