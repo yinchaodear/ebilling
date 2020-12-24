@@ -18,8 +18,13 @@ Page({
     endtime:'',
     companyname:'',
     ordermoney:'',
-    condition:'是'
- 
+    condition:'是',
+    type:"",
+    types: [
+      '普票','专票','代开专票','机动车发票','通用机打','电子普票'
+    ],
+    version:"",
+    versions:[]
   },
 
   del(){
@@ -33,6 +38,8 @@ Page({
       pagesize:10,
       load:true,
       end:false,
+      type:"",
+      version:"",
     })
   },
 
@@ -55,12 +62,21 @@ Page({
       condition: this.data.array[e.detail.value]
     })
   },
+  
   bindEndtimeDateChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       endtime: e.detail.value
     })
   },
+  
+  bindTypeDateChange:function(e){
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      type: this.data.types[e.detail.value]
+    })
+  },
+  
 
   onClose() {
     this.setData({ show: false });
@@ -71,11 +87,14 @@ Page({
   },
 
   sure(){
-   
      this.onClose();  
-     this.SalesOrderStatics();
+     if(this.data.flag==0){
+       this.SalesOrderStatics();
+     }else{
+       this.hasinvoiceStatistic();
+     }
+     
   },
-
 
   //这上面都是查询条件相关的东西
 
@@ -85,7 +104,7 @@ Page({
     json.endtime = this.data.endtime;
     json.companyname =this.data.companyname;
     json.condition =this.data.condition;
-    var jsonstr =JSON.stringify(json)
+    var jsonstr = JSON.stringify(json)
      salesorder.SalesOrderStatics(this.data.company.id,jsonstr).then(res=>{
           if(res.data.msg==true){
             this.compareprice(res.data.list[0],res.data.list1[0],res.data.list2[0],res.data.list3[0])
@@ -97,6 +116,21 @@ Page({
             })
           }
      })
+  },
+  
+  hasinvoiceStatistic(){
+    var json = {}
+    json.type = this.data.type;
+    json.version = this.data.version;
+    var jsonstr = JSON.stringify(json)
+    salesorder.HasinvoiceStatistic(this.data.company.id, jsonstr).then(res=>{
+          if(res.data.msg==true){
+            let stats = res.data.stats[0];
+            this.setData({
+              quantityStats:stats
+            })
+          }
+    })
   },
   
   compareprice(list,list1,list2,list3){
@@ -211,10 +245,14 @@ Page({
   
 
   change(e){
-    
     this.setData({
       flag: e.currentTarget.dataset.index
     })
+    if(e.currentTarget.dataset.index==1){
+      this.hasinvoiceStatistic();
+    }else{
+      this.SalesOrderStatics();
+    }
   },
   /**
    * 生命周期函数--监听页面加载

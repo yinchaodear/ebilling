@@ -15,7 +15,6 @@ Page({
     wheres:''
   },
   searchInput(e){
-    debugger;
     let search = e.detail.value
     this.setData({
       search:search
