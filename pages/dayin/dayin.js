@@ -56,9 +56,6 @@ Page({
     var value = e.detail.value;
     var ItemList = this.data.ItemList;
     ItemList[index][name] = value;
-    if(ItemList[index].number==undefined||ItemList[index].number==''){
-      ItemList[index].number =1
-    }
     if (ItemList[index].number != '' && ItemList[index].unitprice != '') {
       ItemList[index].money = ItemList[index].number * ItemList[index].unitprice
     }
@@ -289,16 +286,29 @@ Page({
    */
   onLoad: function (options) {
     if (options.orderid) {
-      this.GetSalesOrderInfo(options.orderid);
+      if(options.again=='true'){
+        this.GetSalesOrderInfo(options.orderid,true);
+      }else{
+        this.GetSalesOrderInfo(options.orderid,false);
+      }
+     
     }
   },
 
-  GetSalesOrderInfo(id) {
+  GetSalesOrderInfo(id,flag) {
     salesorder.GetSalesOrderInfo(id).then(res => {
       if (res.data.msg == true) {
+        var apply =res.data.orderdetail;
+        var ItemList = res.data.orderitem;
+        if(flag==true){
+          apply.id='';
+          for(var i in ItemList){
+            ItemList[i].id =''
+          }
+        }
         this.setData({
-          apply: res.data.orderdetail,
-          ItemList: res.data.orderitem
+          apply,
+          ItemList
         })
       }
     })

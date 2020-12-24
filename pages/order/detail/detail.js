@@ -25,6 +25,8 @@ Page({
     cancelimglist:[],
     FapiaoList:[]
   },
+  
+
 
   showimage(e){
     console.log(e);
@@ -219,22 +221,28 @@ Page({
   takeIt(e) {
     router.navigateTo("/pages/dayin/dayin?orderid="+this.data.detail.id);
   },
+
+  applyagain(){
+    router.navigateTo("/pages/dayin/dayin?orderid="+this.data.detail.id+"&again=true");
+  },
  
   cancel() {
     Dialog.confirm({
       title: '发票确认',
       message: '开具发票是否有问题',
-      confirmButtonText:"无",
-      cancelButtonText:"有"
+      cancelButtonText:"无",
+      confirmButtonText:"有"
+  
     })
     .then(() => {
       // on confirm
-       console.log("没问题")
-       this.ChangeOrderConfirmStatus();
+      console.log("有问题")
     })
     .catch(() => {
       // on cancel
-      console.log("有问题")
+      
+      console.log("没问题")
+      this.ChangeOrderConfirmStatus();
     });
 
   },
@@ -260,10 +268,41 @@ Page({
   GetSalesOrderInfo(ID){
     salesorder.GetSalesOrderInfo(ID).then(res=>{
       if(res.data.msg==true){
-        this.setData({
-          detail:res.data.orderdetail,
-          orderitem:res.data.orderitem,
-        })
+        let orderitem =[]
+        var item  =res.data.orderitem;
+        for(var i in item ){
+           var obj ={}
+           var detailList =[];
+           var taxno =item[i].taxno
+           obj.taxno =taxno;
+           var detail={}
+           detail.name =item[i].name;
+           detail.money =item[i].money;
+           detail.model =item[i].model;
+           detail.number =item[i].number;
+           detail.tax =item[i].tax;
+           detail.unit =item[i].unit;
+           detail.unitprice =item[i].unitprice;
+           detail.cancel =item[i].cancel;
+           detailList.push(detail);
+           obj.detailList =detailList
+           if(orderitem.length==0){
+             orderitem.push(obj);
+           }else{
+             var flag =true;
+             for(var j in orderitem){
+               if(obj.taxno ==orderitem[j].taxno){
+                 orderitem[j].detailList.push(detail);
+                 flag=false;
+                 break;
+               }
+             }
+             if(flag){
+              orderitem.push(obj);
+             }
+           }
+        }
+        console.log(orderitem)
         var cancelimglist = this.data.cancelimglist;
         var  FapiaoList  =this.data.FapiaoList;
         for(var i in res.data.cancelimglist){
@@ -276,7 +315,9 @@ Page({
        
         this.setData({
           cancelimglist,
-          FapiaoList
+          FapiaoList,
+          detail:res.data.orderdetail,
+          orderitem
         })
         
 

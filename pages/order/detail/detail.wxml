@@ -35,15 +35,18 @@
        <view class='fo-26 ma-t30 fo-g color-1' wx:if="{{detail.cancel!=null}}" >作废状态：{{detail.cancel}}</view> 
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
-    <view class='fo-26 ma-t10 fo-g'>开票项：{{item.name}}</view>
-     <view class='fo-26 ma-t10 fo-g'>规格型号：{{item.model}}</view>
-     <view class='fo-26 ma-t10 fo-g'>单位：{{item.unit}}</view>
-     <view class='fo-26 ma-t10 fo-g'>发票抬头：{{item.taxno}}</view>
-    <view class='fo-26 ma-t10 fo-g'>单价：{{item.unitprice}}</view>
-    <view class='fo-26 ma-t10 fo-g'>数量：{{item.number}}</view>
-    <view class='fo-26 ma-t10 fo-g'>开票金额：{{item.money}}</view>
-    <view class='fo-26 ma-t10 fo-g'>税率：{{item.tax}}</view>
-     <view class='fo-26 ma-t10 fo-g color-1' wx:if='{{item.cancel!=null}}'>作废状态：{{item.cancel}}</view>
+     <view class='fo-28 bold ma-t10 fo-g'>发票抬头：{{item.taxno}}</view>
+    <view class="orderitem-1" wx:for='{{item.detailList}}' wx:for-item="item1" >
+     <view class='fo-26 ma-t10 fo-g'>开票项名称：{{item1.name}}</view>
+     <view class='fo-26 ma-t10 fo-g'>规格型号：{{item1.model}}</view>
+     <view class='fo-26 ma-t10 fo-g'>单位：{{item1.unit}}</view>
+    
+    <view class='fo-26 ma-t10 fo-g'>单价：{{item1.unitprice}}</view>
+    <view class='fo-26 ma-t10 fo-g'>数量：{{item1.number}}</view>
+    <view class='fo-26 ma-t10 fo-g'>开票金额：{{item1.money}}</view>
+    <view class='fo-26 ma-t10 fo-g'>税率：{{item1.tax}}</view>
+     <view class='fo-26 ma-t10 fo-g color-#ff89651' wx:if='{{item1.cancel!=null}}'>作废状态：{{item1.cancel}}</view>
+     </view>
     </view>
 
   
@@ -137,8 +140,8 @@
 <view class='fix-b panel-end itme-center'>
   <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<1)}}" > 继续编辑</view>
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
-  <view class='bzbtn3 '  data-title='{{list.title}}' data-id='{{list.id}}' data-price='{{list.total_fee}}' bindtap='showPopup1'>补充照片</view> 
-  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>确认收货</view>
+  <view class='bzbtn3 '    bindtap='applyagain'>再次开票</view> 
+  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>确认无误</view>
 </view>
 
 
