@@ -107,9 +107,11 @@ Page({
     var jsonstr = JSON.stringify(json)
      salesorder.SalesOrderStatics(this.data.company.id,jsonstr).then(res=>{
           if(res.data.msg==true){
-            this.compareprice(res.data.list[0],res.data.list1[0],res.data.list2[0],res.data.list3[0])
+            this.compareprice(res.data.list[0],res.data.list1[0],res.data.list2[0],res.data.list3[0],res.data.startTime, res.data.endTime)
             this.setData({
               usualcount:{
+                starttime:res.data.startTime.total,
+                endtime:res.data.endTime.total,
                 text:"￥"+(res.data.list4[0].totalmoney==null?0:res.data.list4[0].totalmoney)
               }
             })
@@ -132,17 +134,26 @@ Page({
     })
   },
   
-  compareprice(list,list1,list2,list3){
+  compareprice(list,list1,list2,list3,startTime,endTime){
       this.setData({
         month:{
+          starttime:startTime.month,
+          endtime:endTime.month,
           text:"￥"+list.totalmoney
         },
         quarter:{
+          starttime:startTime.quarter,
+          endtime:endTime.quarter,
           text:"￥"+list1.totalmoney
         },
         year:{
+          starttime:startTime.year,
+          endtime:endTime.year,
           text:"￥"+list2.totalmoney
-        },month12:{
+        },
+        month12:{
+          starttime:startTime.month12,
+          endtime:endTime.month12,
           text:"￥"+list3.totalmoney
         }
       })
@@ -151,7 +162,31 @@ Page({
 
   navTo(e) {
     var path = e.currentTarget.dataset.path;
-    router.navigateTo(path);
+    var type = e.currentTarget.dataset.type;
+    let starttime = "";
+    let endtime = "";
+    if(type==="month"){
+      starttime = this.data.month.starttime;
+      endtime = this.data.month.endtime;
+    }else if(type==="quarter"){
+      starttime = this.data.quarter.starttime;
+      endtime = this.data.quarter.endtime;
+    }else if(type==="year"){
+      starttime = this.data.year.starttime;
+      endtime = this.data.year.endtime;
+    }else if(type==="month12"){
+      starttime = this.data.month12.starttime;
+      endtime = this.data.month12.endtime;
+    }else if(type==="total"){
+      starttime = this.data.total.starttime;
+      endtime = this.data.total.endtime;
+    }
+    
+    wx.setStorageSync('starttime', starttime);
+    wx.setStorageSync('endtime', endtime);
+    
+    router.switchTab(path);
+    
   },
 
   bindDateChangeStart(e){
