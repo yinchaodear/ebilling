@@ -116,8 +116,13 @@
         <input class='fo-30 text-right' name="des" data-type='remark' bindinput="companyname" value="{{companyname}}"  placeholder='对方单位名称'></input>
        
   </view>
-   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="submit">确定</button>
-   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="del">置空</button>
+<!--   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="submit">确定</button>-->
+<!--   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="del">置空</button>-->
+    
+    <view style="text-align: center;margin: 25px">
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:130px;" type="primary" size="mini" bindtap="del">重置</button>
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:130px;margin-left: 40px" type="primary" size="mini" bindtap="submit">确定</button>
+    </view>
   </view>
 
 </van-popup>
