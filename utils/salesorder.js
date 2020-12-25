@@ -14,8 +14,6 @@ const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
 const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
 const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
 const HasinvoiceStatisticUrl = 'ebilling/salesorder/hasinvoiceStatistic'
-
-const CancelApplyUrl ='ebilling/salesorder/cancelapply'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
 function CancelApply(oid,taxno){
   var params={
@@ -255,6 +253,5 @@ module.exports = {
   ChangeOrderConfirmStatus,
   CancelApply,
   InvoiceOperationList,
-  CancelApply,
   HasinvoiceStatistic
 }
