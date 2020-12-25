@@ -1,0 +1,47 @@
+<!-- <view class='ft'>
+  <view class="f-item" wx:for="{{tags}}" wx:key="{{index}}" data-index='{{index}}' bindtap='changeTag'>
+    <view class='{{index == tagFlag?"fo-m":""}}'>{{item}}</view>
+    <view class='nlin' wx:if="{{index == tagFlag}}"></view>
+  </view>
+</view>
+<view style="height:80rpx;"></view> -->
+
+<!-- <view class='panel-around pa-30'>
+  <view >
+    <view class='fo-30 text-center'>支出(元)</view>
+    <view class='fo-36 bold text-center'>156</view>
+  </view>
+  <view >
+    <view class='fo-30 text-center'>数量(个)</view>
+    <view class='fo-36 bold text-center'>5</view>
+  </view>
+</view> -->
+
+<view class='panel panel-between pa-30 border-b' wx:for='{{list}}'  data-id='{{item.id}}' bindtap="navTo">
+  <view>
+    <view class='fo-28 fo-g'>标题:{{item.title}}</view>
+    <view class='fo-28 ell' style='width:500rpx; padding-top: 5px'>{{item.content}}</view>
+    <view class='fo-24 fo-g' style='padding-top: 5px'>{{item.sendTime}}</view>
+  </view>
+  <view>
+    <view class='fo-28 fo-g'>{{item.status}}</view>
+  </view>
+</view>
+
+
+
+<view class='text-center' wx:if="{{list.length == 0 && loading == false }}">
+  <image src='/img/none.png' style='width:180rpx;height:180rpx'></image>
+  <view class='fo-g fo-26 text-center'>-- 暂无数据 --</view>
+</view>
+
+<view class="panel-center item-center" wx:if="{{end==false && loading==true}}" style='margin-top:20rpx'>
+  <view class="three-quarters-loader">Loading</view>
+  <view class="loading-txt">加载中...</view>
+</view> 
+
+<view class="panel-center item-center" wx:if="{{end==true}}" style='padding:30rpx;padding-top:0 '>
+  <view class='fg1'></view>
+  <view class='fg2'>我是有底线的</view>
+  <view class='fg1'></view>
+</view>

@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/order/order",
+    "pages/message/message",
     "pages/mine/mine",
     "pages/mine/info/info",
     "pages/mine/address/address",
@@ -14,6 +15,7 @@
     "pages/dayin/dayin",
     "pages/dayin/dy/dy",
     "pages/banzu/banzu",
+    "pages/message/detail/detail",
     "pages/order/detail/detail",
     "pages/register/register",
     "pages/mine/addressinfo/addressinfo",
@@ -47,7 +49,7 @@
         "selectedIconPath": "img/t8.png"
       },
       {
-        "pagePath": "pages/order/order",
+        "pagePath": "pages/message/message",
         "text": "系统消息",
         "iconPath": "img/t7.png",
         "selectedIconPath": "img/t8.png"

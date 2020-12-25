@@ -91,7 +91,7 @@ Page({
      if(this.data.flag==0){
        this.SalesOrderStatics();
      }else{
-       this.hasinvoiceStatistic();
+       this.InvoiceOperationStatistic();
      }
      
   },
@@ -118,18 +118,18 @@ Page({
      })
   },
   
-  hasinvoiceStatistic(){
+  InvoiceOperationStatistic(){
     var json = {}
     json.type = this.data.type;
     json.version = this.data.version;
     var jsonstr = JSON.stringify(json)
-    salesorder.HasinvoiceStatistic(this.data.company.id, jsonstr).then(res=>{
-          if(res.data.msg==true){
-            let stats = res.data.stats[0];
-            this.setData({
-              quantityStats:stats
-            })
-          }
+    salesorder.InvoiceOperationStatistic(this.data.company.id, jsonstr).then(res=>{
+      if(res.data.msg==true){
+        let stats = res.data.stats[0];
+        this.setData({
+          quantityStats:stats
+        })
+      }
     })
   },
   
@@ -249,7 +249,7 @@ Page({
       flag: e.currentTarget.dataset.index
     })
     if(e.currentTarget.dataset.index==1){
-      this.hasinvoiceStatistic();
+      this.InvoiceOperationStatistic();
     }else{
       this.SalesOrderStatics();
     }
