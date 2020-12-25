@@ -24,7 +24,8 @@
     <view class='fo-24 fo-g' style='padding-top: 5px'>{{item.sendTime}}</view>
   </view>
   <view>
-    <view class='fo-28 fo-g'>{{item.status}}</view>
+    <view class='fo-28 fo-g' wx:if="{{item.status=='未读'}}" style="color:red">{{item.status}}</view>
+    <view class='fo-28 fo-g' wx:if="{{item.status=='已读'}}" >{{item.status}}</view>
   </view>
 </view>
 
