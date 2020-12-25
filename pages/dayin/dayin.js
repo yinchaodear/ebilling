@@ -429,26 +429,21 @@ Page({
     //再进行 页面上字段的校验
     var status = e.currentTarget.dataset.status;
     var apply = this.data.apply;
-    apply.status = status;    
-    
-    var result = this.checknum(this.data.ItemList,apply)
-    console.log(result);
-    if(result!='检验正确'){
-      Notify({
-        message: result,
-        duration: 2000,
-      });
-      return;
-    }
+    apply.status = status; 
+    this.checkconfirm(apply)
+  },
+
+   confirmdata(apply){
+     var _this =this;
     Dialog.confirm({
-      title: '数据确认',
+      title: '开票总数:'+this.data.totalqutity+",开票总金额:"+this.data.totalmoney,
       message: this.data.str,
       messageAlign:"left"
     })
     .then(() => {
       // on confirm  
       setTimeout(() => {
-        _this.checkconfirm(apply, status);
+        _this.Checkcommit(apply, apply.status);
       }, 500);    
       
     })
@@ -457,23 +452,30 @@ Page({
     });
  
   },
+   
+
   checknum(item,apply){
     console.log(item);
     console.log(apply);
+    var str='';
     if(apply.company==undefined||apply.company==''){
       return "未选择开票单位";
     }
+    str +="开票单位:"+apply.company.accountname+"\n"
     if(apply.company1==undefined||apply.company1==''||apply.company1.accountcode==''||apply.company1.accountcode==undefined){
       return "对方单位信息有误";
     }
-
+    str +="开票单位:"+apply.company1.accountname +"\n\n"
     if(apply.type==undefined||apply.type==''){
       return "票据种类未选择";
     }
-   
-
+     
+    str +="票据种类:"+apply.type +"\n\n"
+  
   
     var orderitem =[];
+    var totalmoney =0;
+    var totalqutity =0;
     for(var i in item ){
       var obj ={}
       var detailList =[];
@@ -487,7 +489,6 @@ Page({
       }
       obj.taxno =taxno;
       var detail={}
-     
       detail.name =name;
       detail.money =item[i].money;
       detail.model =item[i].model;
@@ -509,6 +510,8 @@ Page({
         }
       }
       detail.number =number;
+      totalmoney+=item[i].money;
+
       let tax =item[i].tax;
       if(tax==''||tax==undefined||tax==0){
         return "开票项第"+(parseInt(i)+1)+"项,税率为空"
@@ -525,6 +528,7 @@ Page({
       obj.detailList =detailList
       if(orderitem.length==0){
         orderitem.push(obj);
+        totalqutity+=1;
       }else{
         var flag =true;
         for(var j in orderitem){
@@ -536,32 +540,51 @@ Page({
         }
         if(flag){
          orderitem.push(obj);
+         totalqutity+=1;
         }
       }
    }
+   if(apply.remark!=''&&apply.remark!=undefined){
+   str +="备注:"+apply.remark +"\n\n"
+   }
    if(apply.expressway==''||apply.expressway==undefined){
     return "取件方式未填";
+  }else{
+    str +="取件方式:"+apply.expressway +"\n"
   }
   if(apply.expressway=='邮寄'){
     if(apply.receipt==''||apply.receipt==undefined){
       return "取件人未填";
+    }else{
+      str +="收件人:"+apply.receipt +"\n"
     }
     if(apply.receiptel==''||apply.receiptel==undefined){
       return "取件人电话未填";
+    }else{
+      str +="收件电话:"+apply.receiptel +"\n"
     }
     if(apply.area==''||apply.area==undefined){
       return "取件地区未填";
+    }else{
+      str +="取件地区:"+apply.area +"\n"
     }
     if(apply.addressdetail==''||apply.addressdetail==undefined){
       return "取件详细地址未填";
+    }else{
+      str +="取件地址:"+apply.addressdetail +"\n"
     }
     if(apply.paytype==''||apply.paytype==undefined){
       return "付款方式未选择";
+    }else{
+      str +="付款方式:"+apply.paytype +"\n"
+      if(apply.paytype=='寄付'){
+        str +="运费:"+apply.expressmoney +"\n"
+      }
     }
   }
-
+  str +="\n"
    console.log(orderitem)
-   var str=''
+
    for(var i in orderitem){
       var obj = orderitem[i];
       str += "票号"+obj.taxno +"\n"
@@ -577,12 +600,25 @@ Page({
    }
    console.log(str);
    this.setData({
-     str:str
+     str:str,
+     totalmoney,
+     totalqutity
    })
    return "检验正确";
   },
   
-  checkconfirm(apply,status){
+  checkconfirm(apply){
+
+    var result = this.checknum(this.data.ItemList,apply)
+    console.log(result);
+    if(result!='检验正确'){
+      Notify({
+        message: result,
+        duration: 2000,
+      });
+      return;
+    }
+    var _this= this;
     Dialog.confirm({
       title: '发票确认',
       message: '发票开具后是否需要确认',
@@ -593,19 +629,23 @@ Page({
       // on confirm
       console.log("不需要")
       apply.commit = "否"
-      this.Checkcommit(apply, status)
+      setTimeout(() => {
+        _this.confirmdata(apply)
+      }, 500);
+    
    
     })
     .catch(() => {
       // on cancel
       console.log("需要")
       apply.commit = "是"
-      this.Checkcommit(apply, status)
+      setTimeout(() => {
+        _this.confirmdata(apply)
+      }, 500);
     });
   },
 
   InvoiceOperationList(){
-    debugger;
     var id =this.data.apply.company.id;
     var type =this.data.apply.type;
     salesorder.InvoiceOperationList(id,type).then(res=>{
@@ -632,7 +672,6 @@ Page({
     this.setData({
       apply: apply
     })
-
     wx.showLoading({
       title: '提交中',
     })

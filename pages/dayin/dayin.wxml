@@ -83,7 +83,7 @@
          </view>
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>数量</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   type="number"  data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'     data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
          </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>对应金额</view>
