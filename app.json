@@ -7,6 +7,7 @@
     "pages/mine/address/address",
     "pages/area/area",
     "pages/login/login",
+    "pages/loginbyuser/login",
     "pages/payment/payment",
     "pages/other/other",
     "pages/daiqu/daiqu",
@@ -26,7 +27,7 @@
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "开票系统",
+    "navigationBarTitleText": "横竖湾一键智能发票通",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
