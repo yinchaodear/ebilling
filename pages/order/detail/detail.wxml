@@ -35,7 +35,8 @@
        <view class='fo-26 ma-t30 fo-g color-1' wx:if="{{detail.cancel!=null}}" >作废状态：{{detail.cancel}}</view> 
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
-     <view class='fo-28 bold ma-t10 fo-g'>发票抬头：{{item.taxno}}</view>
+     <view class='fo-28 bold ma-t10 fo-g' wx:if="{{item.cancel==null||item.cancel==''}}" >发票抬头：{{item.taxno}}</view>
+      <view class='fo-28 bold ma-t10 fo-g color-1' wx:if="{{item.cancel!=null&&item.cancel!=''}}" >发票抬头：{{item.taxno}}({{item.cancel}})</view>
     <view class="orderitem-1" wx:for='{{item.detailList}}' wx:for-item="item1" >
      <view class='fo-26 ma-t10 fo-g'>开票项名称：{{item1.name}}</view>
      <view class='fo-26 ma-t10 fo-g'>规格型号：{{item1.model}}</view>

@@ -13,7 +13,7 @@ const KaiPiaoJudgeUrl = 'ebilling/salesorder/kaipiaojudge'
 const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
 const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
 const CancelApplyUrl ='ebilling/salesorder/cancelapply'
-
+const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
 function CancelApply(oid,taxno){
   var params={
     url: CancelApplyUrl,
@@ -205,6 +205,21 @@ function SalesOrderStatics(cid,json){
 }
 
 
+function InvoiceOperationList(cid,type){
+  var params={
+    url: InvoiceOperationListUrl,
+    data:{
+    cid,type
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 
 
@@ -221,5 +236,6 @@ module.exports = {
   KaiPiaoJudge,
   SalesOrderStatics,
   ChangeOrderConfirmStatus,
-  CancelApply
+  CancelApply,
+  InvoiceOperationList
 }

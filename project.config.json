@@ -410,6 +410,12 @@
 					"pathName": "pages/order/detail/detail",
 					"query": "orderid=5",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/loginbyuser/login",
+					"pathName": "pages/loginbyuser/login",
+					"scene": null
 				}
 			]
 		}

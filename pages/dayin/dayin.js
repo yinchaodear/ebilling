@@ -5,6 +5,7 @@ const salesorder = require('../../utils/salesorder')
 const company = require("../../utils/company")
 import Notify from '../../dist/notify/notify';
 import Dialog from '../../dist/dialog/dialog';
+const originList =["001","002","003","004","005","006","007","008"]
 let _this;
 Page({
 
@@ -21,7 +22,34 @@ Page({
     activeNames2: ['1'],
     ItemList: [{}],
     forbidden: false,
-    message: ""
+    message: "",
+    FapiaoList:['1','2'],
+  },
+
+  bindtaxChange:function(e){
+    console.log(e);
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    var index = e.currentTarget.dataset.index;
+    var value =e.detail.value;
+    var ItemList = this.data.ItemList;
+    let quantity =0;
+    for(var i in ItemList){
+        if(this.data.FapiaoList[value]==ItemList[i].taxno){
+          quantity++;
+        }
+    }
+    if(quantity>7){
+      Notify({
+        message:"票号为"+this.data.FapiaoList[value] +"的开票项已超过8条",
+        duration: 2000,
+      });
+      return;
+    }
+    ItemList[index]['taxno'] = this.data.FapiaoList[value];
+    this.setData({
+      ItemList: ItemList
+    })
+ 
   },
 
   bindRegionChange: function (e) {
@@ -40,10 +68,10 @@ Page({
   additem() {
     var obj = {};
     var ItemList = this.data.ItemList;
-    if (ItemList.length == 8) {
-      Toast.showToast("最多添加8项");
-      return;
-    }
+    // if (ItemList.length == 8) {
+    //   Toast.showToast("最多添加8项");
+    //   return;
+    // }
     ItemList.push(obj)
     this.setData({
       ItemList: ItemList
@@ -207,10 +235,12 @@ Page({
     console.log(event.detail.name);
     var apply = this.data.apply;
     if (this.data.title == '票据种类') {
+      
       apply.type = event.detail.name
       this.setData({
         apply: apply
       })
+      this.InvoiceOperationList();
     } else if (this.data.title == '取件方式') {
       if (event.detail.name == '邮寄' && this.data.apply.company1) {
         //查找对方单位的默认地址
@@ -310,6 +340,7 @@ Page({
           apply,
           ItemList
         })
+        this.InvoiceOperationList()
       }
     })
   },
@@ -320,7 +351,8 @@ Page({
     wx.removeStorageSync('address');
   },
 
-  KaiPiaoJudge(cid) {
+  KaiPiaoJudge() {
+    var cid = this.data.apply.company.id;
     salesorder.KaiPiaoJudge(cid).then(res => {
       if (res.data.msg == true) {
 
@@ -348,7 +380,7 @@ Page({
       this.setData({
         apply: apply
       })
-      this.KaiPiaoJudge(company.id);
+      this.KaiPiaoJudge();
     }
     if (company1) {
       var apply = this.data.apply;
@@ -435,52 +467,59 @@ Page({
       return "对方单位信息有误";
     }
 
-    if(apply.  type==undefined||apply.  type==''){
+    if(apply.type==undefined||apply.type==''){
       return "票据种类未选择";
     }
+   
+
   
     var orderitem =[];
     for(var i in item ){
       var obj ={}
       var detailList =[];
-      var taxno =item[i].taxno 
-      obj.taxno =taxno;
-      var detail={}
       let name =item[i].name;
       if(name==''||name==undefined){
-        return "开票项第"+i+"项,项目名为空"
+        return "开票项第"+(parseInt(i)+1)+"项,项目名为空"
       }
+      var taxno =item[i].taxno 
+      if(taxno==''||taxno==undefined){
+        return "开票项第"+(parseInt(i)+1)+"项,发票号未选择"
+      }
+      obj.taxno =taxno;
+      var detail={}
+     
       detail.name =name;
       detail.money =item[i].money;
       detail.model =item[i].model;
+      let unitprice  =item[i].unitprice;
+      if(unitprice==''||unitprice==undefined){
+        return "开票项第"+(parseInt(i)+1)+"项,单价为空"
+      }else{
+        if(isNaN(unitprice)){
+          return "开票项第"+(parseInt(i)+1)+"项,单价填的不是数字"
+        }
+      }
+      detail.unitprice = unitprice
       let number =item[i].number
       if(number==''||number==undefined){
-        return "开票项第"+i+"项,数量为空"
+        return "开票项第"+(parseInt(i)+1)+"项,数量为空"
       }else{
         if(isNaN(number)){
-          return "开票项第"+i+"项,数量填的不是数字"
+          return "开票项第"+(parseInt(i)+1)+"项,数量填的不是数字"
         }
       }
       detail.number =number;
       let tax =item[i].tax;
-      if((tax==''||tax==undefined)&&tax!=0){
-        return "开票项第"+i+"项,税率为空"
+      if(tax==''||tax==undefined||tax==0){
+        return "开票项第"+(parseInt(i)+1)+"项,税率为空"
       }else{
         if(isNaN(tax)){
-          return "开票项第"+i+"项,税率填的不是数字"
+          return "开票项第"+(parseInt(i)+1)+"项,税率填的不是数字"
         }
       }
       detail.tax =tax;
       detail.unit =item[i].unit;
-      let unitprice  =item[i].unitprice;
-      if(unitprice==''||unitprice==undefined){
-        return "开票项第"+i+"项,单价为空"
-      }else{
-        if(isNaN(unitprice)){
-          return "开票项第"+i+"项,单价填的不是数字"
-        }
-      }
-      detail.unitprice = unitprice
+   
       detail.cancel =item[i].cancel;
       detailList.push(detail);
       obj.detailList =detailList
@@ -500,6 +539,27 @@ Page({
         }
       }
    }
+   if(apply.expressway==''||apply.expressway==undefined){
+    return "取件方式未填";
+  }
+  if(apply.expressway=='邮寄'){
+    if(apply.receipt==''||apply.receipt==undefined){
+      return "取件人未填";
+    }
+    if(apply.receiptel==''||apply.receiptel==undefined){
+      return "取件人电话未填";
+    }
+    if(apply.area==''||apply.area==undefined){
+      return "取件地区未填";
+    }
+    if(apply.addressdetail==''||apply.addressdetail==undefined){
+      return "取件详细地址未填";
+    }
+    if(apply.paytype==''||apply.paytype==undefined){
+      return "付款方式未选择";
+    }
+  }
+
    console.log(orderitem)
    var str=''
    for(var i in orderitem){
@@ -513,6 +573,7 @@ Page({
            str+='  金额'+item.money
            str+='  税率'+item.tax+"\n"
       }
+      str+="\n"
    }
    console.log(str);
    this.setData({
@@ -524,20 +585,46 @@ Page({
   checkconfirm(apply,status){
     Dialog.confirm({
       title: '发票确认',
-      message: '发票开具后是否需要手动确认',
+      message: '发票开具后是否需要确认',
+      confirmButtonText:"否",
+      cancelButtonText:"是"
     })
     .then(() => {
       // on confirm
-      console.log("需要")
-      apply.commit = "是"
-      this.Checkcommit(apply, status)
-    })
-    .catch(() => {
-      // on cancel
       console.log("不需要")
       apply.commit = "否"
       this.Checkcommit(apply, status)
+   
+    })
+    .catch(() => {
+      // on cancel
+      console.log("需要")
+      apply.commit = "是"
+      this.Checkcommit(apply, status)
     });
+  },
+
+  InvoiceOperationList(){
+    debugger;
+    var id =this.data.apply.company.id;
+    var type =this.data.apply.type;
+    salesorder.InvoiceOperationList(id,type).then(res=>{
+          var FapiaoList =[];
+           if(res.data.msg==true){
+            if(res.data.list.length>0){
+              for(var i in res.data.list){
+                FapiaoList.push(res.data.list[i].taxNo)
+               }
+            }else{
+              FapiaoList=originList;
+            }
+           }else{
+            FapiaoList=originList
+          }
+           this.setData({
+            FapiaoList
+           })
+    })
   },
   
 

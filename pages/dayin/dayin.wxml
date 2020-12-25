@@ -19,7 +19,7 @@
         <input class='fo-30 text-right' name="no" style='width:450rpx' placeholder='(原件上传后会生成原件号码)'></input>
       </view> -->
 
-      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/area/area' bindtap='navTo'>
+      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/area/area' >
         <view class='fo-30'>开票单位</view>
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{apply.company? apply.company.accountname:'请选择'}}</view>
@@ -50,17 +50,24 @@
   bind:close="onClose"
 />    
 <van-collapse value="{{ activeNames }}" accordion='true'  bind:change="onItemChange">
-  <van-collapse-item title="开票项" name="1"  value ="最多添加8项">
+  <van-collapse-item title="开票项" name="1"  value ="1个票号最多8个开票项">
   <view class="pannel-item" wx:for='{{ItemList}}'>
+      <view class='pa-t30 pa-b20 item-center border-b'  >
+        <view class='fo-26  color-1' style="text-align:center">开票项({{index+1}})</view>
+      
+         </view>
      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>项目名</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
          </view>
+          <picker mode="selector" data-index='{{index}}'  range="{{FapiaoList}}"  bindchange="bindtaxChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            
              <view class='fo-26'>发票号</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写发票号"  value="{{item.taxno}}" ></input>
+            
          </view>
-
+            </picker>
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>规格型号</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="model" placeholder="填写规格型号"  value="{{item.model}}" ></input>

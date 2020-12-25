@@ -101,6 +101,10 @@ Page({
       }
       if(flag){
         app.globalData.Toast.showToast("上传成功");
+        _this.setData({
+          cancelimglist:[],
+          FapiaoList:[]
+        })
         _this.onClose()
         _this.GetSalesOrderInfo(_this.data.detail.id);
       }else{
@@ -275,6 +279,7 @@ Page({
            var detailList =[];
            var taxno =item[i].taxno
            obj.taxno =taxno;
+           obj.cancel=item[i].cancel;
            var detail={}
            detail.name =item[i].name;
            detail.money =item[i].money;
@@ -306,7 +311,7 @@ Page({
         var cancelimglist = this.data.cancelimglist;
         var  FapiaoList  =this.data.FapiaoList;
         for(var i in res.data.cancelimglist){
-           cancelimglist.push(api.PicUrl("CancelApply",this.data.detail.id,res.data.cancelimglist[i].name))
+           cancelimglist.push(api.PicUrl("CancelApply",ID,res.data.cancelimglist[i].name))
         }
         for(var i in res.data.FapiaoList){
           var obj =res.data.FapiaoList[i];

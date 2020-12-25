@@ -21,11 +21,6 @@ Page({
     router.navigateTo(path);
   },
 
-  redirectTo(e){
-    var path = e.currentTarget.dataset.path;
-    router.redirectTo(path);
-  },
-
   ddinput(e){
   
     let name = e.currentTarget.dataset.name;
