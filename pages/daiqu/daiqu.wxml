@@ -135,15 +135,15 @@
             </view>
         </picker>
         
-        <picker mode="selector"  range="{{array}}"  bindchange="bindVersionDateChange" >
-            <view class='pa-t30 pa-b30 panel-between item-center border-b' >
-                <view class='fo-30'>版本</view>
-                <view class='panel-end item-center'>
-                  <view class='fo-30 fo-g'>{{ version!=''? version:'请选择'}}</view>
-                  <image src='/img/right.png' class='icon-30 ma-l20'></image>
-                </view>
-            </view>
-        </picker>
+<!--        <picker mode="selector"  range="{{versions}}"  bindchange="bindVersionDateChange" >-->
+<!--            <view class='pa-t30 pa-b30 panel-between item-center border-b' >-->
+<!--                <view class='fo-30'>版本</view>-->
+<!--                <view class='panel-end item-center'>-->
+<!--                  <view class='fo-30 fo-g'>{{ version!=''? version:'请选择'}}</view>-->
+<!--                  <image src='/img/right.png' class='icon-30 ma-l20'></image>-->
+<!--                </view>-->
+<!--            </view>-->
+<!--        </picker>-->
         
         <view style="text-align: center;margin: 25px">
             <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:130px;" type="primary" size="mini" bindtap="del">重置</button>
