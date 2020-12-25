@@ -26,22 +26,25 @@ Page({
 
   companyinfostatic(){
       console.log("数据解析")
+  
       company.Parse(this.data.companystr).then(res=>{
         if(res.data.msg==true){
           var detail ={}
           var companyinfo =res.data.companyinfo 
           detail.address =  companyinfo.address
           detail.name =companyinfo.companyName
-          if(companyinfo.companyName!=null){
-            this.GetCompanyInfo(companyinfo.companyName);
-          }
           detail.code =companyinfo.taxno;
           detail.phone =companyinfo.phone;
           detail.bank =companyinfo.bank;
           detail.account =companyinfo.bankAccount;
+          detail.json =this.data.companystr
+          detail.isnew ="是"
           this.setData({
              detail
           })
+          if(companyinfo.companyName!=null){
+            this.GetCompanyInfo(companyinfo.companyName);
+          }
         }
 
       })
@@ -60,7 +63,6 @@ Page({
     })
   },
   GetCompanyInfo(name){
-    debugger
      var namenow=''
      if(typeof name =='string'){
          namenow=name;
@@ -85,7 +87,7 @@ Page({
           duration: 2000,
          });
        }else if(res.data.msg==false){
-         this.GetCompanyOtherInfo(res.data.id);
+         this.GetCompanyOtherInfo(res.data.id,false);
        }else if(res.data.msg=="error"){
         Notify({
           message: '企业名称数据传入有错误,企查查接口调用失败',
@@ -122,7 +124,7 @@ Page({
          duration: 2000,
         });
       }else if(res.data.msg==false){
-        this.GetCompanyOtherInfo(res.data.id);
+        this.GetCompanyOtherInfo(res.data.id,false);
       }else if(res.data.msg=="error"){
         Notify({
           message: '企业名称数据传入有错误,企查查接口调用失败',
@@ -259,7 +261,10 @@ Page({
       app.globalData.Toast.showToast("社会信用代码为空");
       return;
     }
-
+    if(detail.id ==''||detail.id==undefined){
+      detail.isnew=='是'
+    }
+    detail.json =this.data.companystr;
     detail.companyid = this.data.companyid
     company.QccCompany(detail.name,detail.code).then(res=>{
          if(res.data.msg==1){
@@ -309,13 +314,29 @@ Page({
 })
   },
   
-  GetCompanyOtherInfo(otherid){
+  GetCompanyOtherInfo(otherid,flag){
     company.GetCompanyOtherInfo(otherid).then(res=>{
       if(res.data.msg==true){
+        var detail =res.data.otherinfo[0]
+        var ItemList =res.data.addressinfo;
+        if(flag==false){
+            detail.id ='';
+            detail.phone='';
+            detail.addressinfo='';
+            detail.bank=''
+            detail.account=''
+            detail.address=''
+            ItemList = [{}]
+        }
+       
+        // detail.id ='';
+        // for(var i in res.data.addressinfo){
+        //   ItemList[i].id=''
+        // }
         this.setData({
           otherid:otherid,
-          detail:res.data.otherinfo[0],
-          ItemList:res.data.addressinfo
+          detail,
+          ItemList
         })
       }
    })

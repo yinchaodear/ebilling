@@ -9,7 +9,7 @@
       <image src='/img/right.png' class='icon-30 ma-l20'></image>
     </view>
   </view> -->
-    <view class="jiexi">
+    <view class="jiexi" wx:if="{{detail.id==''||detail.id==undefined}}">
      <textarea class="textarea-jiexi" bindinput="bindinputtextarea" placeholder="在此粘贴公司相关信息">
      </textarea>
      <button class="button-jiexi" bindtap="companyinfostatic">  解析</button>
@@ -23,9 +23,9 @@
        <view class='required'>*</view>
     </view>
     <!--bindblur="GetCompanyInfo"   bindconfirm="GetCompanyInfo"-->
-      <input class='fo-30 fo-g text-center' value='{{detail.name}}'    data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
+      <input class='fo-30 fo-g text-center' value='{{detail.name}}'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"   data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
      <view wx:for="{{searchlist}}" wx:if="{{searchlist.length>0}}" >
-        <view class='searchitem fo-26' bindtap="confirmname" data-name="{{item.f_companyname}}">{{item.f_companyname}}</view>
+        <view class='searchitem fo-26' bindtap="confirmname"  data-name="{{item.f_companyname}}">{{item.f_companyname}}</view>
      </view>
   </view>
 
@@ -36,7 +36,7 @@
        <view class='required'>*</view>
     </view>
     
-      <input class='fo-30 fo-g text-center' bindfocus="GetCompanyInfo" value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
+      <input class='fo-30 fo-g text-center'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"    bindfocus="GetCompanyInfo" value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
   
   </view>
   
@@ -130,7 +130,13 @@
       </view>
 </van-collapse>
     
+<view  class="" >
+  <view class='fo-26'>公司信息图片</view>
+   <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+</view>
   
+
+
 
 
 
@@ -141,3 +147,4 @@
 
 
 <van-notify id="van-notify" />
+<van-dialog id="van-dialog" />

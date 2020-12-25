@@ -15,6 +15,8 @@
      <view class='fo-30'>社会信用代码 :{{item.accountcode }}</view>
      <view class='fo-30'>开户银行 :{{item.bank }}</view>
       <view class='fo-30'>银行账号 :{{item.bankaccount}}</view>
+      <view class='fo-30' wx:if="{{from=='index'}}">开票单位 :{{item.comaccountname}}</view>
+    
     <view class='panel-between item-center ma-t20'>
       <view>
         <!-- <view class='panel-start item-center' wx:if="{{item.id == defId}}">

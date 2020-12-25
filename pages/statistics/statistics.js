@@ -246,7 +246,7 @@ Page({
    */
   onShareAppMessage: function () {
     return {
-      title:'互帮互助代替你',
+      title:'横竖湾一键智能发票通',
       path:'/pages/index/index'
     }
   }

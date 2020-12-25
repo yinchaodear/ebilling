@@ -3,6 +3,10 @@
   "usingComponents": {
     "van-collapse": "../../../dist/collapse/index",
     "van-collapse-item": "../../../dist/collapse-item/index",
-    "van-notify": "../../../dist/notify/index"
+    "van-notify": "../../../dist/notify/index",
+    "van-dialog": "../../../dist/dialog/index",
+    "van-grid": "../../../dist/grid/index",
+    "van-grid-item": "../../../dist/grid-item/index",
+    "van-uploader": "../../../dist/uploader/index"
   }
 }
