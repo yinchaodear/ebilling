@@ -20,26 +20,26 @@
         
         <!-- 金额 -->
         <view wx:if="{{flag==0&&starttime==''&&endtime==''}}">
-            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
+            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="month" bindtap="navTo">
               <view class='fo-30'>本月累计</view>
                 <view>{{month.text}}</view>
             </view> 
-            <view class='pa-t30 panel-between item-center border-b pa-b20'>
+            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="quarter" bindtap="navTo">
                 <view class='fo-30'>本季度累计</view>
                 <view>{{quarter.text}}</view>
             </view> 
-                <view class='pa-t30 panel-between item-center border-b pa-b20'>
+                <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="year" bindtap="navTo">
                 <view class='fo-30'>本年累计</view>
                 <view>{{year.text}}</view>
             </view> 
-                <view class='pa-t30 panel-between item-center border-b pa-b20'>
+                <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="month12" bindtap="navTo">
                 <view class='fo-30'>12个月累计</view>
                 <view>{{month12.text}}</view>
             </view> 
         </view>
         
         <view wx:if="{{flag==0&&(starttime!=''||endtime!='')}}">
-            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
+            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="total" bindtap="navTo">
                 <view class='fo-30'>累计</view>
                 <view>{{usualcount.text}}</view>
             </view> 
@@ -48,7 +48,7 @@
         
         <!-- 数量 -->
         <view wx:if='{{flag==1}}'>
-            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics' bindtap="navTo">
+            <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/statistics/statistics'>
                 <view class='fo-30'>剩余数量</view>
                 <view wx:if='{{quantityStats}}'>{{quantityStats.notOkCount}}/{{quantityStats.okCount}}</view>
             </view> 

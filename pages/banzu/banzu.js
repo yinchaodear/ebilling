@@ -225,12 +225,21 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    //可能是从统计跳转过来的
+    let starttime = wx.getStorageSync('starttime');
+    let endtime = wx.getStorageSync('endtime');
+    //用过一次就删掉
+    wx.removeStorageSync('starttime');
+    wx.removeStorageSync('endtime');
+    
     this.setData({
-      pageno:0,
-      pagesize:10,
-      load:true,
-      end:false,
-      list:[]
+        pageno:0,
+        pagesize:10,
+        load:true,
+        end:false,
+        list:[],
+        starttime,
+        endtime
     })
     this.SalesOrderList(this.data.type,this.data.text);
   },
