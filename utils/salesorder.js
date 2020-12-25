@@ -254,7 +254,7 @@ module.exports = {
   SalesOrderStatics,
   ChangeOrderConfirmStatus,
   CancelApply,
-  InvoiceOperationList
+  InvoiceOperationList,
   CancelApply,
   HasinvoiceStatistic
 }
