@@ -110,8 +110,7 @@ Page({
             this.compareprice(res.data.list[0],res.data.list1[0],res.data.list2[0],res.data.list3[0])
             this.setData({
               usualcount:{
-                value:100,
-                text:"￥"+res.data.list4[0].totalmoney==null?0:res.data.list4[0].totalmoney
+                text:"￥"+(res.data.list4[0].totalmoney==null?0:res.data.list4[0].totalmoney)
               }
             })
           }
@@ -134,33 +133,16 @@ Page({
   },
   
   compareprice(list,list1,list2,list3){
-      var max = 0;
-      if(list.totalmoney>max){
-        max =list.totalmoney
-      }
-      if(list1.totalmoney>max){
-        max =list1.totalmoney
-      }
-      if(list2.totalmoney>max){
-        max =list2.totalmoney
-      }
-      if(list3.totalmoney>max){
-        max =list3.totalmoney
-      }
       this.setData({
         month:{
-          value: parseInt(list.totalmoney/max*100),
           text:"￥"+list.totalmoney
         },
         quarter:{
-          value: parseInt(list1.totalmoney/max*100),
           text:"￥"+list1.totalmoney
         },
         year:{
-          value: parseInt(list2.totalmoney/max*100),
           text:"￥"+list2.totalmoney
         },month12:{
-          value: parseInt(list3.totalmoney/max*100),
           text:"￥"+list3.totalmoney
         }
       })
