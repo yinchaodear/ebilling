@@ -13,7 +13,7 @@ const KaiPiaoJudgeUrl = 'ebilling/salesorder/kaipiaojudge'
 const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
 const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
 const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
-const HasinvoiceStatisticUrl = 'ebilling/salesorder/hasinvoiceStatistic'
+const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatistic'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
 function CancelApply(oid,taxno){
   var params={
@@ -205,9 +205,9 @@ function SalesOrderStatics(cid,json){
   })
 }
 
-function HasinvoiceStatistic(cid,json){
+function InvoiceOperationStatistic(cid,json){
   var params={
-    url: HasinvoiceStatisticUrl,
+    url: InvoiceOperationStatisticUrl,
     data:{
     cid,json
     }
@@ -253,5 +253,5 @@ module.exports = {
   ChangeOrderConfirmStatus,
   CancelApply,
   InvoiceOperationList,
-  HasinvoiceStatistic
+  InvoiceOperationStatistic
 }

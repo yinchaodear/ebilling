@@ -82,20 +82,22 @@ Page({
     console.log(e);
     var id = e.currentTarget.dataset.id;
     
+    let msgObj = {};
+    let list = this.data.list;
+    for(var x in list){
+        if(list[x].id==id){
+            msgObj = list[x];
+        }
+    }
     //标记为已读
     message.batchMark(id).then(res=>{
         if(res.success==true){
-            let list = this.data.list;
-            for(var x in list){
-                if(list[x].id==id){
-                    list[x].status = '已读';
-                }
-            }
+            msgObj.status = '已读';
         }else if(res.success==true&&res.data.length==0){
            console.log("标记为已读失败")
         }
     })
-    router.navigateTo("/pages/message/detail/detail?messageId="+id)
+    router.navigateTo("/pages/message/detail/detail?message="+JSON.stringify(msgObj))
   },
     
   onReachBottom(){
