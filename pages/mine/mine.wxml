@@ -1,7 +1,14 @@
 <view class='pa-30'>
   <view class='bg-m ra-10 pa-40 text-center'>
     
-    <image class="avatar"  src='{{userInfo.avatar_url}}' mode='aspectFill'></image>
+    
+    <image class="avatar"  wx:if="{{userInfo.avatar_url}}" src='{{userInfo.avatar_url}}' mode='aspectFill'></image>
+<!--    <open-data class="" wx:if="{{!userInfo.avatar_url}}" type="userAvatarUrl"></open-data>-->
+    <view class="avatar" wx:if="{{!userInfo.avatar_url}}">
+      <view>
+        <open-data class="" type="userAvatarUrl"></open-data>
+      </view>
+    </view>
     <view class='fo-w fo-30 text-center ma-t10'>
       {{userInfo.nick_name || ''}}
       <open-data wx:if="{{!userInfo.nick_name}}" type="userNickName" ></open-data>
