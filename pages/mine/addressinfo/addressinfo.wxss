@@ -39,3 +39,24 @@ margin-top: 10rpx;
   margin-top: 10px;
 
 }
+
+.jiexi{
+  display: flex;
+  align-items: center;
+}
+.textarea-jiexi{
+  box-shadow: 0px 0px 5px #e1e1e1;
+  font-size: 15px;
+  padding: 20rpx;
+  height: 50px;
+  margin-top: 5px;
+}
+
+.button-jiexi{
+  background: linear-gradient(to right top,#6183dd,#6e42d3);
+  width: 50px;
+  font-size: 10px;
+  color: white;
+  height: 30px;
+  line-height: 30px;
+}

@@ -415,6 +415,13 @@
 					"id": -1,
 					"name": "pages/loginbyuser/login",
 					"pathName": "pages/loginbyuser/login",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/addressinfo/addressinfo",
+					"pathName": "pages/mine/addressinfo/addressinfo",
 					"scene": null
 				}
 			]

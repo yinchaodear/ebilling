@@ -64,7 +64,7 @@
    </view>
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
-    <!-- <view class='state ste4 ma-t30'>确认收货</view> -->
+     <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'}}">取件二维码</view>
  
 
  
@@ -164,4 +164,15 @@
    <button class='btns-40 ' style="margin-bottom:20px"  bindtap="upload">确定</button>
 </view>
 </van-popup>
+
+
+
+<van-dialog
+  use-slot
+  title="取件二维码"
+  show="{{qrshow}}"
+  show-cancel-button 
+>
+  <image src="{{qrsrc}}" />
+</van-dialog>
 

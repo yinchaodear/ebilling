@@ -16,6 +16,37 @@ Page({
   },
 
 
+
+  bindinputtextarea(e){
+      console.log(e);
+      this.setData({
+        companystr:e.detail.value
+      })
+  },
+
+  companyinfostatic(){
+      console.log("数据解析")
+      company.Parse(this.data.companystr).then(res=>{
+        if(res.data.msg==true){
+          var detail ={}
+          var companyinfo =res.data.companyinfo 
+          detail.address =  companyinfo.address
+          detail.name =companyinfo.companyName
+          if(companyinfo.companyName!=null){
+            this.GetCompanyInfo(companyinfo.companyName);
+          }
+          detail.code =companyinfo.taxno;
+          detail.phone =companyinfo.phone;
+          detail.bank =companyinfo.bank;
+          detail.account =companyinfo.bankAccount;
+          this.setData({
+             detail
+          })
+        }
+
+      })
+  },
+
   bindRegionChange: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value);
     const value =e.detail.value.join("");
@@ -29,6 +60,7 @@ Page({
     })
   },
   GetCompanyInfo(name){
+    debugger
      var namenow=''
      if(typeof name =='string'){
          namenow=name;
@@ -54,7 +86,12 @@ Page({
          });
        }else if(res.data.msg==false){
          this.GetCompanyOtherInfo(res.data.id);
-       }
+       }else if(res.data.msg=="error"){
+        Notify({
+          message: '企业名称数据传入有错误,企查查接口调用失败',
+          duration: 2000,
+         });
+      }
      })
   },
 
@@ -71,6 +108,7 @@ Page({
      searchlist:[]
     })
     company.GetCompanyInfo(namenow).then(res=>{
+      debugger;
       if(res.data.msg==true&&res.data.qcresult!=null){
         var qcresult =res.data.qcresult;
         var detail =this.data.detail;
@@ -85,7 +123,13 @@ Page({
         });
       }else if(res.data.msg==false){
         this.GetCompanyOtherInfo(res.data.id);
+      }else if(res.data.msg=="error"){
+        Notify({
+          message: '企业名称数据传入有错误,企查查接口调用失败',
+          duration: 2000,
+         });
       }
+       
     })
  },
 
@@ -215,9 +259,7 @@ Page({
       app.globalData.Toast.showToast("社会信用代码为空");
       return;
     }
-    wx.showLoading({
-      title: '保存中',
-    })
+
     detail.companyid = this.data.companyid
     company.QccCompany(detail.name,detail.code).then(res=>{
          if(res.data.msg==1){
@@ -237,11 +279,23 @@ Page({
           this.AddCompanyotherAddress();
         }
     })
-return;
   
   },
 
   AddCompanyotherAddress(){
+    console.log(this.data.ItemList)
+    var List = this.data.ItemList;
+    if(List[0].receipt==''||List[0].receipt==undefined||List[0].receiptel==''||List[0].receiptel==undefined){
+      Notify({
+        message: '至少创建一个收件信息',
+        duration: 2000,
+      });
+      return;
+    }
+    
+    wx.showLoading({
+      title: '保存中',
+    })
     company.AddCompanyotherAddress(this.data.detail,this.data.ItemList).then(res=>{
       if(res.data.msg==true){
          app.globalData.Toast.showToast("操作成功");

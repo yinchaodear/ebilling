@@ -3,6 +3,7 @@
   "usingComponents": {
     "van-collapse": "../../dist/collapse/index",
     "van-collapse-item": "../../dist/collapse-item/index",
-    "van-notify": "/../../dist/notify/index"
+    "van-notify": "/../../dist/notify/index",
+    "van-dialog": "../../dist/dialog/index"
   }
 }

@@ -1,5 +1,5 @@
 <!-- <web-view src="{{url}}"></web-view> -->
-<view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*该服务由平台承包*</view>
+<view class='pa-l30 pa-r30 fo-28 fo-g text-center'></view>
 <view class='pa-30'>
 
   <view class='bz'>
@@ -228,4 +228,3 @@
 
 <van-notify id="van-notify" />
 
-<van-dialog id="van-dialog" />

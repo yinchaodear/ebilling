@@ -14,6 +14,7 @@ const GetCompanyInfoListUrl ='ebilling/companyaccount/getcompanyinfolist'
 const GetCompanyAccountInfoListUrl ='ebilling/companyaccount/getcompanyaccountinfolist'
 const ChargeUrl = 'ebilling/companyaccount/charge'
 const WxPayUrl = 'ebilling/companyaccount/wxpay'
+const ParseUrl = 'ebilling/companyaccount/parse'
 function QueryMyCompany() {
   //Map.phone map.pwd
   var params={
@@ -224,6 +225,21 @@ function WxPay(cid,fee){
   })
 }
 
+ function  Parse(str){
+  var params={
+    url: ParseUrl,
+    data:{
+    str
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+ }
+
 module.exports = {
   QueryMyCompany,
   QueryOtherCompany,
@@ -237,5 +253,6 @@ module.exports = {
   GetCompanyInfoList,
   GetCompanyAccountInfoList,
   Charge,
-  WxPay
+  WxPay,
+  Parse
 }

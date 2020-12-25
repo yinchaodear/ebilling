@@ -9,7 +9,13 @@
       <image src='/img/right.png' class='icon-30 ma-l20'></image>
     </view>
   </view> -->
-  
+    <view class="jiexi">
+     <textarea class="textarea-jiexi" bindinput="bindinputtextarea" placeholder="在此粘贴公司相关信息">
+     </textarea>
+     <button class="button-jiexi" bindtap="companyinfostatic">  解析</button>
+    
+    </view>
+
     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
     <view class='panel-start item-center'>
       <!-- <image src='/img/d5.png' class='icon-35'></image> -->

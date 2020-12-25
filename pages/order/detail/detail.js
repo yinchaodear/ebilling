@@ -19,14 +19,20 @@ Page({
       company1:{name:"b公司"},
       applytime:'2011-20-20',
       show:false,
+  
     },
     step:1,
+    qrshow:false,
     fileList:[],
     cancelimglist:[],
     FapiaoList:[]
   },
   
-
+  showqr(){
+      this.setData({
+        qrshow:true
+      })
+  },
 
   showimage(e){
     console.log(e);
@@ -322,7 +328,8 @@ Page({
           cancelimglist,
           FapiaoList,
           detail:res.data.orderdetail,
-          orderitem
+          orderitem,salesorder,
+          qrsrc:api.PicUrl("salesorder",ID+"_qr",res.data.orderdetail.qr)
         })
         
 
