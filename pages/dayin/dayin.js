@@ -23,6 +23,7 @@ Page({
     ItemList: [{}],
     forbidden: false,
     message: "",
+    message1:'',
     FapiaoList:['1','2'],
   },
 
@@ -423,6 +424,13 @@ Page({
        });   
        return
     } 
+    if(this.data.message1!=''){
+      Notify({
+        message:this.data.message1,
+        duration: 2000,
+       });   
+      return
+    }
     var _this=this;
     //先判断是否能开票
     
@@ -465,7 +473,7 @@ Page({
     if(apply.company1==undefined||apply.company1==''||apply.company1.accountcode==''||apply.company1.accountcode==undefined){
       return "对方单位信息有误";
     }
-    str +="开票单位:"+apply.company1.accountname +"\n\n"
+    str +="对方单位:"+apply.company1.accountname +"\n\n"
     if(apply.type==undefined||apply.type==''){
       return "票据种类未选择";
     }
@@ -650,19 +658,23 @@ Page({
     var type =this.data.apply.type;
     salesorder.InvoiceOperationList(id,type).then(res=>{
           var FapiaoList =[];
+          var message1 =''
            if(res.data.msg==true){
             if(res.data.list.length>0){
               for(var i in res.data.list){
                 FapiaoList.push(res.data.list[i].taxNo)
                }
             }else{
-              FapiaoList=originList;
+              Notify({
+                message:"该公司"+type+"数量不足,无法开票",
+                duration: 2000,
+              });
+              message1="该公司"+type+"数量不足,无法开票";
             }
-           }else{
-            FapiaoList=originList
-          }
+           }
            this.setData({
-            FapiaoList
+            FapiaoList,
+            message1
            })
     })
   },

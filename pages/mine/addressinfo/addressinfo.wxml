@@ -130,10 +130,10 @@
       </view>
 </van-collapse>
     
-<view  class="" >
+<!-- <view  class="" >
   <view class='fo-26'>公司信息图片</view>
    <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
-</view>
+</view> -->
   
 
 
