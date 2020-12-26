@@ -1,7 +1,7 @@
 <!-- <view style="height:150rpx">
   <view style='background-image:url({{list.avatar_url}})' class='bggs'></view>
 </view> -->
-<view class='pa-l30 pa-r30 ' style='position:relative;' >
+<view class='pa-l30 pa-r30 ' style='position:relative;bottom:50px' >
   <view class='panel ra-10 shadow'>
     <view class="panel-between">
       <view class='panel-start item-center'>
@@ -142,7 +142,7 @@
   <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<1)}}" > 继续编辑</view>
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
   <view class='bzbtn3 '    bindtap='applyagain'>再次开票</view> 
-  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>确认无误</view>
+  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>发票确认</view>
 </view>
 
 
@@ -171,7 +171,7 @@
   use-slot
   title="取件二维码"
   show="{{qrshow}}"
-  show-cancel-button 
+  confirmButtonText="关闭"
 >
   <image src="{{qrsrc}}" />
 </van-dialog>

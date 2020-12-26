@@ -1,6 +1,8 @@
 const app = getApp()
 const company =require("../../../utils/company")
 import Notify from '../../../dist/notify/notify';
+import Dialog from '../../../dist/dialog/dialog';
+const api =require("../../../config/api")
 let _this;
 Page({
 
@@ -12,7 +14,153 @@ Page({
     address:'',
     mo:false,
     activeNames: ['1'],
-    ItemList:[{}]
+    ItemList:[{}],
+    imagelist:[]
+  },
+
+  choseimage(){
+    var _this =this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        console.log(res);
+        const tempFilePaths = res.tempFilePaths
+        _this.setData({
+          tempFilePaths
+        })
+        wx.showLoading({
+          title: '图片解析中',
+        })
+        wx.uploadFile({
+          url: api.BaseUrl+"ebilling/companyaccount/sysfile", //仅为示例，非真实的接口地址
+          filePath: tempFilePaths[0],
+          name: 'file',
+          formData: {
+          },
+          success (res){
+            const data = res.data
+            console.log(res);
+            if(res.statusCode==200){
+              var jsonstr =res.data;
+              jsonstr =JSON.parse(jsonstr);
+              console.log(jsonstr);
+              if(jsonstr.data.msg==true){
+                wx.hideLoading({
+                  complete: (res) => {
+                    _this.setData({
+                      companystr:jsonstr.data.companyinfostr
+                    })
+                      _this.GetCompanyInfo(jsonstr.data.companyinfostr);
+                  },
+                })
+                
+              }
+            }
+          }
+        })
+      }
+    })
+  },
+
+  
+
+
+  afterdelete(e){
+    console.log(e);
+    var _this =this;
+    let index=e.detail.index;
+    var file =e.detail.file;
+    Dialog.confirm({
+      title: '确认删除',
+      message: '删除后无法恢复数据',
+      confirmButtonText:"确定",
+      cancelButtonText:"取消"
+    })
+    .then(() => {
+      // on confirm
+      wx.showLoading({
+        title: '删除中',
+      })
+      company.Delete(this.data.detail.id,'CompanyOther',file.name).then(res=>{
+        if(res.code==0){
+          wx.hideLoading({
+            complete: (res) => {
+              _this.GetCompanyOtherInfo(_this.data.detail.id);
+            },
+          })
+         
+        }
+     })
+    })
+    .catch(() => {
+
+    });
+ 
+  },
+
+  afterRead(event) {
+    var _this= this;
+    const { file } = event.detail;
+    this.upload(file);
+    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+  
+  },
+
+  uploadtempFilePaths(id){
+    wx.showLoading({
+      title: '上传中',
+    })
+    var _this =this;
+    var tempFilePaths =this.data.tempFilePaths
+      wx.uploadFile({
+        url: api.UPLOADURL, // 仅为示例，非真实的接口地址
+        filePath: tempFilePaths[0],
+        name: 'file',
+        formData: {
+          objectId: id,
+          objectType:"CompanyOther"
+        },
+        success(res) {
+          // 上传完成需要更新 fileLis  
+            wx.hideLoading({
+              complete: (res) => {
+                _this.GetCompanyOtherInfo( _this.data.detail.id)
+              },
+            })
+           
+        },
+      });
+  },
+
+
+  upload:function(file){
+    wx.showLoading({
+      title: '上传中',
+    })
+    var _this =this;
+      wx.uploadFile({
+        url: api.UPLOADURL, // 仅为示例，非真实的接口地址
+        filePath: file.url,
+        name: 'file',
+        formData: {
+          objectId: _this.data.detail.id,
+          objectType:"CompanyOther"
+        },
+        success(res) {
+          // 上传完成需要更新 fileLis  
+            wx.hideLoading({
+              complete: (res) => {
+                _this.GetCompanyOtherInfo( _this.data.detail.id)
+              },
+            })
+           
+        },
+      });
+   
+
   },
 
 
@@ -63,11 +211,19 @@ Page({
     })
   },
   GetCompanyInfo(name){
+    debugger;
      var namenow=''
      if(typeof name =='string'){
          namenow=name;
      }else{
        namenow =this.data.detail.name;
+     }
+     if(namenow==''||namenow==undefined){
+      Notify({
+        message: '企业名称为空,无法查询',
+        duration: 2000,
+       });
+       return
      }
      console.log(namenow);
      this.setData({
@@ -110,7 +266,6 @@ Page({
      searchlist:[]
     })
     company.GetCompanyInfo(namenow).then(res=>{
-      debugger;
       if(res.data.msg==true&&res.data.qcresult!=null){
         var qcresult =res.data.qcresult;
         var detail =this.data.detail;
@@ -288,16 +443,6 @@ Page({
   },
 
   AddCompanyotherAddress(){
-    console.log(this.data.ItemList)
-    var List = this.data.ItemList;
-    if(List[0].receipt==''||List[0].receipt==undefined||List[0].receiptel==''||List[0].receiptel==undefined){
-      Notify({
-        message: '至少创建一个收件信息',
-        duration: 2000,
-      });
-      return;
-    }
-    
     wx.showLoading({
       title: '保存中',
     })
@@ -305,6 +450,18 @@ Page({
       if(res.data.msg==true){
          app.globalData.Toast.showToast("操作成功");
          this.GetCompanyOtherInfo(res.data.id);
+         var tempFilePaths =this.data.tempFilePaths;
+     
+         if(tempFilePaths!=''){
+          Notify({
+            message: '正在上传解析的图片，即将返回上一页',
+            duration: 2000,
+          });
+           this.uploadtempFilePaths(res.data.id)
+         }
+         setTimeout(() => {
+           wx.navigateBack();
+         }, 2000);
       }else if(res.data.msg==false){
         Notify({
           message: '该单位已经创建过,请勿重复创建',
@@ -317,8 +474,10 @@ Page({
   GetCompanyOtherInfo(otherid,flag){
     company.GetCompanyOtherInfo(otherid).then(res=>{
       if(res.data.msg==true){
+        debugger;
         var detail =res.data.otherinfo[0]
         var ItemList =res.data.addressinfo;
+        var  imagelist =res.data.imagelist;
         if(flag==false){
             detail.id ='';
             detail.phone='';
@@ -327,8 +486,13 @@ Page({
             detail.account=''
             detail.address=''
             ItemList = [{}]
+        }else{
+          for(var i in imagelist){
+            imagelist[i].url =api.PicUrl("CompanyOther",detail.id,imagelist[i].name)
+          }
         }
-       
+
+      
         // detail.id ='';
         // for(var i in res.data.addressinfo){
         //   ItemList[i].id=''
@@ -336,8 +500,10 @@ Page({
         this.setData({
           otherid:otherid,
           detail,
-          ItemList
+          ItemList,
+          imagelist
         })
+        console.log(this.data);
       }
    })
   },

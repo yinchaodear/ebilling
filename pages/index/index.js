@@ -51,9 +51,20 @@ Page({
             url: '/pages/daiqu/daiqu?index=' + index,
           })
         } else if (name == '申请开票') {
-          wx.navigateTo({
-            url: '/pages/dayin/dayin?index=' + index,
-          })
+          var company= wx.getStorageSync('company');
+          if(company!=''){
+            wx.navigateTo({
+              url: '/pages/dayin/dayin?index=' + index,
+            })
+          }else{
+            app.globalData.Toast.showToast("未选择公司");
+            setTimeout(() => {
+              wx.navigateTo({
+                url: '/pages/area/area',
+              })
+            }, 1000);
+          }
+          
         } else {
           wx.navigateTo({
             url: '/pages/other/other?from=index',
