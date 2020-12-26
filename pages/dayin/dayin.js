@@ -17,7 +17,7 @@ Page({
     showShare: false,
     title: '',
     apply: {},
-    activeNames: ['1'],
+    activeNames: 1,
     activeNames1: ['1'],
     activeNames2: ['1'],
     ItemList: [{}],

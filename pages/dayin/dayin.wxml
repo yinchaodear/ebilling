@@ -42,24 +42,28 @@
         </view>
       </view>
 
-      <van-share-sheet
+<van-share-sheet
   show="{{ showShare }}"
   title="{{title}}"
   options="{{ options }}"
   bind:select="onSelect"
   bind:close="onClose"
 />    
-<van-collapse value="{{ activeNames }}" accordion='true'  bind:change="onItemChange">
-  <van-collapse-item title="开票项" name="1"  value ="1个票号最多8个开票项">
-  <view class="pannel-item" wx:for='{{ItemList}}'>
-      <view class='pa-t30 pa-b20 item-center border-b'  >
-        <view class='fo-26  color-1' style="text-align:center">开票项({{index+1}})</view>
-      
-         </view>
-     <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+
+<view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='开票项(最多8项)'>
+<view class='fo-30'>开票项</view>
+<view class='panel-end item-center'>
+  <view class='fo-30 fo-g'>(1个票号最多8个开票项)</view>
+</view>
+</view>
+<van-collapse value="{{ activeNames }}" accordion bind:change="onItemChange">
+      <van-collapse-item wx:for='{{ItemList}}' wx:key="index" title="项目({{index+1}})" name='{{index+1}}'>
+        
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>项目名</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
-         </view>
+        </view>
+          
           <picker mode="selector" data-index='{{index}}'  range="{{FapiaoList}}"  bindchange="bindtaxChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             
@@ -68,6 +72,7 @@
             
          </view>
             </picker>
+          
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>规格型号</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="model" placeholder="填写规格型号"  value="{{item.model}}" ></input>
@@ -85,16 +90,13 @@
         <view class='fo-26'>数量</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'     data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
          </view>
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>对应金额</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
-       
-      </view>
-<!--      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >-->
-<!--        <view class='fo-26'>税率(%)</view>-->
-<!--        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'   data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>-->
-<!--      </view>-->
-<!--      -->
+          
+          <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+            <view class='fo-26'>对应金额</view>
+            <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
+           
+          </view>
+          
         <picker mode="selector" data-index='{{index}}'  range="{{taxRates}}"  bindchange="bindtaxRateChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
                 <view class='fo-26'>税率(%)</view>
@@ -105,14 +107,14 @@
       <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
         删除此项
       </view>
-    </view>   
-  </van-collapse-item>
-
-     <view class='additem'  bindtap="additem" >
-         添加开票项
-      </view>
+          
+      </van-collapse-item>
 </van-collapse>
 
+<view class='additem'  bindtap="additem" >
+ 添加开票项
+</view>
+        
       <!-- <view class='pa-t30 pa-b20 panel-between item-center border-b'>
         <view class='fo-30'>开票项目</view>
         <input class='fo-30 text-right' bindinput='pageInput' name="page" type='number' placeholder=''></input>
