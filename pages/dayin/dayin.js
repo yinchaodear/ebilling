@@ -25,6 +25,7 @@ Page({
     message: "",
     message1:'',
     FapiaoList:['1','2'],
+    taxRates:[],
   },
 
   bindtaxChange:function(e){
@@ -51,6 +52,17 @@ Page({
       ItemList: ItemList
     })
  
+  },
+  
+  bindtaxRateChange:function(e){
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    const rateIndex = e.detail.value;
+    var index = e.currentTarget.dataset.index;
+    var ItemList = this.data.ItemList;
+    ItemList[index]['tax'] = this.data.taxRates[rateIndex];
+    this.setData({
+      ItemList: ItemList
+    })
   },
 
   bindRegionChange: function (e) {
@@ -322,8 +334,11 @@ Page({
       }else{
         this.GetSalesOrderInfo(options.orderid,false);
       }
-     
     }
+  },
+  
+  onReady:function(){
+    this.loadTaxRates();
   },
 
   GetSalesOrderInfo(id,flag) {
@@ -341,6 +356,7 @@ Page({
           apply,
           ItemList
         })
+        debugger
         this.InvoiceOperationList()
       }
     })
@@ -750,7 +766,26 @@ Page({
 
 
     })
+  },
+
+
+  loadTaxRates() {
+    salesorder.LoadTaxRates().then(res=>{
+      let taxRates =[];
+      if(res.success==true){
+        if(res.data.list.length>0){
+          for(var i in res.data.list){
+            taxRates.push(res.data.list[i])
+          }
+        }else{
+          
+        }
+      }
+      this.setData({
+       taxRates
+      })
+      console.info(this.data.taxRates)
+    })
   }
-
-
+  
 })

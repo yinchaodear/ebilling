@@ -90,10 +90,18 @@
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
        
       </view>
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>税率(%)</view>
-        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'   data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>
-      </view>
+<!--      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >-->
+<!--        <view class='fo-26'>税率(%)</view>-->
+<!--        <input class='fo-26  text-right' bindinput="confirmitemList"  data-index='{{index}}'   data-name="tax" value="{{item.tax}}"  placeholder=""  ></input>-->
+<!--      </view>-->
+<!--      -->
+        <picker mode="selector" data-index='{{index}}'  range="{{taxRates}}"  bindchange="bindtaxRateChange">
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26'>税率(%)</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" placeholder="请选择税率"  value="{{item.tax}}" ></input>
+            </view>
+        </picker>
+      
       <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
         删除此项
       </view>

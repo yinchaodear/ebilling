@@ -15,6 +15,7 @@ const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus
 const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
 const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatistic'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
+const taxRateUrl = 'ebilling/salesorder/taxRate';
 function CancelApply(oid,taxno){
   var params={
     url: CancelApplyUrl,
@@ -235,6 +236,18 @@ function InvoiceOperationList(cid,type){
   })
 }
 
+function LoadTaxRates(){
+  var params={
+    url: taxRateUrl,
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 
 
@@ -253,5 +266,6 @@ module.exports = {
   ChangeOrderConfirmStatus,
   CancelApply,
   InvoiceOperationList,
-  InvoiceOperationStatistic
+  InvoiceOperationStatistic,
+  LoadTaxRates
 }
