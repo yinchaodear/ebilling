@@ -212,7 +212,22 @@
           <input class='fo-30 text-right' name="des" data-type='payee' bindinput="applycomplete" value="{{apply.payee}}" placeholder=''></input>
         
       </view>
-
+        
+<!--<view class='pa-t30 pa-b20 panel-between item-center border-b'  >-->
+<!--    <van-uploader>-->
+<!--      <van-button type="primary" accept="all" max-count="1">上传附件</van-button>-->
+<!--    </van-uploader>-->
+<!--</view>-->
+        
+<view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+    <view class='additem'  bindtap="chooseMessageFile" >
+     文件上传
+    </view>
+</view>
+<view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+    <view wx:if="{{tempFilePaths && tempFilePaths[0]}}">{{tempFilePaths[0].name}}</view>
+</view>
+        
   <!-- </van-collapse-item>
 
 </van-collapse>-->
@@ -231,7 +246,7 @@
       <!-- <button class='btns-40 ' data-status='加急' bindtap="submit">申请开票(加急)</button>-->
         <button class='btns-40-30-del'  wx:if="{{apply.id!=''&&apply.id!=undefined&&apply.status=='暂存'}}" bindtap="del">删除</button>
       </view>
-     
+        
     </form>
   </view>
 </view>

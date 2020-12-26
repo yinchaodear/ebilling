@@ -1,3 +1,5 @@
+import * as API from "../../config/api";
+
 const app = getApp()
 const router = require('../../utils/router')
 const Toast = require('../../utils/Toast')
@@ -168,7 +170,7 @@ Page({
     });
   },
 
-
+    
   applycomplete(e) {
     console.log(e);
     var type = e.currentTarget.dataset.type;
@@ -744,22 +746,21 @@ Page({
 
   addSalesOrder(salesorder1, salesorderitem, leftmoney) {
     var _this = this
+    let tempFilePaths = this.data.tempFilePaths;
+    let redirect = this.data.redirect;
+    if(tempFilePaths!=null){
+      salesorder1.attachment = tempFilePaths[0].name;
+    }
     salesorder.AddSalesOrder(salesorder1, salesorderitem).then(res => {
       if (res.data.msg == true) {
-        wx.removeStorageSync('company1')
-        setTimeout(function () {
-          if (_this.data.redirect == '充值') {
-            router.redirectTo("/pages/mine/cash/cash?leftmoney=" + leftmoney)
-          } else {
-            if (salesorder1.status == "审核中" || salesorder1.status == '加急') {
-              router.switchTab("/pages/banzu/banzu?type=审核中");
-            } else {
-              router.switchTab("/pages/banzu/banzu?type=暂存");
-            }
-          }
-        }, 1500)
-
-
+        //是否有附件需要上传
+        if(tempFilePaths!=null){
+          let objectId = res.data.id;
+          let objectType = "SalesOrder";
+          _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1);
+        }else {
+          _this.finishKaiPiao(redirect, salesorder1);
+        }
       } else {
         app.globalData.Toast.showToast("保存失败")
       }
@@ -768,6 +769,20 @@ Page({
     })
   },
 
+  finishKaiPiao(redirect, salesorder1){
+    wx.removeStorageSync('company1')
+    setTimeout(function () {
+      if (redirect == '充值') {
+        router.redirectTo("/pages/mine/cash/cash?leftmoney=" + leftmoney)
+      } else {
+        if (salesorder1.status == "审核中" || salesorder1.status == '加急') {
+          router.switchTab("/pages/banzu/banzu?type=审核中");
+        } else {
+          router.switchTab("/pages/banzu/banzu?type=暂存");
+        }
+      }
+    }, 1500)
+  },
 
   loadTaxRates() {
     salesorder.LoadTaxRates().then(res=>{
@@ -786,6 +801,44 @@ Page({
       })
       console.info(this.data.taxRates)
     })
-  }
+  },
+    
+    chooseMessageFile(){
+      let that = this;
+      wx.chooseMessageFile({
+        count: 10,
+        type: 'all',
+        success (res) {
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFiles
+          console.info(res);
+          that.setData({tempFilePaths})
+        }
+      })
+    },
+  
+    uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1){
+      let that = this;
+      if(tempFilePaths!=null){
+        wx.uploadFile({
+          url: API.BaseUrl+'attachment/uploadFileAll',      //此处换上你的接口地址
+          filePath: tempFilePaths[0].path,
+          name: 'file',
+          header: {
+            "Content-Type": "multipart/form-data",
+            'accept': 'application/json',
+          },
+          formData:{objectId:objectId,objectType:objectType,fileName:tempFilePaths[0].name},
+          success: function(res){
+            let data = res;
+            console.log(data);
+            that.finishKaiPiao(redirect, salesorder1);
+          },
+          fail: function(res){
+            console.log('fail');
+          },
+        })
+      }
+    }
   
 })
