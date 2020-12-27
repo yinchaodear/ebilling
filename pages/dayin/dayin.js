@@ -82,7 +82,11 @@ Page({
   },
   additem() {
     var obj = {};
+    obj.taxno = "1";
     var ItemList = this.data.ItemList;
+    if(ItemList.length>0){
+      obj.taxno = ItemList[ItemList.length-1].taxno;
+    }
     // if (ItemList.length == 8) {
     //   Toast.showToast("最多添加8项");
     //   return;
@@ -620,6 +624,7 @@ Page({
            str+='  数量'+item.number
            str+='  单价'+item.unitprice
            str+='  金额'+item.money
+           str+='  备注'+item.remark
            str+='  税率'+item.tax+"\n"
       }
       str+="\n"
@@ -674,27 +679,40 @@ Page({
   InvoiceOperationList(){
     var id =this.data.apply.company.id;
     var type =this.data.apply.type;
-    salesorder.InvoiceOperationList(id,type).then(res=>{
-          var FapiaoList =[];
-          var message1 =''
-           if(res.data.msg==true){
-            if(res.data.list.length>0){
-              for(var i in res.data.list){
-                FapiaoList.push(res.data.list[i].taxNo)
-               }
-            }else{
-              Notify({
-                message:"该公司"+type+"数量不足,无法开票",
-                duration: 2000,
-              });
-              message1="该公司"+type+"数量不足,无法开票";
-            }
-           }
-           this.setData({
-            FapiaoList,
-            message1
-           })
-    })
+
+    var FapiaoList =[];
+    FapiaoList.push("1");
+    FapiaoList.push("2");
+    FapiaoList.push("3");
+    FapiaoList.push("4");
+    FapiaoList.push("5");
+    FapiaoList.push("6");
+    FapiaoList.push("7");
+    FapiaoList.push("8");
+    this.setData({
+      FapiaoList
+    });
+    // salesorder.InvoiceOperationList(id,type).then(res=>{
+    //       var FapiaoList =[];
+    //       var message1 =''
+    //        if(res.data.msg==true){
+    //         if(res.data.list.length>0){
+    //           for(var i in res.data.list){
+    //             FapiaoList.push(res.data.list[i].taxNo)
+    //            }
+    //         }else{
+    //           Notify({
+    //             message:"该公司"+type+"数量不足,无法开票",
+    //             duration: 2000,
+    //           });
+    //           message1="该公司"+type+"数量不足,无法开票";
+    //         }
+    //        }
+    //        this.setData({
+    //         FapiaoList,
+    //         message1
+    //        })
+    // })
   },
   
 

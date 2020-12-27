@@ -53,25 +53,27 @@
 <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='开票项(最多8项)'>
 <view class='fo-30'>开票项</view>
 <view class='panel-end item-center'>
-  <view class='fo-30 fo-g'>(1个票号最多8个开票项)</view>
+  <view class='fo-30 fo-g'>(相同流水号在同一张发票上)</view>
 </view>
 </view>
 <van-collapse value="{{ activeNames }}" accordion bind:change="onItemChange">
       <van-collapse-item wx:for='{{ItemList}}' wx:key="index" title="项目({{index+1}})" name='{{index+1}}'>
-        
-      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>项目名</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
-        </view>
+
+
           
           <picker mode="selector" data-index='{{index}}'  range="{{FapiaoList}}"  bindchange="bindtaxChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             
-             <view class='fo-26'>发票号</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写发票号"  value="{{item.taxno}}" ></input>
+             <view class='fo-26'>流水号</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写流水"  value="{{item.taxno}}" ></input>
             
          </view>
             </picker>
+
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>项目名</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
+        </view>
           
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>规格型号</view>
@@ -104,6 +106,11 @@
             </view>
         </picker>
       
+
+      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+        <view class='fo-26'>备注</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="remark" placeholder="填写备注"  value="{{item.remark}}" ></input>
+        </view>
       <view class='additem-small'   data-index='{{index}}' bindtap="deleteitem" >
         删除此项
       </view>
