@@ -29,6 +29,7 @@ Page({
   },
   
   showqr(){
+      console.log("展示")
       this.setData({
         qrshow:true
       })
@@ -194,7 +195,7 @@ Page({
       // on cancel
   
       console.log("没问题")
-      this.ChangeOrderStatus();
+      //this.ChangeOrderStatus();
     });
    
   },

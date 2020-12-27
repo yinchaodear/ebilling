@@ -422,6 +422,14 @@
 					"id": -1,
 					"name": "pages/mine/addressinfo/addressinfo",
 					"pathName": "pages/mine/addressinfo/addressinfo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/addressinfo/addressinfo",
+					"pathName": "pages/mine/addressinfo/addressinfo",
+					"query": "otherid=18",
 					"scene": null
 				}
 			]
