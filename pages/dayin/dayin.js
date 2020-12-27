@@ -26,7 +26,7 @@ Page({
     forbidden: false,
     message: "",
     message1:'',
-    FapiaoList:['1','2'],
+    FapiaoList:['1','2','3','4','5','6','7','8'],
     taxRates:[],
   },
 
