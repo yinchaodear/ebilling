@@ -22,7 +22,9 @@ Page({
     activeNames: 1,
     activeNames1: ['1'],
     activeNames2: ['1'],
-    ItemList: [{}],
+    ItemList: [{
+      taxno:1
+    }],
     forbidden: false,
     message: "",
     message1:'',
@@ -552,7 +554,7 @@ Page({
       }
       detail.tax =tax;
       detail.unit =item[i].unit;
-   
+      detail.remark =item[i].remark
       detail.cancel =item[i].cancel;
       detailList.push(detail);
       obj.detailList =detailList

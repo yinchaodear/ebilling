@@ -292,6 +292,7 @@ Page({
            detail.money =item[i].money;
            detail.model =item[i].model;
            detail.number =item[i].number;
+           detail.remark =item[i].remark;
            detail.tax =item[i].tax;
            detail.unit =item[i].unit;
            detail.unitprice =item[i].unitprice;

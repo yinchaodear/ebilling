@@ -46,6 +46,7 @@
     <view class='fo-26 ma-t10 fo-g'>数量：{{item1.number}}</view>
     <view class='fo-26 ma-t10 fo-g'>开票金额：{{item1.money}}</view>
     <view class='fo-26 ma-t10 fo-g'>税率：{{item1.tax}}</view>
+    <view class='fo-26 ma-t10 fo-g'>备注：{{item1.remark}}</view>
      <view class='fo-26 ma-t10 fo-g color-#ff89651' wx:if='{{item1.cancel!=null}}'>作废状态：{{item1.cancel}}</view>
      </view>
     </view>
