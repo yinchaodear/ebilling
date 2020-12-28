@@ -26,3 +26,36 @@
 <!-- </view> -->
 
 <van-notify id="van-notify" />
+
+
+<van-popup show="{{ show }}" bind:close="onClose"  position="top" >
+<view class="padd"> 
+    <van-search
+  value="{{ value }}"
+  shape="round"
+  background="#6e42d3"
+  placeholder="请输入客户电话或名称,然后点击下方列表"
+  bind:search="onSearch"
+  bind:change="onChange"
+/>  
+
+ <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"   data-index='{{index}}' bindtap="loginbyphone">
+      
+        <view class='fo-30'>{{item.lastname}}</view>       
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{item.phone}}</view>
+          <!-- <image src='/img/right.png' class='icon-30 ma-l20'></image> -->
+        </view>
+    
+  </view>
+  
+    <!-- <view style="text-align: center;margin: 25px">
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;" type="primary" size="mini" bindtap="del">重置</button>
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;margin-left: 10%" type="primary" size="mini" bindtap="sure">确定</button>
+    </view> -->
+  </view>
+
+</van-popup>
+
+
+<van-dialog id="van-dialog" />

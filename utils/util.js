@@ -8,6 +8,13 @@ function request(params,method = "GET") {
   return new Promise(function (resolve, reject) {
     let url = API.BaseUrl+params.url;
     let data = params.data;
+    var cookie =""
+    if(wx.getStorageSync('currentuser')!=''){
+      cookie+="aid="+wx.getStorageSync('currentuser').f_id
+    }
+    if(wx.getStorageSync('kefuid')!=''){
+      cookie+=";kefuid="+wx.getStorageSync('kefuid')
+    }
     wx.request({
       url: url,
       data: data,
@@ -15,7 +22,7 @@ function request(params,method = "GET") {
       header: {
         'Content-Type': 'application/json',
         'X-Nideshop-Token': wx.getStorageSync('token'),
-        "cookie":wx.getStorageSync('currentuser')?"aid="+wx.getStorageSync('currentuser').f_id:""
+        "cookie":cookie
       },
       
       success: function (res) {

@@ -8,6 +8,7 @@ const PhoneCodeUrl ='ebilling/account/phonecode'
 const JudgeLoginUrl ='ebilling/account/judgelogin'
 const ExitUrl='ebilling/account/exit'
 const RegisterUrl ='ebilling/account/register'
+const LoginKefuUrl ='ebilling/account/loginkefu'
 function login(map) {
   //Map.phone map.pwd
   return new Promise(function (resolve, reject) {
@@ -87,9 +88,11 @@ function JudgeLogin(){
             resolve(res);
             if (res.data.msg == 'success') {
               Toast.showToast("自动登录成功");
+              wx.removeStorageSync('kefuid')
               wx.setStorageSync('currentuser', res.data);
             }else{
               if(res.data.msg=='none'){
+                
                 wx.clearStorageSync();
                 Toast.showToast("未登录");
                 router.navigateTo("/pages/login/login")
@@ -137,6 +140,24 @@ function Register(id,pwd){
  
 }
 
+
+function LoginKefu(username,pwd) {
+  var params={
+    url:LoginKefuUrl,
+    data:{
+      username,
+      pwd
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "Get").then(res => {
+      console.log(res);
+      resolve(res);
+   
+    })
+  })
+}
+
 module.exports = {
   login,
   loginDaily,
@@ -144,5 +165,6 @@ module.exports = {
   PhoneCode,
   JudgeLogin,
   Exit,
-  Register
+  Register,
+  LoginKefu
 }

@@ -431,6 +431,12 @@
 					"pathName": "pages/mine/addressinfo/addressinfo",
 					"query": "otherid=18",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/loginbyuser/login",
+					"pathName": "pages/loginbyuser/login",
+					"scene": null
 				}
 			]
 		}
