@@ -32,7 +32,8 @@ Page({
     });
     var list = this.data.list;
     for(var i in list){
-      if(list[i].lastname.indexOf(value)!=-1||list[i].phone.indexOf(value)!=-1){
+      if(list[i].lastname.indexOf(value)!=-1||list[i].phone.indexOf(value)!=-1
+      ||list[i].accountname.indexOf(value)!=-1){
         if(list[i].show==false||list[i].show==undefined){
           list[i].show=true
         }

@@ -39,9 +39,9 @@
   bind:change="onChange"
 />  
 
- <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"   data-index='{{index}}' bindtap="loginbyphone">
+ <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"  style="padding-left:10rpx;padding-right:10rpx"  data-index='{{index}}' bindtap="loginbyphone">
       
-        <view class='fo-30'>{{item.lastname}}</view>       
+        <view class='fo-30'>{{item.lastname}}({{item.accountname}})</view>       
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{item.phone}}</view>
           <!-- <image src='/img/right.png' class='icon-30 ma-l20'></image> -->
