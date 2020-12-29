@@ -12,8 +12,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    phone:'zhangyang',
-    password:'8888',
+    phone:'',
+    password:'',
     show:false
   },
 
