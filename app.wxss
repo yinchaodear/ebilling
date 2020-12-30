@@ -100,3 +100,10 @@
 .color-1{
   color: #ff8965;
 }
+
+.searchitem{
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 10px;
+
+}

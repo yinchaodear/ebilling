@@ -53,7 +53,7 @@ Page({
                     _this.setData({
                       companystr:jsonstr.data.companyinfostr
                     })
-                      _this.GetCompanyInfo(jsonstr.data.companyinfostr);
+                      _this.companyinfostatic(jsonstr.data.companyinfostr);
                   },
                 })
                 
@@ -174,9 +174,17 @@ Page({
 
   companyinfostatic(){
       console.log("数据解析")
-  
+      wx.showLoading({
+        title: '数据解析中',
+      })
       company.Parse(this.data.companystr).then(res=>{
         if(res.data.msg==true){
+          setTimeout(() => {
+            wx.hideLoading({
+              complete: (res) => {},
+            })
+          }, 1500);
+       
           var detail ={}
           var companyinfo =res.data.companyinfo 
           detail.address =  companyinfo.address
@@ -230,21 +238,24 @@ Page({
       searchlist:[]
      })
      company.GetCompanyInfo(namenow).then(res=>{
-       if(res.data.msg==true&&res.data.qcresult!=null){
-         var qcresult =res.data.qcresult;
-         var detail =this.data.detail;
-         detail.code = qcresult.creditCode
-         detail.name =qcresult.name;
+      if(res.data.msg==true&&res.data.qcresult!=null){
+        this.setData({
+          searchlist:res.data.qcresult
+        })
+        
+        // Notify({
+        //  message: '该企业状态:'+qcresult.status,
+        //  duration: 2000,
+        // });
+      }else if(res.data.msg==false){
+         var detail ={};
+         detail.name =res.data.companyinfo.name;
+         detail.code =res.data.companyinfo.code;
          this.setData({
-          detail
+           detail
          })
-         Notify({
-          message: '该企业状态:'+qcresult.status,
-          duration: 2000,
-         });
-       }else if(res.data.msg==false){
-         this.GetCompanyOtherInfo(res.data.id,false);
-       }else if(res.data.msg=="error"){
+
+      }else if(res.data.msg=="error"){
         Notify({
           message: '企业名称数据传入有错误,企查查接口调用失败',
           duration: 2000,
@@ -267,19 +278,22 @@ Page({
     })
     company.GetCompanyInfo(namenow).then(res=>{
       if(res.data.msg==true&&res.data.qcresult!=null){
-        var qcresult =res.data.qcresult;
-        var detail =this.data.detail;
-        detail.code = qcresult.creditCode
-        detail.name =qcresult.name;
         this.setData({
-         detail
+          searchlist:res.data.qcresult
         })
-        Notify({
-         message: '该企业状态:'+qcresult.status,
-         duration: 2000,
-        });
+        
+        // Notify({
+        //  message: '该企业状态:'+qcresult.status,
+        //  duration: 2000,
+        // });
       }else if(res.data.msg==false){
-        this.GetCompanyOtherInfo(res.data.id,false);
+         var detail ={};
+         detail.name =res.data.companyinfo.name;
+         detail.code =res.data.companyinfo.code;
+         this.setData({
+           detail
+         })
+
       }else if(res.data.msg=="error"){
         Notify({
           message: '企业名称数据传入有错误,企查查接口调用失败',
@@ -452,7 +466,7 @@ Page({
          this.GetCompanyOtherInfo(res.data.id);
          var tempFilePaths =this.data.tempFilePaths;
      
-         if(tempFilePaths!=''){
+         if(tempFilePaths!=''&&tempFilePaths!=undefined){
           Notify({
             message: '正在上传解析的图片，即将返回上一页',
             duration: 2000,

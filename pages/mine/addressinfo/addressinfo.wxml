@@ -28,7 +28,7 @@
     <!--bindblur="GetCompanyInfo"   bindconfirm="GetCompanyInfo"-->
       <input class='fo-30 fo-g text-center' value='{{detail.name}}'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"   data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
      <view wx:for="{{searchlist}}" wx:if="{{searchlist.length>0}}" >
-        <view class='searchitem fo-26' bindtap="confirmname"  data-name="{{item.f_companyname}}">{{item.f_companyname}}</view>
+        <view class='searchitem fo-26' bindtap="confirmname"  data-name="{{item.Name}}">{{item.Name}}</view>
      </view>
   </view>
 
@@ -92,7 +92,7 @@
   <view class="pannel-item" wx:for='{{ItemList}}'>
      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件人</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="receipt" placeholder=""  value="{{item.receipt}}" ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="receipt" placeholder="不填则默认不保存此条"  value="{{item.receipt}}" ></input>
          </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件电话</view>

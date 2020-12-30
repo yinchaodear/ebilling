@@ -7,7 +7,7 @@ const salesorder = require('../../utils/salesorder')
 const company = require("../../utils/company")
 import Notify from '../../dist/notify/notify';
 import Dialog from '../../dist/dialog/dialog';
-const originList =["001","002","003","004","005","006","007","008"]
+const originList = ["001", "002", "003", "004", "005", "006", "007", "008"]
 let _this;
 Page({
 
@@ -23,30 +23,109 @@ Page({
     activeNames1: ['1'],
     activeNames2: ['1'],
     ItemList: [{
-      taxno:1
+      taxno: 1
     }],
     forbidden: false,
     message: "",
-    message1:'',
-    FapiaoList:['1','2','3','4','5','6','7','8'],
-    taxRates:[],
+    message1: '',
+    FapiaoList: ['1', '2', '3', '4', '5', '6', '7', '8'],
+    taxRates: [],
+    multiArray: [],
+    show: false,
+    searchlist: [],
+    currentindex: 0
   },
 
-  bindtaxChange:function(e){
+
+  clearsearchlist() {
+    this.setData({
+      searchlist: []
+    })
+  },
+
+  LoadHistoryTaxName(str) {
+    salesorder.LoadHistoryTaxName(str).then(res => {
+      if (res.data.msg == true) {
+        this.setData({
+          searchlist: res.data.list
+        })
+      }
+    })
+  },
+
+  bindMultiPickerColumnChange: function (e) {
+    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
+    var column = e.detail.column;
+    var value = e.detail.value;
+    var multiArray = this.data.multiArray;
+    var first = this.data.first
+    var second = this.data.second;
+    var third = this.data.third;
+    var secondtemp = this.data.secondtemp == undefined ? [] : this.data.secondtemp
+    var thirdtemp = []
+
+    switch (column) {
+      case 0:
+        console.log("改变第一行");
+        secondtemp = [];
+        thirdtemp = [];
+        for (var i in second) {
+          if (second[i].parent == first[value]) {
+            secondtemp.push(second[i].name);
+          }
+        }
+        multiArray[1] = secondtemp
+        for (var i in third) {
+          if (third[i].parent == secondtemp[0]) {
+            thirdtemp.push(third[i].name);
+          }
+        }
+        multiArray[2] = thirdtemp;
+        this.setData({
+          multiArray,
+          secondtemp
+        })
+        break;
+
+      case 1:
+        console.log("改变第二行");
+        thirdtemp = [];
+        for (var i in third) {
+          if (third[i].parent == secondtemp[value]) {
+            thirdtemp.push(third[i].name);
+          }
+        }
+        thirdtemp.push("自定义");
+        multiArray[2] = thirdtemp
+        this.setData({
+          multiArray
+        })
+
+        break;
+      case 2:
+        console.log("改变第三行");
+        break;
+    }
+
+
+  },
+
+
+  bindtaxChange: function (e) {
     console.log(e);
     console.log('picker发送选择改变，携带值为', e.detail.value);
     var index = e.currentTarget.dataset.index;
-    var value =e.detail.value;
+    var value = e.detail.value;
     var ItemList = this.data.ItemList;
-    let quantity =0;
-    for(var i in ItemList){
-        if(this.data.FapiaoList[value]==ItemList[i].taxno){
-          quantity++;
-        }
+    let quantity = 0;
+    for (var i in ItemList) {
+      if (this.data.FapiaoList[value] == ItemList[i].taxno) {
+        quantity++;
+      }
     }
-    if(quantity>7){
+    if (quantity > 7) {
       Notify({
-        message:"票号为"+this.data.FapiaoList[value] +"的开票项已超过8条",
+        message: "票号为" + this.data.FapiaoList[value] + "的开票项已超过8条",
         duration: 2000,
       });
       return;
@@ -55,18 +134,62 @@ Page({
     this.setData({
       ItemList: ItemList
     })
- 
+
   },
-  
-  bindtaxRateChange:function(e){
-    console.log('picker发送选择改变，携带值为', e.detail.value);
-    const rateIndex = e.detail.value;
-    var index = e.currentTarget.dataset.index;
-    var ItemList = this.data.ItemList;
-    ItemList[index]['tax'] = this.data.taxRates[rateIndex];
+  bindinputItemListIndex(e) {
     this.setData({
-      ItemList: ItemList
+      ItemListIndexValue: e.detail.value
     })
+  },
+
+  onConfirm(e) {
+    console.log("确认")
+    var ItemList = this.data.ItemList;
+    ItemList[this.data.ItemListIndex]['tax'] = parseFloat(this.data.ItemListIndexValue).toFixed(2);
+    this.setData({
+      ItemList
+    })
+  },
+  onClose() {
+    console.log("关闭")
+  },
+
+  confirmname1(e) {
+    debugger;
+    var value = e.currentTarget.dataset.value;
+    var ItemList = this.data.ItemList;
+    var currentindex = this.data.currentindex;
+    ItemList[currentindex].name = value;
+    console.log(ItemList)
+    this.setData({
+      ItemList,
+      searchlist: []
+    })
+  },
+
+  bindtaxRateChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value);
+    var index = e.currentTarget.dataset.index;
+    var multiArray = this.data.multiArray;
+    var number = e.detail.value[2] == null ? 0 : e.detail.value[2];
+    var tax = this.data.multiArray[2][number]
+    if (tax == '自定义') {
+      console.log("自己输入");
+      this.setData({
+        show: true,
+        ItemListIndex: index
+      })
+      return;
+    } else {
+      const rateIndex = e.detail.value;
+
+      var ItemList = this.data.ItemList;
+      ItemList[index]['tax'] = parseFloat(tax).toFixed(2);
+      this.setData({
+        ItemList: ItemList
+      })
+    }
+
   },
 
   bindRegionChange: function (e) {
@@ -86,8 +209,8 @@ Page({
     var obj = {};
     obj.taxno = "1";
     var ItemList = this.data.ItemList;
-    if(ItemList.length>0){
-      obj.taxno = ItemList[ItemList.length-1].taxno;
+    if (ItemList.length > 0) {
+      obj.taxno = ItemList[ItemList.length - 1].taxno;
     }
     // if (ItemList.length == 8) {
     //   Toast.showToast("最多添加8项");
@@ -97,12 +220,19 @@ Page({
     this.setData({
       ItemList: ItemList
     })
+    console.log(this.data.currentindex);
   },
 
   confirmitemList(e) {
     var index = e.currentTarget.dataset.index;
+    this.setData({
+      currentindex: index
+    })
     var name = e.currentTarget.dataset.name;
     var value = e.detail.value;
+    if (name == 'name') {
+      this.LoadHistoryTaxName(value);
+    }
     var ItemList = this.data.ItemList;
     ItemList[index][name] = value;
     if (ItemList[index].number != '' && ItemList[index].unitprice != '') {
@@ -116,23 +246,23 @@ Page({
 
   del() {
     Dialog.confirm({
-      title: '删除确认',
-      message: '删除后将无法恢复数据',
-    })
-    .then(() => {
-      // on confirm
-      salesorder.RemoveSalesOrder(this.data.apply.id).then(res => {
-        if (res.data.msg == true) {
-          wx.navigateBack({
-            complete: (res) => {},
-          })
-        }
+        title: '删除确认',
+        message: '删除后将无法恢复数据',
       })
-    })
-    .catch(() => {
-      // on cancel
-    
-    });
+      .then(() => {
+        // on confirm
+        salesorder.RemoveSalesOrder(this.data.apply.id).then(res => {
+          if (res.data.msg == true) {
+            wx.navigateBack({
+              complete: (res) => {},
+            })
+          }
+        })
+      })
+      .catch(() => {
+        // on cancel
+
+      });
 
 
   },
@@ -176,7 +306,7 @@ Page({
     });
   },
 
-    
+
   applycomplete(e) {
     console.log(e);
     var type = e.currentTarget.dataset.type;
@@ -256,7 +386,7 @@ Page({
     console.log(event.detail.name);
     var apply = this.data.apply;
     if (this.data.title == '票据种类') {
-      
+
       apply.type = event.detail.name
       this.setData({
         apply: apply
@@ -337,27 +467,27 @@ Page({
    */
   onLoad: function (options) {
     if (options.orderid) {
-      if(options.again=='true'){
-        this.GetSalesOrderInfo(options.orderid,true);
-      }else{
-        this.GetSalesOrderInfo(options.orderid,false);
+      if (options.again == 'true') {
+        this.GetSalesOrderInfo(options.orderid, true);
+      } else {
+        this.GetSalesOrderInfo(options.orderid, false);
       }
     }
   },
-  
-  onReady:function(){
-    this.loadTaxRates();
+
+  onReady: function () {
+
   },
 
-  GetSalesOrderInfo(id,flag) {
+  GetSalesOrderInfo(id, flag) {
     salesorder.GetSalesOrderInfo(id).then(res => {
       if (res.data.msg == true) {
-        var apply =res.data.orderdetail;
+        var apply = res.data.orderdetail;
         var ItemList = res.data.orderitem;
-        if(flag==true){
-          apply.id='';
-          for(var i in ItemList){
-            ItemList[i].id =''
+        if (flag == true) {
+          apply.id = '';
+          for (var i in ItemList) {
+            ItemList[i].id = ''
           }
         }
         this.setData({
@@ -406,10 +536,15 @@ Page({
         apply: apply
       })
       this.KaiPiaoJudge();
+      this.loadTaxRates(company.id);
     }
     if (company1) {
       var apply = this.data.apply;
-      apply.company1 = company1
+      apply.company1 = company1;
+      apply.phone = company1.phone;
+      apply.address = company1.address;
+      apply.bank = company1.bank;
+      apply.bankaccount = company1.bankaccount;
       this.setData({
         apply: apply
       })
@@ -441,248 +576,269 @@ Page({
   submit(e) {
     console.log(e);
     //先判断是否能开票 //先注释掉，然后后面再判断
-    if(this.data.forbidden==true){
-      Notify({
-        message:this.data.message,
-        duration: 2000,
-       });   
-       return
-    } 
-    if(this.data.message1!=''){
-      Notify({
-        message:this.data.message1,
-        duration: 2000,
-       });   
+    if (this.data.forbidden == true) {
+      Dialog.alert({
+        title: '联系客服',
+        message: this.data.message + ",请联系小乐处理",
+      }).then(() => {
+        // on close
+      });
       return
     }
-    var _this=this;
-    //先判断是否能开票
-    
+    if (this.data.message1 != '') {
+      Notify({
+        message: this.data.message1,
+        duration: 2000,
+      });
+      return
+    }
+    var _this = this;
     //再进行 页面上字段的校验
     var status = e.currentTarget.dataset.status;
     var apply = this.data.apply;
-    apply.status = status; 
-    this.checkconfirm(apply)
+    apply.status = status;
+
+    wx.requestSubscribeMessage({
+      tmplIds: ['mcQ6UDHFlQ-q9AaydO4icIQjeTQ8mwsZRWzDA8u3jkE'],
+      success(res) {
+        console.log("订阅")
+        _this.checkconfirm(apply)
+      },
+      fail(res) {
+        console.log("不订阅")
+        _this.checkconfirm(apply)
+      }
+    })
+
+
+
   },
 
-   confirmdata(apply){
-     var _this =this;
+  confirmdata(apply) {
+    var _this = this;
     Dialog.confirm({
-      title: '开票总数:'+this.data.totalqutity+",开票总金额:"+this.data.totalmoney,
-      message: this.data.str,
-      messageAlign:"left"
-    })
-    .then(() => {
-      // on confirm  
-      setTimeout(() => {
-        _this.Checkcommit(apply, apply.status);
-      }, 500);    
-      
-    })
-    .catch(() => {
-      // on cancel
-    });
- 
-  },
-   
+        title: '开票总数:' + this.data.totalqutity + ",开票总金额:" + this.data.totalmoney,
+        message: this.data.str,
+        messageAlign: "left"
+      })
+      .then(() => {
+        // on confirm  
+        setTimeout(() => {
+          _this.Checkcommit(apply, apply.status);
+        }, 500);
 
-  checknum(item,apply){
+      })
+      .catch(() => {
+        // on cancel
+      });
+
+  },
+
+
+  checknum(item, apply) {
     console.log(item);
     console.log(apply);
-    var str='';
-    if(apply.company==undefined||apply.company==''){
+    var str = '';
+    if (apply.company == undefined || apply.company == '') {
       return "未选择开票单位";
     }
-    str +="开票单位:"+apply.company.accountname+"\n"
-    if(apply.company1==undefined||apply.company1==''||apply.company1.accountcode==''||apply.company1.accountcode==undefined){
+    str += "开票单位:" + apply.company.accountname + "\n"
+    if (apply.company1 == undefined || apply.company1 == '' || apply.company1.accountcode == '' || apply.company1.accountcode == undefined) {
       return "对方单位信息有误";
     }
-    str +="对方单位:"+apply.company1.accountname +"\n\n"
-    if(apply.type==undefined||apply.type==''){
+    str += "对方单位:" + apply.company1.accountname + "\n\n"
+    if (apply.type == undefined || apply.type == '') {
       return "票据种类未选择";
+    } else {
+      if (apply.type == '专票') {
+        if (apply.phone == '' || apply.phone == undefined || apply.address == '' || apply.address == undefined || apply.bank == '' || apply.bank == undefined ||
+          apply.bankaccount == '' || apply.bankaccount == undefined) {
+          return "当前票据种类为专票,对方单位信息填写不全"
+        }
+      }
     }
-     
-    str +="票据种类:"+apply.type +"\n\n"
-  
-  
-    var orderitem =[];
-    var totalmoney =0;
-    var totalqutity =0;
-    for(var i in item ){
-      var obj ={}
-      var detailList =[];
-      let name =item[i].name;
-      if(name==''||name==undefined){
-        return "开票项第"+(parseInt(i)+1)+"项,项目名为空"
+
+    str += "票据种类:" + apply.type + "\n\n"
+
+
+    var orderitem = [];
+    var totalmoney = 0;
+    var totalqutity = 0;
+    for (var i in item) {
+      var obj = {}
+      var detailList = [];
+      let name = item[i].name;
+      if (name == '' || name == undefined) {
+        return "开票项第" + (parseInt(i) + 1) + "项,项目名为空"
       }
-      var taxno =item[i].taxno 
-      if(taxno==''||taxno==undefined){
-        return "开票项第"+(parseInt(i)+1)+"项,发票号未选择"
+      var taxno = item[i].taxno
+      if (taxno == '' || taxno == undefined) {
+        return "开票项第" + (parseInt(i) + 1) + "项,发票号未选择"
       }
-      obj.taxno =taxno;
-      var detail={}
-      detail.name =name;
-      detail.money =item[i].money;
-      detail.model =item[i].model;
-      let unitprice  =item[i].unitprice;
-      if(unitprice==''||unitprice==undefined){
-        return "开票项第"+(parseInt(i)+1)+"项,单价为空"
-      }else{
-        if(isNaN(unitprice)){
-          return "开票项第"+(parseInt(i)+1)+"项,单价填的不是数字"
+      obj.taxno = taxno;
+      var detail = {}
+      detail.name = name;
+      detail.money = item[i].money;
+      detail.model = item[i].model;
+      let unitprice = item[i].unitprice;
+      if (unitprice == '' || unitprice == undefined) {
+        return "开票项第" + (parseInt(i) + 1) + "项,单价为空"
+      } else {
+        if (isNaN(unitprice)) {
+          return "开票项第" + (parseInt(i) + 1) + "项,单价填的不是数字"
         }
       }
       detail.unitprice = unitprice
-      let number =item[i].number
-      if(number==''||number==undefined){
-        return "开票项第"+(parseInt(i)+1)+"项,数量为空"
-      }else{
-        if(isNaN(number)){
-          return "开票项第"+(parseInt(i)+1)+"项,数量填的不是数字"
+      let number = item[i].number
+      if (number == '' || number == undefined) {
+        return "开票项第" + (parseInt(i) + 1) + "项,数量为空"
+      } else {
+        if (isNaN(number)) {
+          return "开票项第" + (parseInt(i) + 1) + "项,数量填的不是数字"
         }
       }
-      detail.number =number;
-      totalmoney+=item[i].money;
+      detail.number = number;
+      totalmoney += item[i].money;
 
-      let tax =item[i].tax;
-      if(tax==''||tax==undefined||tax==0){
-        return "开票项第"+(parseInt(i)+1)+"项,税率为空"
-      }else{
-        if(isNaN(tax)){
-          return "开票项第"+(parseInt(i)+1)+"项,税率填的不是数字"
+      let tax = item[i].tax;
+      if (tax == '' || tax == undefined || tax == 0) {
+        return "开票项第" + (parseInt(i) + 1) + "项,税率为空"
+      } else {
+        if (isNaN(tax)) {
+          return "开票项第" + (parseInt(i) + 1) + "项,税率填的不是数字"
         }
       }
-      detail.tax =tax;
-      detail.unit =item[i].unit;
-      detail.remark =item[i].remark
-      detail.cancel =item[i].cancel;
+      detail.tax = tax;
+      detail.unit = item[i].unit;
+      detail.remark = item[i].remark
+      detail.cancel = item[i].cancel;
       detailList.push(detail);
-      obj.detailList =detailList
-      if(orderitem.length==0){
+      obj.detailList = detailList
+      if (orderitem.length == 0) {
         orderitem.push(obj);
-        totalqutity+=1;
-      }else{
-        var flag =true;
-        for(var j in orderitem){
-          if(obj.taxno ==orderitem[j].taxno){
+        totalqutity += 1;
+      } else {
+        var flag = true;
+        for (var j in orderitem) {
+          if (obj.taxno == orderitem[j].taxno) {
             orderitem[j].detailList.push(detail);
-            flag=false;
+            flag = false;
             break;
           }
         }
-        if(flag){
-         orderitem.push(obj);
-         totalqutity+=1;
+        if (flag) {
+          orderitem.push(obj);
+          totalqutity += 1;
         }
       }
-   }
-   if(apply.remark!=''&&apply.remark!=undefined){
-   str +="备注:"+apply.remark +"\n\n"
-   }
-   if(apply.expressway==''||apply.expressway==undefined){
-    return "取件方式未填";
-  }else{
-    str +="取件方式:"+apply.expressway +"\n"
-  }
-  if(apply.expressway=='邮寄'){
-    if(apply.receipt==''||apply.receipt==undefined){
-      return "取件人未填";
-    }else{
-      str +="收件人:"+apply.receipt +"\n"
     }
-    if(apply.receiptel==''||apply.receiptel==undefined){
-      return "取件人电话未填";
-    }else{
-      str +="收件电话:"+apply.receiptel +"\n"
+    if (apply.remark != '' && apply.remark != undefined) {
+      str += "备注:" + apply.remark + "\n\n"
     }
-    if(apply.area==''||apply.area==undefined){
-      return "取件地区未填";
-    }else{
-      str +="取件地区:"+apply.area +"\n"
+    if (apply.expressway == '' || apply.expressway == undefined) {
+      return "取件方式未填";
+    } else {
+      str += "取件方式:" + apply.expressway + "\n"
     }
-    if(apply.addressdetail==''||apply.addressdetail==undefined){
-      return "取件详细地址未填";
-    }else{
-      str +="取件地址:"+apply.addressdetail +"\n"
-    }
-    if(apply.paytype==''||apply.paytype==undefined){
-      return "付款方式未选择";
-    }else{
-      str +="付款方式:"+apply.paytype +"\n"
-      if(apply.paytype=='寄付'){
-        str +="运费:"+apply.expressmoney +"\n"
+    if (apply.expressway == '邮寄') {
+      if (apply.receipt == '' || apply.receipt == undefined) {
+        return "取件人未填";
+      } else {
+        str += "收件人:" + apply.receipt + "\n"
+      }
+      if (apply.receiptel == '' || apply.receiptel == undefined) {
+        return "取件人电话未填";
+      } else {
+        str += "收件电话:" + apply.receiptel + "\n"
+      }
+      if (apply.area == '' || apply.area == undefined) {
+        return "取件地区未填";
+      } else {
+        str += "取件地区:" + apply.area + "\n"
+      }
+      if (apply.addressdetail == '' || apply.addressdetail == undefined) {
+        return "取件详细地址未填";
+      } else {
+        str += "取件地址:" + apply.addressdetail + "\n"
+      }
+      if (apply.paytype == '' || apply.paytype == undefined) {
+        return "付款方式未选择";
+      } else {
+        str += "付款方式:" + apply.paytype + "\n"
+        if (apply.paytype == '寄付') {
+          str += "运费:" + apply.expressmoney + "\n"
+        }
       }
     }
-  }
-  str +="\n"
-   console.log(orderitem)
+    str += "\n"
+    console.log(orderitem)
 
-   for(var i in orderitem){
+    for (var i in orderitem) {
       var obj = orderitem[i];
-      str += "票号"+obj.taxno +"\n"
-      for(var j in orderitem[i].detailList){
-          var item =orderitem[i].detailList[j]
-           str+='  项目名'+item.name
-           str+='  数量'+item.number
-           str+='  单价'+item.unitprice
-           str+='  金额'+item.money
-           str+='  备注'+item.remark
-           str+='  税率'+item.tax+"\n"
+      str += "票号" + obj.taxno + "\n"
+      for (var j in orderitem[i].detailList) {
+        var item = orderitem[i].detailList[j]
+        str += '  项目名' + item.name
+        str += '  数量' + item.number
+        str += '  单价' + item.unitprice
+        str += '  金额' + item.money
+        str += '  备注' + item.remark
+        str += '  税率' + item.tax + "\n"
       }
-      str+="\n"
-   }
-   console.log(str);
-   this.setData({
-     str:str,
-     totalmoney,
-     totalqutity
-   })
-   return "检验正确";
+      str += "\n"
+    }
+    console.log(str);
+    this.setData({
+      str: str,
+      totalmoney,
+      totalqutity
+    })
+    return "检验正确";
   },
-  
-  checkconfirm(apply){
 
-    var result = this.checknum(this.data.ItemList,apply)
+  checkconfirm(apply) {
+
+    var result = this.checknum(this.data.ItemList, apply)
     console.log(result);
-    if(result!='检验正确'){
+    if (result != '检验正确') {
       Notify({
         message: result,
         duration: 2000,
       });
       return;
     }
-    var _this= this;
+    var _this = this;
     Dialog.confirm({
-      title: '发票确认',
-      message: '发票开具后是否需要确认',
-      confirmButtonText:"否",
-      cancelButtonText:"是"
-    })
-    .then(() => {
-      // on confirm
-      console.log("不需要")
-      apply.commit = "否"
-      setTimeout(() => {
-        _this.confirmdata(apply)
-      }, 500);
-    
-   
-    })
-    .catch(() => {
-      // on cancel
-      console.log("需要")
-      apply.commit = "是"
-      setTimeout(() => {
-        _this.confirmdata(apply)
-      }, 500);
-    });
+        title: '发票确认',
+        message: '发票开具后是否需要确认',
+        confirmButtonText: "否",
+        cancelButtonText: "是"
+      })
+      .then(() => {
+        // on confirm
+        console.log("不需要")
+        apply.commit = "否"
+        setTimeout(() => {
+          _this.confirmdata(apply)
+        }, 500);
+
+
+      })
+      .catch(() => {
+        // on cancel
+        console.log("需要")
+        apply.commit = "是"
+        setTimeout(() => {
+          _this.confirmdata(apply)
+        }, 500);
+      });
   },
 
-  InvoiceOperationList(){
-    var id =this.data.apply.company.id;
-    var type =this.data.apply.type;
+  InvoiceOperationList() {
+    var id = this.data.apply.company.id;
+    var type = this.data.apply.type;
 
-    var FapiaoList =[];
+    var FapiaoList = [];
     FapiaoList.push("1");
     FapiaoList.push("2");
     FapiaoList.push("3");
@@ -716,7 +872,7 @@ Page({
     //        })
     // })
   },
-  
+
 
   Checkcommit(apply, status) {
     this.setData({
@@ -768,17 +924,17 @@ Page({
     var _this = this
     let tempFilePaths = this.data.tempFilePaths;
     let redirect = this.data.redirect;
-    if(tempFilePaths!=null){
+    if (tempFilePaths != null) {
       salesorder1.attachment = tempFilePaths[0].name;
     }
     salesorder.AddSalesOrder(salesorder1, salesorderitem).then(res => {
       if (res.data.msg == true) {
         //是否有附件需要上传
-        if(tempFilePaths!=null){
+        if (tempFilePaths != null) {
           let objectId = res.data.id;
           let objectType = "SalesOrder";
           _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1);
-        }else {
+        } else {
           _this.finishKaiPiao(redirect, salesorder1);
         }
       } else {
@@ -789,76 +945,147 @@ Page({
     })
   },
 
-  finishKaiPiao(redirect, salesorder1){
+
+
+  finishKaiPiao(redirect, salesorder1) {
     wx.removeStorageSync('company1')
     setTimeout(function () {
       if (redirect == '充值') {
         router.redirectTo("/pages/mine/cash/cash?leftmoney=" + leftmoney)
       } else {
-        if (salesorder1.status == "审核中" || salesorder1.status == '加急') {
-          router.switchTab("/pages/banzu/banzu?type=审核中");
-        } else {
-          router.switchTab("/pages/banzu/banzu?type=暂存");
-        }
+        router.switchTab("/pages/banzu/banzu")
       }
     }, 1500)
   },
 
-  loadTaxRates() {
-    salesorder.LoadTaxRates().then(res=>{
-      let taxRates =[];
-      if(res.success==true){
-        if(res.data.list.length>0){
-          for(var i in res.data.list){
-            taxRates.push(res.data.list[i])
+  loadTaxRates(id) {
+    salesorder.LoadTaxRates(id).then(res => {
+      var first = [];
+      var second = [];
+      var secondtemp = [];
+      var third = [];
+      var thirdtep = [];
+      let taxRates = [];
+      if (res.success == true) {
+        if (res.data.list.length > 0) {
+          var list = res.data.list;
+          for (var i in list) {
+            var item = list[i];
+            if (first.length == 0) {
+              first.push(item.companyType);
+            } else {
+              var flag = true
+              for (var j in first) {
+                if (first[j] == item.companyType) {
+                  flag = false;
+                  break;
+                }
+              }
+              if (flag) {
+                first.push(item.companyType);
+              }
+            }
           }
-        }else{
-          
+          for (var m in list) {
+            for (var k in first) {
+              var obj = {};
+              if (list[m].companyType == first[k]) {
+                obj.parent = first[k]
+                obj.name = list[m].rateName;
+                second.push(obj);
+              }
+            }
+          }
+          for (var q in second) {
+            if (second[q].parent == first[0]) {
+              secondtemp.push(second[q].name);
+            }
+          }
+          for (var l in list) {
+            for (var n in second) {
+              var obj = {};
+              if (list[l].rateName == second[n].name) {
+                obj.parent = second[n].name
+                obj.name = list[l].rate;
+                third.push(obj);
+              }
+            }
+          }
+          for (var c in third) {
+            if (secondtemp[0] == third[c].parent) {
+              thirdtep.push(third[c].name);
+
+            }
+          }
+          thirdtep.push("自定义")
+
+          console.log(first);
+          console.log(second);
+          console.log(third);
+          var multiArray = []
+          multiArray.push(first);
+          multiArray.push(secondtemp);
+          multiArray.push(thirdtep);
+          this.setData({
+            first,
+            second,
+            third,
+            multiArray,
+            secondtemp: secondtemp
+          })
+        } else {
+
         }
       }
       this.setData({
-       taxRates
+        taxRates
       })
       console.info(this.data.taxRates)
     })
   },
-    
-    chooseMessageFile(){
-      let that = this;
-      wx.chooseMessageFile({
-        count: 10,
-        type: 'all',
-        success (res) {
-          // tempFilePath可以作为img标签的src属性显示图片
-          const tempFilePaths = res.tempFiles
-          console.info(res);
-          that.setData({tempFilePaths})
-        }
-      })
-    },
-  
-    uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1){
-      let that = this;
-      if(tempFilePaths!=null){
-        wx.uploadFile({
-          url: API.BaseUrl+'attachment/uploadFileAll',      //此处换上你的接口地址
-          filePath: tempFilePaths[0].path,
-          name: 'file',
-          header: {
-            "Content-Type": "multipart/form-data",
-            'accept': 'application/json',
-          },
-          formData:{objectId:objectId,objectType:objectType,fileName:tempFilePaths[0].name},
-          success: function(res){
-            let data = res;
-            console.log(data);
-            that.finishKaiPiao(redirect, salesorder1);
-          },
-          fail: function(res){
-            console.log('fail');
-          },
+
+  chooseMessageFile() {
+    let that = this;
+    wx.chooseMessageFile({
+      count: 10,
+      type: 'all',
+      success(res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        const tempFilePaths = res.tempFiles
+        console.info(res);
+        that.setData({
+          tempFilePaths
         })
       }
+    })
+  },
+
+  uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1) {
+    let that = this;
+    if (tempFilePaths != null) {
+      wx.uploadFile({
+        url: API.BaseUrl + 'attachment/uploadFileAll', //此处换上你的接口地址
+        filePath: tempFilePaths[0].path,
+        name: 'file',
+        header: {
+          "Content-Type": "multipart/form-data",
+          'accept': 'application/json',
+        },
+        formData: {
+          objectId: objectId,
+          objectType: objectType,
+          fileName: tempFilePaths[0].name
+        },
+        success: function (res) {
+          let data = res;
+          console.log(data);
+          that.finishKaiPiao(redirect, salesorder1);
+        },
+        fail: function (res) {
+          console.log('fail');
+        },
+      })
     }
-  
+  }
+
 })
