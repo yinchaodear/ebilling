@@ -4,7 +4,9 @@
     "van-circle": "../../dist/circle/index",
     "van-share-sheet": "../../dist/share-sheet",
     "van-datetime-picker": "../../dist/datetime-picker/index",
-    "van-popup": "../../dist/popup/index"
+    "van-popup": "../../dist/popup/index",
+    "van-row": "../../dist/row/index",
+    "van-col": "../../dist/col/index"
   }
    
 }

@@ -126,7 +126,7 @@ Page({
     var jsonstr = JSON.stringify(json)
     salesorder.InvoiceOperationStatistic(this.data.company.id, jsonstr).then(res=>{
       if(res.data.msg==true){
-        let stats = res.data.stats[0];
+        let stats = res.data.stats;
         this.setData({
           quantityStats:stats
         })
