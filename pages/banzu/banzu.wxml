@@ -52,7 +52,7 @@
       <view class='fo-26 fo-g width-77'>申请时间:{{item.operationtime}}</view>
       <!-- <view class='state ste4'>具体操作</view> -->
        <view class='bzBtn ma-l30' data-index='{{index}}' wx:if="{{item.f_sostatus=='审核中'&&item.f_approvestatus!=null&&item.f_approvestatus!=''}}"   bindtap='takeIt'>{{item.f_approvestatus}}</view>
-      <view class='bzBtn3 ma-l30'  data-id='{{item.id}}' wx:if="{{item.f_sostatus=='开具中'}}" bindtap='cancel'>等待10人</view>
+      <view class='bzBtn3 ma-l30'  data-id='{{item.id}}' wx:if="{{item.f_sostatus=='开具中'}}" bindtap='cancel'>等待中</view>
       <view class='bzBtn2 ma-l30'  data-title='{{item.title}}' wx:if="{{item.f_sostatus!='暂存'&&item.f_sostatus!='开具中'&&(item.f_approvestatus!='审核有疑问'&&item.f_approvestatus!='审核不通过')}}"  data-path='/pages/order/detail/detail?orderid={{item.f_id}}'  bindtap='navTo' >查看详情</view>
       <view class='bzBtn4 ma-l30' data-id='{{item.f_id}}'  wx:if="{{item.f_sostatus=='暂存'}}" bindtap='comfirm'>继续编辑</view> 
     </view>

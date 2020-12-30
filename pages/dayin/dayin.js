@@ -33,7 +33,8 @@ Page({
     multiArray: [],
     show: false,
     searchlist: [],
-    currentindex: 0
+    currentindex: 0,
+    tempidlist:[]
   },
 
 
@@ -473,6 +474,25 @@ Page({
         this.GetSalesOrderInfo(options.orderid, false);
       }
     }
+    this.minimessage()
+  },
+
+  minimessage(){
+    salesorder.minimessage().then(res=>{
+      console.log("程序模板")
+      console.log(res)
+      if(res.data.msg==true){
+        if(res.data.list.length>0){
+          this.setData({
+            tempidlist:res.data.list
+          })
+        }else{
+          this.setData({
+            tempidlist:['mcQ6UDHFlQ-q9AaydO4icIQjeTQ8mwsZRWzDA8u3jkE']
+          })
+        }
+      }
+    })
   },
 
   onReady: function () {
@@ -599,7 +619,7 @@ Page({
     apply.status = status;
 
     wx.requestSubscribeMessage({
-      tmplIds: ['mcQ6UDHFlQ-q9AaydO4icIQjeTQ8mwsZRWzDA8u3jkE'],
+      tmplIds:_this.data.tempidlist ,
       success(res) {
         console.log("订阅")
         _this.checkconfirm(apply)

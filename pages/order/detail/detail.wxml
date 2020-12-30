@@ -66,6 +66,7 @@
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
      <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'}}">取件二维码</view>
+     <view class='state ste4 ma-t30' bindtap="SfInfo" wx:if="{{detail.expressway=='邮寄'&&detail.expressno!=null}}">物流信息</view>
  
 
  
@@ -175,5 +176,20 @@
   confirmButtonText="关闭"
 >
   <image src="{{qrsrc}}" />
+</van-dialog>
+
+
+<van-dialog
+  use-slot
+  title="物流信息(开发中)"
+  show="{{showsf}}"
+  confirmButtonText="关闭"
+>
+ <van-steps
+  steps="{{ steps }}"
+  active="{{ active }}"
+  direction="vertical"
+  active-color="#ee0a24"
+/>
 </van-dialog>
 

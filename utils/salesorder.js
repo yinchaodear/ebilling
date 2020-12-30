@@ -17,6 +17,23 @@ const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatis
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
 const taxRateUrl = 'ebilling/salesorder/taxRate';
 const LoadHistoryTaxNameUrl ='ebilling/salesorder/loadhistorytaxname'
+const minimessageUrl ='ebilling/salesorder/minimessage'
+const sfinfoUrl ='ebilling/salesorder/sfinfo'
+
+function SfInfo(oid){
+  var params={
+    url: sfinfoUrl,
+    data:{
+     oid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
 function CancelApply(oid,taxno){
   var params={
@@ -269,6 +286,20 @@ function LoadHistoryTaxName(str){
   })
 }
 
+function minimessage(){
+  var params={
+    url: minimessageUrl,
+    data:{
+    
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
 
 
@@ -288,5 +319,7 @@ module.exports = {
   InvoiceOperationList,
   InvoiceOperationStatistic,
   LoadTaxRates,
-  LoadHistoryTaxName
+  LoadHistoryTaxName,
+  minimessage,
+  SfInfo
 }
