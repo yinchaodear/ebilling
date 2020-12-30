@@ -23,12 +23,52 @@ Page({
     },
     step:1,
     qrshow:false,
+    showsf:false,
     fileList:[],
     cancelimglist:[],
-    FapiaoList:[]
+    FapiaoList:[],
+    msgData:"",
+    active:2,
+    steps: [
+      {
+        text: '物流情况1',
+        desc: '描述信息',
+        inactiveIcon: 'location-o',
+        activeIcon: 'success',
+      },
+      {
+        text: '物流情况2',
+        desc: '描述信息',
+        inactiveIcon: 'like-o',
+        activeIcon: 'plus',
+      },
+      {
+        text: '物流情况3',
+        desc: '描述信息',
+        inactiveIcon: 'star-o',
+        activeIcon: 'cross',
+      },
+    ],
   },
-  
+  SfInfo(){
+    if(this.data.msgData!=''){
+      salesorder.SfInfo(this.data.detail.id).then(res=>{
+        if(res.data.msg==true){
+          this.setData({
+            msgData:res.data.msgData,
+            showsf:true
+          })
+        }
+    })
+    }else{
+      this.setData({
+        showsf:true
+      })
+    }
+   
+  },
   showqr(){
+      console.log("展示")
       this.setData({
         qrshow:true
       })
@@ -194,7 +234,7 @@ Page({
       // on cancel
   
       console.log("没问题")
-      this.ChangeOrderStatus();
+      //this.ChangeOrderStatus();
     });
    
   },
@@ -291,6 +331,7 @@ Page({
            detail.money =item[i].money;
            detail.model =item[i].model;
            detail.number =item[i].number;
+           detail.remark =item[i].remark;
            detail.tax =item[i].tax;
            detail.unit =item[i].unit;
            detail.unitprice =item[i].unitprice;

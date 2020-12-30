@@ -10,10 +10,12 @@
     </view>
   </view> -->
     <view class="jiexi" wx:if="{{detail.id==''||detail.id==undefined}}">
-     <textarea class="textarea-jiexi" bindinput="bindinputtextarea" placeholder="在此粘贴公司相关信息">
+     <textarea class="textarea-jiexi" value="{{companystr}}" bindinput="bindinputtextarea" placeholder="粘贴或输入开票信息.">
      </textarea>
-     <button class="button-jiexi" bindtap="companyinfostatic">  解析</button>
-    
+     <view class="right-area">
+     <button class="button-jiexi" bindtap="companyinfostatic"> 文字解析</button>
+      <button class="button-jiexi" bindtap="choseimage"> 图片解析</button>
+    </view>
     </view>
 
     <view class='pa-t30-1 pa-b30-1 border-b  item-center'>
@@ -21,11 +23,12 @@
       <!-- <image src='/img/d5.png' class='icon-35'></image> -->
       <view class='fo-30 ma-l20'>企业名称</view>
        <view class='required'>*</view>
+      <view class="chaxunbutton" bindtap="GetCompanyInfo" wx:if="{{detail.id==''||detail.id==undefined}}">企业查询</view>
     </view>
     <!--bindblur="GetCompanyInfo"   bindconfirm="GetCompanyInfo"-->
       <input class='fo-30 fo-g text-center' value='{{detail.name}}'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"   data-name='name' bindinput='bInput' placeholder='请输入企业名称'></input>
      <view wx:for="{{searchlist}}" wx:if="{{searchlist.length>0}}" >
-        <view class='searchitem fo-26' bindtap="confirmname"  data-name="{{item.f_companyname}}">{{item.f_companyname}}</view>
+        <view class='searchitem fo-26' bindtap="confirmname"  data-name="{{item.Name}}">{{item.Name}}</view>
      </view>
   </view>
 
@@ -36,7 +39,7 @@
        <view class='required'>*</view>
     </view>
     
-      <input class='fo-30 fo-g text-center'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"    bindfocus="GetCompanyInfo" value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
+      <input class='fo-30 fo-g text-center'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"     value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
   
   </view>
   
@@ -89,7 +92,7 @@
   <view class="pannel-item" wx:for='{{ItemList}}'>
      <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件人</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="receipt" placeholder=""  value="{{item.receipt}}" ></input>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="receipt" placeholder="不填则默认不保存此条"  value="{{item.receipt}}" ></input>
          </view>
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
         <view class='fo-26'>收件电话</view>
@@ -130,10 +133,10 @@
       </view>
 </van-collapse>
     
-<!-- <view  class="" >
-  <view class='fo-26'>公司信息图片</view>
-   <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
-</view> -->
+<view  class="" wx:if="{{detail.id!=''&&detail.id!=undefined}}">
+  <view class='fo-26 pa-b20'>公司信息图片</view>
+   <van-uploader file-list="{{ imagelist }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+</view> 
   
 
 

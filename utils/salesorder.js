@@ -16,6 +16,25 @@ const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
 const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatistic'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
 const taxRateUrl = 'ebilling/salesorder/taxRate';
+const LoadHistoryTaxNameUrl ='ebilling/salesorder/loadhistorytaxname'
+const minimessageUrl ='ebilling/salesorder/minimessage'
+const sfinfoUrl ='ebilling/salesorder/sfinfo'
+
+function SfInfo(oid){
+  var params={
+    url: sfinfoUrl,
+    data:{
+     oid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 function CancelApply(oid,taxno){
   var params={
     url: CancelApplyUrl,
@@ -236,9 +255,12 @@ function InvoiceOperationList(cid,type){
   })
 }
 
-function LoadTaxRates(){
+function LoadTaxRates(cid){
   var params={
     url: taxRateUrl,
+    data:{
+      cid
+    }
   }
   return new Promise(function (resolve, reject) {
     util.request(params, "GET").then(res => {
@@ -249,6 +271,35 @@ function LoadTaxRates(){
 }
 
 
+function LoadHistoryTaxName(str){
+  var params={
+    url: LoadHistoryTaxNameUrl,
+    data:{
+      str
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+function minimessage(){
+  var params={
+    url: minimessageUrl,
+    data:{
+    
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
 
 
@@ -267,5 +318,8 @@ module.exports = {
   CancelApply,
   InvoiceOperationList,
   InvoiceOperationStatistic,
-  LoadTaxRates
+  LoadTaxRates,
+  LoadHistoryTaxName,
+  minimessage,
+  SfInfo
 }

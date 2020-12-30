@@ -29,12 +29,26 @@
         <view class="contract" wx:for="{{contractList}}">
    <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>合同编号:</view>
-        <input class='text-right fo-28' type='digit' name='price' value="{{item.no}}" placeholder='输入金额(元)'></input>
+        <input class='text-right fo-28' type='digit' disabled="true" name='price' value="{{item.contract_no}}" placeholder='输入金额(元)'></input>
       </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
-        <view class='fo-28 bold'>合同类型:</view>
-        <input class='text-right fo-28' type='digit' name='price' value="{{item.type}}" placeholder='输入金额(元)'></input>
+        <view class='fo-28 bold'>合同名称:</view>
+        <input class='text-right fo-28' type='digit' name='price' disabled="true" value="{{item.productname}}" placeholder='输入金额(元)'></input>
       </view>
+
+     <view class='panel-between border-b pa-t30 pa-b10'>
+        <view class='fo-28 bold'>合同数量:</view>
+        <input class='text-right fo-28' type='digit' name='price' disabled="true" value="{{item.quantity}}" placeholder='输入金额(元)'></input>
+      </view>
+        <view class='panel-between border-b pa-t30 pa-b10'>
+        <view class='fo-28 bold'>开始时间:</view>
+        <input class='text-right fo-28' type='digit' name='price' disabled="true" value="{{item.starttime}}" placeholder='输入金额(元)'></input>
+      </view>
+        <view class='panel-between border-b pa-t30 pa-b10'>
+        <view class='fo-28 bold'>结束时间:</view>
+        <input class='text-right fo-28' type='digit' name='price' disabled="true" value="{{item.endtime}}" placeholder='输入金额(元)'></input>
+      </view>
+     
 
       <view class='panel-between border-b pa-t30 pa-b10' wx:if="{{item.type=='周期合同'}}">
         <view class='fo-28 bold'>时间段:</view>

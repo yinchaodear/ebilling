@@ -93,7 +93,6 @@ Page({
               Dialog.alert({
                 title: '临时登录',
                 message: "此微信已绑定账号为"+res.data.existphone+"\n如需修改请联系客服",
-                theme: 'round-button',
               }).then(() => {
                 // on close
                 wx.switchTab({

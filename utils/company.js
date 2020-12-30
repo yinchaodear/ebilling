@@ -15,6 +15,24 @@ const GetCompanyAccountInfoListUrl ='ebilling/companyaccount/getcompanyaccountin
 const ChargeUrl = 'ebilling/companyaccount/charge'
 const WxPayUrl = 'ebilling/companyaccount/wxpay'
 const ParseUrl = 'ebilling/companyaccount/parse'
+const DeleteUrl = 'attachment/deleteFile'
+const synchServiceContractsUrl = 'ebilling/companyaccount/synchServiceContracts'
+function synchServiceContracts(cid){
+  var params={
+    url:synchServiceContractsUrl,
+    data:{
+      cid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+
 function QueryMyCompany() {
   //Map.phone map.pwd
   var params={
@@ -240,6 +258,25 @@ function WxPay(cid,fee){
   })
  }
 
+
+
+function Delete( objectId, objectType,fileName){
+  var params={
+    url: DeleteUrl,
+    data:{
+      objectId,
+      objectType,
+      fileName
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 module.exports = {
   QueryMyCompany,
   QueryOtherCompany,
@@ -254,5 +291,7 @@ module.exports = {
   GetCompanyAccountInfoList,
   Charge,
   WxPay,
-  Parse
+  Parse,
+  Delete,
+  synchServiceContracts
 }

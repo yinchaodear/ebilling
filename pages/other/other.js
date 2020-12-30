@@ -2,29 +2,31 @@
 //获取应用实例
 const app = getApp()
 import Dialog from '../../dist/dialog/dialog';
-
+import company from "../../utils/company"
 let _this;
 Page({
   data: {
     contractList:[
-      {
-        no:"112332",
-        type:"按次合同",
-        starttime:"2011-02",
-        endtime:"2011-021",
-        total:9,
-        left:2
-      },
-      {
-        no:"112332",
-        type:"周期合同",
-        starttime:"2011-02",
-        endtime:"2011-021",
-        total:9,
-        left:2
-      }
-
+    
     ]
+  },
+
+  synchServiceContracts(cid){
+     company.synchServiceContracts(cid).then(res=>{
+       if(res.data.msg==true){
+         var contractList =this.data.contractList;
+         var item =JSON.parse(res.data.companyinfostr)
+         var time =new Date(item.servicecontracts_start_date)
+         var time1 =new Date(item.servicecontracts_end_date)
+         item.starttime = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
+         item.endtime= time1.getFullYear()+"-"+(time1.getMonth()+1)+"-"+time1.getDate();
+         contractList.push(item)
+         this.setData({
+          contractList
+         })
+         console.log(item)
+       }
+     })
   },
   back(){
     wx.navigateBack({
@@ -119,6 +121,9 @@ Page({
               complete: (res) => {},
             })
           });
+        }else{
+          var cid =company.id;
+          this.synchServiceContracts(cid);
         }
       }
   },

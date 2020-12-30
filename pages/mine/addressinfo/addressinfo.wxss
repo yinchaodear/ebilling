@@ -33,12 +33,7 @@ margin: 0 auto;
 width: 50%;
 margin-top: 10rpx;
 }
-.searchitem{
-  text-align: center;
-  padding: 5px 0;
-  margin-top: 10px;
 
-}
 
 .jiexi{
   display: flex;
@@ -59,8 +54,33 @@ margin-top: 10rpx;
   color: white;
   height: 30px;
   line-height: 30px;
+  background: linear-gradient(to right top,#6183dd,#6e42d3);
+width: 91px;
+font-size: 10px;
+color: white;
+height: 30px;
+line-height: 30px;
+margin-bottom: 5px;
+margin-left: 8px;
+
 }
 
 .padd-1{
   padding:  0 20px;
+}
+
+.chaxunbutton{
+  background: linear-gradient(to right top,#6183dd,#6e42d3);
+  position: relative;
+  right: 0;
+  margin-left: 55%;
+  font-size: 25rpx;
+  padding: 5px 12px;
+  color: white;
+  border-radius: 5px;  
+}
+
+.right-area{
+  display: flex;
+  flex-direction: column;
 }
