@@ -2,6 +2,7 @@ const app = getApp()
 const router =require('../../utils/router')
 const Toast =require('../../utils/Toast')
 const saleorder =require("../../utils/salesorder")
+import Dialog from '../../dist/dialog/dialog';
 let _this;
 Page({
 
@@ -55,6 +56,20 @@ Page({
       load:true,
       end:false,
     })
+  },
+
+  querywaittip(e){
+       const oid =e.currentTarget.dataset.oid;
+       saleorder.querywaittip(oid).then(res=>{
+                if(res.data.msg==true){
+                  Dialog.alert({
+                    title: '等待详情',
+                    message: res.data.result
+                  }).then(() => {
+                    // on close
+                  });
+                }
+       })
   },
 
   ordermoney(e){

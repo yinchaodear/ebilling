@@ -362,7 +362,7 @@ Page({
         }
         for(var i in res.data.FapiaoList){
           var obj =res.data.FapiaoList[i];
-          FapiaoList.push(api.PicUrl("salesorder",obj.salesOrderId+'_'+obj.paperno, obj.picname));
+          FapiaoList.push(api.PicUrl("salesorderdetail",obj.salesOrderId, obj.picname));
         }
        
         this.setData({

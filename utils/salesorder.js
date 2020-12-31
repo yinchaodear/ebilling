@@ -19,7 +19,7 @@ const taxRateUrl = 'ebilling/salesorder/taxRate';
 const LoadHistoryTaxNameUrl ='ebilling/salesorder/loadhistorytaxname'
 const minimessageUrl ='ebilling/salesorder/minimessage'
 const sfinfoUrl ='ebilling/salesorder/sfinfo'
-
+const querywaittipUrl  ='ebilling/salesorder/querywaittip'
 function SfInfo(oid){
   var params={
     url: sfinfoUrl,
@@ -300,7 +300,20 @@ function minimessage(){
     })
   })
 }
-
+function querywaittip(oid){
+  var params={
+    url:querywaittipUrl,
+    data:{
+    oid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
 
 
 module.exports = {
@@ -321,5 +334,6 @@ module.exports = {
   LoadTaxRates,
   LoadHistoryTaxName,
   minimessage,
-  SfInfo
+  SfInfo,
+  querywaittip
 }

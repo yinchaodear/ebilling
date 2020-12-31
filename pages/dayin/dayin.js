@@ -81,6 +81,7 @@ Page({
             thirdtemp.push(third[i].name);
           }
         }
+        thirdtemp.push("自定义");
         multiArray[2] = thirdtemp;
         this.setData({
           multiArray,
@@ -107,7 +108,7 @@ Page({
         console.log("改变第三行");
         break;
     }
-
+   console.log(multiArray)
 
   },
 
@@ -1021,15 +1022,13 @@ Page({
               secondtemp.push(second[q].name);
             }
           }
+          debugger;
           for (var l in list) {
-            for (var n in second) {
-              var obj = {};
-              if (list[l].rateName == second[n].name) {
-                obj.parent = second[n].name
-                obj.name = list[l].rate;
-                third.push(obj);
-              }
-            }
+              var obj = {};  
+              obj.parent = list[l].rateName
+              obj.name = list[l].rate;
+              third.push(obj);
+
           }
           for (var c in third) {
             if (secondtemp[0] == third[c].parent) {

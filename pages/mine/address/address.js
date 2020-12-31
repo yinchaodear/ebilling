@@ -65,16 +65,14 @@ Page({
   onChange(e) {
     this.setData({
       value: e.detail,
-     
     });
-    if(e.detail==''){
-      this.setData(
+     this.setData(
         {
           list:[]
         }
       )
       this.SearchChose()
-    }
+    
   },
   
   onSearch(e) {

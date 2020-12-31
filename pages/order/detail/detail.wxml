@@ -1,7 +1,7 @@
 <!-- <view style="height:150rpx">
   <view style='background-image:url({{list.avatar_url}})' class='bggs'></view>
 </view> -->
-<view class='pa-l30 pa-r30 ' style='position:relative;bottom:50px' >
+<view class='pa-l30 pa-r30 '  >
   <view class='panel ra-10 shadow'>
     <view class="panel-between">
       <view class='panel-start item-center'>
@@ -35,7 +35,7 @@
        <view class='fo-26 ma-t30 fo-g color-1' wx:if="{{detail.cancel!=null}}" >作废状态：{{detail.cancel}}</view> 
     <view class='fo-30 ma-t30'>开票明细</view>
     <view wx:for="{{orderitem}}" class="orderitem">
-     <view class='fo-28 bold ma-t10 fo-g' wx:if="{{item.cancel==null||item.cancel==''}}" >发票抬头：{{item.taxno}}</view>
+     <view class='fo-28 bold ma-t10 fo-g' wx:if="{{item.cancel==null||item.cancel==''}}" >流水号：{{item.taxno}}</view>
       <view class='fo-28 bold ma-t10 fo-g color-1' wx:if="{{item.cancel!=null&&item.cancel!=''}}" >发票抬头：{{item.taxno}}({{item.cancel}})</view>
     <view class="orderitem-1" wx:for='{{item.detailList}}' wx:for-item="item1" >
      <view class='fo-26 ma-t10 fo-g'>开票项名称：{{item1.name}}</view>
@@ -65,9 +65,9 @@
    </view>
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
-     <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'}}">取件二维码</view>
+     <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='待取件'}}">取件二维码</view>
      <view class='state ste4 ma-t30' bindtap="SfInfo" wx:if="{{detail.expressway=='邮寄'&&detail.expressno!=null}}">物流信息</view>
- 
+     <view style="min-height:50px"></view>
 
  
     <!-- <view class='panel-end' style='height:30rpx'>

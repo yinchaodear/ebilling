@@ -3,6 +3,8 @@
   "usingComponents": {
     "van-dropdown-menu": "../../dist/dropdown-menu/index",
     "van-dropdown-item": "../../dist/dropdown-item/index",
-    "van-popup": "../../dist/popup/index"
+    "van-popup": "../../dist/popup/index",
+    "van-dialog": "../../dist/dialog/index"
   }
 }
+
