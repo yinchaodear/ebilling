@@ -671,7 +671,7 @@ Page({
     if (apply.type == undefined || apply.type == '') {
       return "票据种类未选择";
     } else {
-      if (apply.type == '专票') {
+      if (apply.type == '专票'||apply.type=='代开专票') {
         if (apply.phone == '' || apply.phone == undefined || apply.address == '' || apply.address == undefined || apply.bank == '' || apply.bank == undefined ||
           apply.bankaccount == '' || apply.bankaccount == undefined) {
           return "当前票据种类为专票,对方单位信息填写不全"
@@ -722,7 +722,7 @@ Page({
       totalmoney += item[i].money;
 
       let tax = item[i].tax;
-      if (tax == '' || tax == undefined || tax == 0) {
+      if (tax == '' || tax == undefined ) {
         return "开票项第" + (parseInt(i) + 1) + "项,税率为空"
       } else {
         if (isNaN(tax)) {
@@ -731,7 +731,7 @@ Page({
       }
       detail.tax = tax;
       detail.unit = item[i].unit;
-      detail.remark = item[i].remark
+      detail.remark = item[i].remark==undefined?"":item[i].remark
       detail.cancel = item[i].cancel;
       detailList.push(detail);
       obj.detailList = detailList
