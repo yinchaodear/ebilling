@@ -3,6 +3,14 @@ const api =require("../../../config/api")
 let _this;
 const salesorder = require('../../../utils/salesorder')
 const router =require('../../../utils/router')
+function formatDate(num){
+  num =parseInt(num);
+  if(num<10){
+    return "0"+num
+  }else{
+    return num
+  }
+}
 
 import Dialog from '../../../dist/dialog/dialog';
 Page({
@@ -29,35 +37,43 @@ Page({
     FapiaoList:[],
     msgData:"",
     active:2,
-    steps: [
-      {
-        text: '物流情况1',
-        desc: '描述信息',
-        inactiveIcon: 'location-o',
-        activeIcon: 'success',
-      },
-      {
-        text: '物流情况2',
-        desc: '描述信息',
-        inactiveIcon: 'like-o',
-        activeIcon: 'plus',
-      },
-      {
-        text: '物流情况3',
-        desc: '描述信息',
-        inactiveIcon: 'star-o',
-        activeIcon: 'cross',
-      },
-    ],
+    steps: [],
   },
   SfInfo(){
-    if(this.data.msgData!=''){
+    debugger;
+    if(this.data.msgData==''){
       salesorder.SfInfo(this.data.detail.id).then(res=>{
         if(res.data.msg==true){
           this.setData({
             msgData:res.data.msgData,
+            msgData1:res.data.msgData1,
             showsf:true
           })
+          var steps=[];
+          var obj ={};
+          obj.text="物流信息"
+          obj.desc ="物流单号"+res.data.msgData.routeLabelInfo[0].message
+          steps.push(obj); 
+          var routelist =res.data.msgData1.routeResps[0].routes;
+          for(var i in routelist){
+            var item =routelist[i]
+            var obj ={};
+            var date= new Date(item.acceptTime);
+            obj.text=item.acceptAddress;
+            obj.desc =item.remark +"  "+","+date.getFullYear()+"-"+ formatDate((date.getMonth()+1))+"-"+formatDate(date.getDate()) +" "+formatDate(date.getHours())+":"+formatDate(date.getMinutes())
+            steps.push(obj); 
+          }
+          steps =steps.reverse();
+          this.setData({
+            steps,
+            active:0
+          })
+          // {
+          //   text: '物流情况1',
+          //   desc: '描述信息',
+          //   inactiveIcon: 'location-o',
+          //   activeIcon: 'success',
+          // },
         }
     })
     }else{
@@ -67,6 +83,8 @@ Page({
     }
    
   },
+
+    
   showqr(){
       console.log("展示")
       this.setData({
@@ -287,6 +305,12 @@ Page({
     .then(() => {
       // on confirm
       console.log("有问题")
+      Dialog.alert({
+        title: '联系客服',
+        message: "如发票有问题,请联系客服"
+      }).then(() => {
+        // on close
+      });
     })
     .catch(() => {
       // on cancel
@@ -355,8 +379,8 @@ Page({
            }
         }
         console.log(orderitem)
-        var cancelimglist = this.data.cancelimglist;
-        var  FapiaoList  =this.data.FapiaoList;
+        var cancelimglist = [];
+        var  FapiaoList  =[];
         for(var i in res.data.cancelimglist){
            cancelimglist.push(api.PicUrl("CancelApply",ID,res.data.cancelimglist[i].name))
         }

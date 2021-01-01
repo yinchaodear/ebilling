@@ -141,7 +141,7 @@
 </view>-->
 
 <view class='fix-b panel-end itme-center'>
-  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问')&&detail.refusednumber<1)}}" > 继续编辑</view>
+  <view class='bzbtn '  bindtap='takeIt' wx:if="{{detail.status=='暂存'||(detail.status=='审核中'&&(detail.approvestatus=='审核不通过'||detail.approvestatus=='审核有疑问'))}}" > 继续编辑</view>
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
   <view class='bzbtn3 '    bindtap='applyagain'>再次开票</view> 
   <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&detail.cancel!='待作废'}}"  bindtap='comfirm'>发票确认</view>
@@ -181,7 +181,7 @@
 
 <van-dialog
   use-slot
-  title="物流信息(开发中)"
+  title="物流信息"
   show="{{showsf}}"
   confirmButtonText="关闭"
 >
