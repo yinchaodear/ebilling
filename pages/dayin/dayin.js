@@ -619,20 +619,36 @@ Page({
     var apply = this.data.apply;
     apply.status = status;
 
-    wx.requestSubscribeMessage({
-      tmplIds:_this.data.tempidlist ,
-      success(res) {
-        console.log("订阅")
-        _this.checkconfirm(apply)
-      },
-      fail(res) {
-        console.log("不订阅")
-        _this.checkconfirm(apply)
-      }
-    })
-
-
-
+    let tempidlist = _this.data.tempidlist;
+    let ids = [];
+    if(tempidlist.length>3){
+      ids = tempidlist.slice(0, 3);
+      wx.requestSubscribeMessage({
+        tmplIds:ids,
+        success(res) {
+          console.log("订阅")
+          _this.checkconfirm(apply)
+        },
+        fail(res) {
+          console.log("不订阅")
+          _this.checkconfirm(apply)
+        }
+      })
+    }else{
+      ids = tempidlist.slice(0, tempidlist.length);
+      wx.requestSubscribeMessage({
+        tmplIds:ids,
+        success(res) {
+          console.log("订阅")
+          _this.checkconfirm(apply)
+        },
+        fail(res) {
+          console.log("不订阅")
+          _this.checkconfirm(apply)
+        }
+      })
+    }
+    
   },
 
   confirmdata(apply) {
