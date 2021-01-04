@@ -7,6 +7,7 @@ const salesorder = require('../../utils/salesorder')
 const company = require("../../utils/company")
 import Notify from '../../dist/notify/notify';
 import Dialog from '../../dist/dialog/dialog';
+import dialog from "../../dist/dialog/dialog";
 const originList = ["001", "002", "003", "004", "005", "006", "007", "008"]
 let _this;
 Page({
@@ -76,13 +77,6 @@ Page({
           }
         }
         multiArray[1] = secondtemp
-        for (var i in third) {
-          if (third[i].parent == secondtemp[0]) {
-            thirdtemp.push(third[i].name);
-          }
-        }
-        thirdtemp.push("自定义");
-        multiArray[2] = thirdtemp;
         this.setData({
           multiArray,
           secondtemp
@@ -91,19 +85,6 @@ Page({
 
       case 1:
         console.log("改变第二行");
-        thirdtemp = [];
-        for (var i in third) {
-          if (third[i].parent == secondtemp[value]) {
-            thirdtemp.push(third[i].name);
-          }
-        }
-        thirdtemp.push("自定义");
-        multiArray[2] = thirdtemp
-        this.setData({
-          multiArray
-        })
-
-        break;
       case 2:
         console.log("改变第三行");
         break;
@@ -173,8 +154,8 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value);
     var index = e.currentTarget.dataset.index;
     var multiArray = this.data.multiArray;
-    var number = e.detail.value[2] == null ? 0 : e.detail.value[2];
-    var tax = this.data.multiArray[2][number]
+    var number = e.detail.value[1] == null ? 0 : e.detail.value[1];
+    var tax = this.data.multiArray[1][number]
     if (tax == '自定义') {
       console.log("自己输入");
       this.setData({
@@ -652,6 +633,34 @@ Page({
   },
 
   confirmdata(apply) {
+    var _this =this
+    if(this.data.maxMoney<this.data.totalmoney){
+      
+      Dialog.confirm({
+        title: '金额超出',
+        message: "申请金额超过库存发票可开金额,是否继续申请?",
+        confirmButtonText: "继续申请",
+        cancelButtonText: "返回修改开票金额"
+      })
+      .then(() => {
+        // on confirm  
+        setTimeout(() => {
+          _this.confirmdatanext(apply);
+        }, 500);
+
+      })
+      .catch(() => {
+        // on cancel
+      });
+    }else{
+      this.confirmdatanext(apply);
+    }
+
+   
+
+  },
+
+  confirmdatanext(apply){
     var _this = this;
     Dialog.confirm({
         title: '开票总数:' + this.data.totalqutity + ",开票总金额:" + this.data.totalmoney,
@@ -668,7 +677,6 @@ Page({
       .catch(() => {
         // on cancel
       });
-
   },
 
 
@@ -887,27 +895,24 @@ Page({
     this.setData({
       FapiaoList
     });
-    // salesorder.InvoiceOperationList(id,type).then(res=>{
-    //       var FapiaoList =[];
-    //       var message1 =''
-    //        if(res.data.msg==true){
-    //         if(res.data.list.length>0){
-    //           for(var i in res.data.list){
-    //             FapiaoList.push(res.data.list[i].taxNo)
-    //            }
-    //         }else{
-    //           Notify({
-    //             message:"该公司"+type+"数量不足,无法开票",
-    //             duration: 2000,
-    //           });
-    //           message1="该公司"+type+"数量不足,无法开票";
-    //         }
-    //        }
-    //        this.setData({
-    //         FapiaoList,
-    //         message1
-    //        })
-    // })
+    salesorder.InvoiceOperationList(id,type).then(res=>{
+          var FapiaoList =[];
+          var message1 =''
+           if(res.data.msg==true){
+              var maxMoney =0;
+              for(var i in res.data.list){
+                maxMoney+=res.data.list[i].maxMoney;
+              }
+              Notify({
+                message: "当前类型票据总金额为"+maxMoney,
+                duration: 1000,
+              });
+              this.setData({
+                maxMoney
+              })
+           }
+       
+    })
   },
 
 
@@ -1027,9 +1032,19 @@ Page({
             for (var k in first) {
               var obj = {};
               if (list[m].companyType == first[k]) {
-                obj.parent = first[k]
-                obj.name = list[m].rateName;
-                second.push(obj);
+                var flag1= true;
+                for(var v in second){
+                    if(second[v].name==list[m].rate&&second[v].parent==list[m].companyType){
+                      flag1=false;
+                      break;
+                    }
+                }
+                if(second.length==0||flag1==true){
+                  obj.parent = first[k]
+                  obj.name = list[m].rate;
+                  second.push(obj);
+                }
+              
               }
             }
           }
@@ -1038,33 +1053,17 @@ Page({
               secondtemp.push(second[q].name);
             }
           }
-          debugger;
-          for (var l in list) {
-              var obj = {};  
-              obj.parent = list[l].rateName
-              obj.name = list[l].rate;
-              third.push(obj);
-
-          }
-          for (var c in third) {
-            if (secondtemp[0] == third[c].parent) {
-              thirdtep.push(third[c].name);
-
-            }
-          }
-          thirdtep.push("自定义")
+       
 
           console.log(first);
           console.log(second);
-          console.log(third);
+    
           var multiArray = []
           multiArray.push(first);
           multiArray.push(secondtemp);
-          multiArray.push(thirdtep);
           this.setData({
             first,
             second,
-            third,
             multiArray,
             secondtemp: secondtemp
           })
