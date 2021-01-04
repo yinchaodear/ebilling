@@ -16,7 +16,13 @@ Page({
   onLoad: function (options) {
     if(options.message){
         this.setData({message:JSON.parse(options.message)});
+        console.info(options.message);
     }
   },
+  
+  navTo(){
+    let {message} = this.data;
+    router.navigateTo("/pages/messageRouter/messageRouter?objectType="+message.objectType+"&objectId="+message.objectId);
+  }
   
 })

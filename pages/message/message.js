@@ -66,6 +66,11 @@ Page({
              list:list,
              loading:false
             })
+            if(res.data.length<this.data.pagesize){
+                this.setData({
+                    end:true
+                })
+            }
         }else if(res.success==true&&res.data.length==0){
            this.setData({
              end:true
@@ -74,7 +79,8 @@ Page({
         }
      })
     }else{
-      console.log("正在加载");
+        if(this.data.loading) console.log("正在加载");
+        if(this.data.end) console.log("已经没有更多");
     }
   },
 

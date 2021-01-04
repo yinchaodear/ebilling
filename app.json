@@ -24,7 +24,8 @@
     "pages/mine/jdsm/jdsm",
     "pages/mine/about/about",
     "pages/richtext/richtext",
-    "pages/statistics/statistics"
+    "pages/statistics/statistics",
+    "pages/messageRouter/messageRouter"
   ],
   "window": {
     "backgroundTextStyle": "dark",

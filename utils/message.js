@@ -9,8 +9,8 @@ function SystemMessage(pageno,pagesize){
   var params={
     url:SystemMessageUrl,
     data:{
-      pageno,
-      pagesize
+      page:pageno,
+      limit:pagesize
     }
   }
   return new Promise(function (resolve, reject) {

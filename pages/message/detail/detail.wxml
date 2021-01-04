@@ -5,7 +5,7 @@
   <view class='panel ra-10 shadow'>
       <view class='panel-start item-center'>
         <!-- <image class='avatar' src='{{list.avatar_url}}' mode='aspectFill'></image> -->
-        <view class='ma-l30'>
+        <view class='ma-l30' bindtap="navTo">
             <view class='fo-28 fo-g '>{{message.title}}</view>
             <view class='fo-26' style="word-break: break-all;padding-top: 5px">{{message.content}}</view>
             <view class='fo-24 fo-g' style="padding-top: 5px">{{message.sendTime}}</view>
