@@ -286,11 +286,11 @@ function LoadHistoryTaxName(str){
   })
 }
 
-function minimessage(){
+function minimessage(type){
   var params={
     url: minimessageUrl,
     data:{
-    
+      type
     }
   }
   return new Promise(function (resolve, reject) {
