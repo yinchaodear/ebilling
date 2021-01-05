@@ -221,10 +221,33 @@ Page({
     })
     this.SalesOrderList(this.data.type,this.data.text)
   },
+    
   navTo(e) {
     var path = e.currentTarget.dataset.path;
+    let item = e.currentTarget.dataset.item;
+    console.info(item)
+    let that = this;
+    if(item.f_is_sub_express_msg==0 && item.f_express_type=='邮寄' && this.data.tempidlist && this.data.tempidlist.length>0){
+        wx.requestSubscribeMessage({
+            tmplIds : this.data.tempidlist,
+            success(res) {
+                console.log("订阅")
+                //设置为已订阅
+                that.updateSalesOrderExpressSubStatus(item.f_id);
+            },
+            fail(res) {
+                console.log("不订阅")
+            }
+        })
+    }
     router.navigateTo(path);
   },
+    
+    updateSalesOrderExpressSubStatus(id) {
+      saleorder.updateSalesOrderExpressSubStatus(id).then(res=>{
+        console.info(res);
+      })
+    },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -234,6 +257,20 @@ Page({
     //  }else{
     //    this.SalesOrderList(this.data.type)
     //  }
+  },
+    
+  minimessage(){
+    saleorder.minimessage("快递").then(res=>{
+      console.log("程序模板")
+      console.log(res)
+      if(res.data.msg==true){
+        if(res.data.list.length>0){
+          this.setData({
+            tempidlist:res.data.list
+          })
+        }
+      }
+    })
   },
 
   /**
@@ -257,6 +294,7 @@ Page({
         endtime
     })
     this.SalesOrderList(this.data.type,this.data.text);
+    this.minimessage();
   },
 
   

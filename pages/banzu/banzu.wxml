@@ -22,7 +22,7 @@
 </view> -->
 <view class="pa-30">
   <view class='titem' wx:for="{{list}}">
-    <view data-path='/pages/order/detail/detail?orderid={{item.f_id}}' data-names='id' bindtap='navTo'>
+    <view data-path='/pages/order/detail/detail?orderid={{item.f_id}}' data-names='id' data-item="{{item}}" bindtap='navTo'>
       <view class='panel-between'>
         <view class='panel-start item-center' style="width:75%">
           <!-- <image src='{{item.avatar_url}}' class='avatar' mode='aspectFill'></image> -->

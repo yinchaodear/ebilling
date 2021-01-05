@@ -20,6 +20,7 @@ const LoadHistoryTaxNameUrl ='ebilling/salesorder/loadhistorytaxname'
 const minimessageUrl ='ebilling/salesorder/minimessage'
 const sfinfoUrl ='ebilling/salesorder/sfinfo'
 const querywaittipUrl  ='ebilling/salesorder/querywaittip'
+const updateSalesOrderExpressSubStatusUrl  ='ebilling/salesorder/updateSalesOrderExpressSubStatus'
 function SfInfo(oid){
   var params={
     url: sfinfoUrl,
@@ -315,6 +316,21 @@ function querywaittip(oid){
   })
 }
 
+function updateSalesOrderExpressSubStatus(id){
+  var params={
+    url:updateSalesOrderExpressSubStatusUrl,
+    data:{
+      id
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 module.exports = {
   AddSalesOrder,
@@ -335,5 +351,6 @@ module.exports = {
   LoadHistoryTaxName,
   minimessage,
   SfInfo,
-  querywaittip
+  querywaittip,
+  updateSalesOrderExpressSubStatus
 }
