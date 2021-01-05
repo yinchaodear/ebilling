@@ -460,7 +460,7 @@ Page({
   },
 
   minimessage(){
-    salesorder.minimessage().then(res=>{
+    salesorder.minimessage("发票").then(res=>{
       console.log("程序模板")
       console.log(res)
       if(res.data.msg==true){
