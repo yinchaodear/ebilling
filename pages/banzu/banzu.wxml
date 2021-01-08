@@ -27,13 +27,15 @@
         <view class='panel-start item-center' style="width:75%">
           <!-- <image src='{{item.avatar_url}}' class='avatar' mode='aspectFill'></image> -->
           <view class='ma-l20' style="width: 100%;">
-            <view class='fo-30 bold'>开票编号:{{item.f_salesorder_no}}</view>
+            <view class="fo-30 bold {{(item.f_confirm_status=='待确认'&&item.f_totalmoney!=item.f_invoicemoney)?'color-1':''}}">开票编号:{{item.f_salesorder_no}}  </view>
             <view class='fo-26 fo-g'>开票单位:{{item.f_accountname}}</view>
             <view class='fo-26 fo-g'>对方单位:{{item.f_account_name}}</view>
             <view class='fo-26 fo-g max-60'  wx:if="{{item.f_approvestatus=='审核不通过'||item.f_approvestatus=='审核有疑问'}}" >驳回理由:{{item.f_reason}}</view>
             <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='开具中'}}">等待时间:{{item.conpany1.name}}</view>
              <view class='fo-26 fo-g' >收件方式:{{item.f_express_type}}</view>
             <view class='fo-26 fo-g color-1'  wx:if='{{item.f_confirm_status=="待确认"}}' >点击查看详情,进行发票确认</view>
+       <view class='fo-26 fo-g color-1'  wx:if="{{(item.f_confirm_status=='待确认'&&item.f_totalmoney!=item.f_invoicemoney)?'color-1':''}}" >实际开票有偏差</view>
+
              <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'&&item.f_confirm_status!='待确认'}}">收件状态:{{item.f_express_status}}</view>
             <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_sostatus=='已开具'&&item.f_express_status=='待取件'&&item.f_express_type=='自取'&&item.f_cancelstatus!='待作废'}}">温馨提示:请尽快前来取件</view>
            <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_cancelstatus=='待作废'}}">温馨提示:正在申请作废中</view>
