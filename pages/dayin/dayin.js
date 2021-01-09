@@ -550,6 +550,23 @@ Page({
       this.setData({
         apply: apply
       })
+      wx.removeStorageSync('company1');
+      
+      //有可能是重新选了一个单位，不多做判断了，直接去掉邮寄信息
+      apply.receipt = "";
+      apply.receiptel = "";
+      apply.area = "";
+      apply.addressdetail = "";
+      apply.shipcode = "";
+      apply.expressmoney = "";
+      apply.expressway = "";
+      apply.paytype = "";
+      this.setData({
+        apply: apply
+      })
+    }
+    
+    if(address){
       if (this.data.apply.expressway == '邮寄' && address == '') {
         this.AddressDetail();
       } else {
@@ -567,8 +584,8 @@ Page({
         if (address.f_receiptarea != nowarea) {
           this.Shipmoney();
         }
-        wx.removeStorageSync('address');
       }
+      wx.removeStorageSync('address');
     }
 
   },
@@ -1013,6 +1030,7 @@ Page({
           var list = res.data.list;
           for (var i in list) {
             var item = list[i];
+            item.rate = item.rate+"%";
             if (first.length == 0) {
               first.push(item.companyType);
             } else {
