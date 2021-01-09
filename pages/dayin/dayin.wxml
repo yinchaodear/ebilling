@@ -48,7 +48,7 @@
         <input class='fo-30 text-right' name="des" data-type='bank' bindinput="applycomplete" value="{{apply.bank}}" placeholder='对方单位开户行'></input>
       </view> 
        <view class='pa-t30 pa-b20 panel-between item-center border-b'>
-        <view class='fo-30'>开户行账号</view>
+        <view class='fo-30 flex-1'><view class="color-1" wx:if="{{apply.type=='专票'||apply.type=='代开专票'}}">*</view>开户行账号</view>
         <input class='fo-30 text-right' name="des" data-type='bankaccount' bindinput="applycomplete" value="{{apply.bankaccount}}" placeholder='对方单位开户行账号'></input>
       </view> 
      
@@ -91,7 +91,7 @@
 
      <view class="border-b">
       <view class='pa-t30 pa-b20 panel-between item-center '  >
-        <view class='fo-26'>项目名</view>
+        <view class='fo-26 flex-1'><view class="color-1" >*</view>项目名</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
          
         </view>
@@ -111,11 +111,11 @@
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="unit" placeholder="填写单位" bindfocus="clearsearchlist"    value="{{item.unit}}" ></input>
          </view>
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>单价</view>
+        <view class='fo-26 flex-1'><view class="color-1" >*</view> 单价</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   data-name="unitprice" placeholder="填写单价" bindfocus="clearsearchlist"    value="{{item.unitprice}}" ></input>
          </view>
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>数量</view>
+        <view class='fo-26 flex-1'><view class="color-1" >*</view> 数量</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'     data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
          </view>
           
@@ -162,7 +162,7 @@
       </view> 
 
         <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='取件方式' bindtap="onClick" >
-        <view class='fo-30'>取件方式</view>
+        <view class='fo-30 flex-1'><view class="color-1" >*</view> 取件方式</view>
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{apply.expressway ?apply.expressway:'请选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
@@ -181,24 +181,24 @@
         </view>
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26'>姓名</view>
+           <view class='fo-26 flex-1'><view class="color-1" >*</view>姓名</view>
           <input class='fo-26 text-right' name="des" data-type='receipt' bindinput="applycomplete" value="{{apply.receipt}}" placeholder=''></input>
         
       </view>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26'>电话</view>
+           <view class='fo-26 flex-1'><view class="color-1" >*</view> 电话</view>
           <input class='fo-26 text-right' name="des" data-type='receiptel'  type="number" bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
         
       </view>
       <picker mode="region"   bindchange="bindRegionChange">
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26'>地区</view>
+            <view class='fo-26 flex-1'><view class="color-1" >*</view> 地区</view>
           <input class='fo-26 text-right' name="des" disabled="true" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
         
       </view>
       </picker>
        <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26'>详细地址</view>
+            <view class='fo-26 flex-1'><view class="color-1" >*</view> 详细地址</view>
           <input class='fo-26 text-right' name="des" data-type='addressdetail' bindinput="applycomplete" value="{{apply.addressdetail}}" placeholder=''></input>
         
       </view>
