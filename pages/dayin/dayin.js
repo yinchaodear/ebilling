@@ -994,7 +994,7 @@ Page({
           let objectType = "SalesOrder";
           _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1);
         } else {
-          _this.finishKaiPiao(redirect, salesorder1);
+          _this.finishKaiPiao(redirect, salesorder1, leftmoney);
         }
       } else {
         app.globalData.Toast.showToast("保存失败")
@@ -1006,7 +1006,7 @@ Page({
 
 
 
-  finishKaiPiao(redirect, salesorder1) {
+  finishKaiPiao(redirect, salesorder1, leftmoney) {
     wx.removeStorageSync('company1')
     setTimeout(function () {
       if (redirect == '充值') {
