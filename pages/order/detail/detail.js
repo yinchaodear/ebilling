@@ -106,6 +106,69 @@ Page({
       urls: this.data.FapiaoList // 需要预览的图片http链接列表
     })
   },
+  
+  showimage2(e){
+    wx.previewImage({
+      current:e.currentTarget.dataset.url, // 当前显示图片的http链接
+      urls: this.data.approveList // 需要预览的图片http链接列表
+    })
+  },
+  
+  clickPDF(e){
+    let url = e.currentTarget.dataset.url;
+    let name = e.currentTarget.dataset.name;
+    Dialog.confirm({
+      title: '下载',
+      message: '确认下载'+name,
+      confirmButtonText:"是",
+      cancelButtonText:"否"
+    })
+    .then(() => {
+      // on confirm
+      console.info(url);
+      wx.downloadFile({
+        // 示例 url，并非真实存在
+        url: url,
+        success: function (res) {
+          const filePath = res.tempFilePath
+          console.info(filePath);
+          wx.openDocument({
+            showMenu:true,
+            filePath: filePath,
+            success: function (res) {
+              console.log('打开文档成功')
+            }
+          })
+          
+          //const tempFilePaths = res.tempFilePaths
+          // wx.saveFile({
+          //   tempFilePath: filePath,
+          //   success (res) {
+          //     const savedFilePath = res.savedFilePath;
+          //     console.info(savedFilePath);
+          //     app.globalData.Toast.showToast("以保存到"+savedFilePath+"目录");
+          //     wx.getSavedFileInfo({
+          //         filePath: savedFilePath,
+          //         success(data) {
+          //             debugger
+          //         },
+          //         fail (error) {
+          //             debugger
+          //         }
+          //     })
+          //   }
+          // })
+          
+        }
+      })
+    })
+    .catch(() => {
+      // on cancel
+      console.log("否")
+    });
+    
+  },
+  
   afterRead(event) {
     var _this= this;
     const { file } = event.detail;
@@ -380,18 +443,67 @@ Page({
         }
         console.log(orderitem)
         var cancelimglist = [];
-        var  FapiaoList  =[];
+        var  FapiaoList = [];
+        var  FapiaoListPDF = [];
+        var approveList = [];
+        var approveListPDF = [];
         for(var i in res.data.cancelimglist){
            cancelimglist.push(api.PicUrl("CancelApply",ID,res.data.cancelimglist[i].name))
         }
+        
         for(var i in res.data.FapiaoList){
           var obj =res.data.FapiaoList[i];
-          FapiaoList.push(api.PicUrl("salesorderdetail",obj.salesOrderId, obj.picname));
+          var type = "image";
+          if(obj.picname && obj.picname.indexOf("pdf")>-1){
+            type = "pdf";
+          }
+          var url = api.PicUrl("salesorderdetail", obj.salesOrderId, obj.picname);
+          if(type=="image"){
+            FapiaoList.push(url);
+          }
+          
+          if(type=="pdf") {
+            let filename = obj.picname.split("fileName=")[1];
+            FapiaoListPDF.push({
+              type: 'pdf',
+              name: filename,
+              url: url
+            });
+          }
+          
+          
+        }
+        
+        for(var i in res.data.approveList){
+          var obj = res.data.approveList[i];
+          let filename = obj.fileName;
+          if(obj.fileName && obj.fileName.indexOf("objectId")>-1){
+            filename = obj.fileName.split("fileName=")[1];
+          }
+          var type = "image";
+          if(obj.fileName && obj.fileName.indexOf("pdf")>-1){
+            type = "pdf";
+          }
+          var url = api.PicUrl("SalesOrderApprove", obj.id, obj.fileName);
+          if(type=="image"){
+            approveList.push(url);
+          }
+          
+          if(type=="pdf") {
+            approveListPDF.push({
+              type: 'pdf',
+              name: filename,
+              url: url
+            });
+          }
         }
        
         this.setData({
           cancelimglist,
           FapiaoList,
+          FapiaoListPDF,
+          approveList,
+          approveListPDF,
           detail:res.data.orderdetail,
           orderitem,salesorder,
           qrsrc:api.PicUrl("salesorder",ID+"_qr",res.data.orderdetail.qr)
