@@ -127,7 +127,7 @@
           
         <picker mode="multiSelector"  data-index='{{index}}'  range="{{ multiArray}}"  bindcolumnchange="bindMultiPickerColumnChange" bindchange="bindtaxRateChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-                <view class='fo-26'>税率(%)</view>
+                <view class='fo-26 flex-1'><view class="color-1" >*</view>税率(%)</view>
                 <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" disabled="true" placeholder="请选择税率"  value="{{item.tax}}" ></input>
             </view>
         </picker>
