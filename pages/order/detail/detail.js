@@ -484,7 +484,7 @@ Page({
           if(obj.fileName && obj.fileName.indexOf("pdf")>-1){
             type = "pdf";
           }
-          var url = api.PicUrl("SalesOrderApprove", obj.id, obj.fileName);
+          var url = api.PicUrl("SalesOrderApprove", obj.objectId, obj.fileName);
           if(type=="image"){
             approveList.push(url);
           }
