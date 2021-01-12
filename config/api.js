@@ -10,7 +10,12 @@ var UPLOADURL =BaseUrl +'attachment/uploadFile'
 
 function PicUrl(objectType,objectId,name){
   if(name && (name.indexOf("attachment")>-1||name.indexOf("objectId")>-1)){
-    return "https://ebilling.yuqiaoerp.com" + name;
+    if(name.startsWith("/")){
+      return BaseUrl.substring(0, BaseUrl.length-1) + name;
+    }else{
+      return BaseUrl + name;
+    }
+    
   }
   return BaseUrl +"attachment/showImage?objectId="+objectId+"&objectType="+objectType+"&fileName="+name;
 }
