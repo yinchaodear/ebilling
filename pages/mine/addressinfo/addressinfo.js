@@ -238,6 +238,7 @@ Page({
       searchlist:[]
      })
      company.GetCompanyInfo(namenow).then(res=>{
+         let detail = this.data.detail;
       if(res.data.msg==true&&res.data.qcresult!=null){
         this.setData({
           searchlist:res.data.qcresult
@@ -248,13 +249,12 @@ Page({
         //  duration: 2000,
         // });
       }else if(res.data.msg==false){
-         var detail ={};
+          //这里可以保持解析到的字段，只处理name和code，不然白解析了
          detail.name =res.data.companyinfo.name;
          detail.code =res.data.companyinfo.code;
          this.setData({
            detail
          })
-
       }else if(res.data.msg=="error"){
         Notify({
           message: '企业名称数据传入有错误,企查查接口调用失败',
