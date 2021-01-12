@@ -127,8 +127,8 @@
           
         <picker mode="multiSelector"  data-index='{{index}}'  range="{{ multiArray}}"  bindcolumnchange="bindMultiPickerColumnChange" bindchange="bindtaxRateChange">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-                <view class='fo-26 flex-1'><view class="color-1" >*</view>税率(%)</view>
-                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" disabled="true" placeholder="请选择税率"  value="{{item.tax}}" ></input>
+                <view class='fo-26 flex-1'><view class="color-1" >*</view>税率</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" disabled="true" placeholder="请选择税率"  value="{{item.tax}}%" ></input>
             </view>
         </picker>
       
@@ -170,51 +170,48 @@
       </view>
 
 
-<van-collapse value="{{ activeNames2 }}" accordion='true'  bind:change="onItemChange2" wx:if="{{apply.expressway=='邮寄'}}">
-  <van-collapse-item title="收件信息" name="1"  value ="">
-<view ></view>
-      <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/chooseaddress/chooseaddress?oid={{apply.company1.id}}' bindtap='navTo'>
-        <view class='fo-26'>对方单位（地址）</view>
-        <view class='panel-end item-center'>
-          <view class='fo-26 fo-g'>点击选择</view>
-          <image src='/img/right.png' class='icon-30 ma-l20'></image>
-        </view>
-      </view>
-       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26 flex-1'><view class="color-1" >*</view>姓名</view>
-          <input class='fo-26 text-right' name="des" data-type='receipt' bindinput="applycomplete" value="{{apply.receipt}}" placeholder=''></input>
-        
-      </view>
-       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-           <view class='fo-26 flex-1'><view class="color-1" >*</view> 电话</view>
-          <input class='fo-26 text-right' name="des" data-type='receiptel'  type="number" bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
-        
-      </view>
-      <picker mode="region"   bindchange="bindRegionChange">
-       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26 flex-1'><view class="color-1" >*</view> 地区</view>
-          <input class='fo-26 text-right' name="des" disabled="true" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
-        
-      </view>
-      </picker>
-       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26 flex-1'><view class="color-1" >*</view> 详细地址</view>
-          <input class='fo-26 text-right' name="des" data-type='addressdetail' bindinput="applycomplete" value="{{apply.addressdetail}}" placeholder=''></input>
-        
-      </view>
-  
-       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26'>邮政编码</view>
-          <input class='fo-26 text-right' name="des" data-type='shipcode' bindinput="applycomplete" value="{{apply.shipcode}}" placeholder=''></input>
-        
-      </view>
-
-  </van-collapse-item>
-
-</van-collapse>
+    <van-collapse value="{{ activeNames2 }}" accordion='true'  bind:change="onItemChange2" wx:if="{{apply.expressway=='邮寄'}}">
+      <view style="margin-left: 15px">
+          <view class='pa-t30 pa-b30 panel-between item-center border-b' data-path='/pages/mine/chooseaddress/chooseaddress?oid={{apply.company1.id}}' bindtap='navTo'>
+            <view class='fo-26'>对方单位（地址）</view>
+            <view class='panel-end item-center'>
+              <view class='fo-26 fo-g'>点击选择</view>
+              <image src='/img/right.png' class='icon-30 ma-l20'></image>
+            </view>
+          </view>
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+               <view class='fo-26 flex-1'><view class="color-1" >*</view>姓名</view>
+              <input class='fo-26 text-right' name="des" data-type='receipt' bindinput="applycomplete" value="{{apply.receipt}}" placeholder=''></input>
+            
+          </view>
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+               <view class='fo-26 flex-1'><view class="color-1" >*</view> 电话</view>
+              <input class='fo-26 text-right' name="des" data-type='receiptel'  type="number" bindinput="applycomplete" value="{{apply.receiptel}}" placeholder=''></input>
+            
+          </view>
+          <picker mode="region"   bindchange="bindRegionChange">
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26 flex-1'><view class="color-1" >*</view> 地区</view>
+              <input class='fo-26 text-right' name="des" disabled="true" data-type='area' bindinput="applycomplete" value="{{apply.area}}" placeholder=''></input>
+            
+          </view>
+          </picker>
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26 flex-1'><view class="color-1" >*</view> 详细地址</view>
+              <input class='fo-26 text-right' name="des" data-type='addressdetail' bindinput="applycomplete" value="{{apply.addressdetail}}" placeholder=''></input>
+            
+          </view>
+      
+           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26'>邮政编码</view>
+              <input class='fo-26 text-right' name="des" data-type='shipcode' bindinput="applycomplete" value="{{apply.shipcode}}" placeholder=''></input>
+            
+          </view>
+      </view>  
+    </van-collapse>
  
     <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='付款方式' bindtap="onClick" wx:if="{{apply.expressway=='邮寄'&&apply.area!=''&&apply.area!=undefined}}"  >
-        <view class='fo-30'>付款方式</view>
+        <view class='fo-30 flex-1'><view class="color-1" >*</view>付款方式</view>
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{apply.paytype ?apply.paytype:'请选择'}}</view>
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
