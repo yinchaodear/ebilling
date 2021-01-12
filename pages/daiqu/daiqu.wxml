@@ -50,23 +50,23 @@
         <view wx:if='{{flag==1}}'>
             <view class='pa-t30 item-center border-b pa-b20' style="color:blue" data-path='/pages/statistics/statistics'>
                     <van-row> 
-                      <van-col span="4">类型</van-col>
-                      <van-col span="4">面额</van-col>
+                      <van-col span="5">类型</van-col>
+                      <van-col span="5">面额(元)</van-col>
                       <van-col span="4">库存</van-col>
                       <van-col span="4">期初</van-col>
-                      <van-col span="4">领用</van-col>
-                      <van-col span="4">开出</van-col>
+                      <van-col span="3">领用</van-col>
+                      <van-col span="3">开出</van-col>
                     </van-row>
             </view> 
             <view class='pa-t30 item-center border-b pa-b20' data-path='/pages/statistics/statistics' wx:for="{{quantityStats}}" data-index='{{index}}'>
                     <van-row> 
-                      <van-col span="4">{{item.f_type}}</van-col>
-                      <van-col span="4" wx:if="{{item.f_max_money==''}}">未填</van-col>
-                      <van-col span="4" wx:if="{{item.f_max_money!=''}}">{{item.f_max_money}}</van-col>
+                      <van-col span="5">{{item.f_type}}</van-col>
+                      <van-col span="5" wx:if="{{item.f_max_money==''}}">未填</van-col>
+                      <van-col span="5" wx:if="{{item.f_max_money!=''}}">{{item.f_max_money}}</van-col>
                       <van-col span="4">{{item.yueChuNum+item.benYueLingYongNum-item.benYueKaiChuNum-item.benYueZuoFeiNum}}</van-col>
                       <van-col span="4">{{item.yueChuNum}}</van-col>
-                      <van-col span="4">{{item.benYueLingYongNum}}</van-col>
-                      <van-col span="4">{{item.benYueKaiChuNum}}</van-col>
+                      <van-col span="3">{{item.benYueLingYongNum}}</van-col>
+                      <van-col span="3">{{item.benYueKaiChuNum}}</van-col>
                     </van-row>
             </view> 
         </view>
