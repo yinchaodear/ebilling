@@ -486,6 +486,10 @@ Page({
       if (res.data.msg == true) {
         var apply = res.data.orderdetail;
         var ItemList = res.data.orderitem;
+        console.info(ItemList);
+        for (var i in ItemList) {
+            ItemList[i].tax = parseFloat(ItemList[i].tax).toFixed(2);
+        }
         if (flag == true) {
           apply.id = '';
           for (var i in ItemList) {
@@ -539,6 +543,16 @@ Page({
       })
       this.KaiPiaoJudge();
       this.loadTaxRates(company.id);
+    }else{
+      //重新登录后，请到首页重新选择开票企业
+      Dialog.alert({
+        title: '提示',
+        message: "重新登录后，请先到首页重新选择开票企业",
+      }).then(() => {
+        // on close
+        router.switchTab("/pages/index/index"); 
+      });
+      return false;
     }
     if (company1) {
       var apply = this.data.apply;
