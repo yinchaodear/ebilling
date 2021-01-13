@@ -38,7 +38,7 @@
             </view> 
         </view>
         
-        <view wx:if="{{flag==0&&(starttime!=''||endtime!='')}}">
+        <view wx:if="{{flag==0&&(starttime!=''||endtime!=''||companyname!=''||condition='否')}}">
             <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="total">
                 <view class='fo-30' style="color: #ff6633">累计</view>
                 <view style="color: #ff6633">{{usualcount.text}}</view>
