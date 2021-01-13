@@ -19,7 +19,7 @@
         </view>
         
         <!-- 金额 -->
-        <view wx:if="{{flag==0&&starttime==''&&endtime==''}}">
+        <view wx:if="{{flag==0&&starttime==''&&endtime==''&&companyname==''&&condition=='是'}}">
             <view class='pa-t30 panel-between item-center border-b pa-b20' data-path='/pages/banzu/banzu' data-type="month" bindtap="navTo">
               <view class='fo-30'>本月累计</view>
                 <view>{{month.text}}</view>
