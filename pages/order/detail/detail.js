@@ -383,7 +383,42 @@ Page({
     });
 
   },
+  
+  cancelGuaqi() {
+    Dialog.confirm({
+      title: '发票确认',
+      message: '确认开完再取',
+      cancelButtonText:"否",
+      confirmButtonText:"是"
+    })
+    .then(() => {
+      this.ChangeOrderConfirmStatusGuaqi();
+    })
+    .catch(() => {
+    });
 
+  },
+
+  cancelYKXJ() {
+    Dialog.confirm({
+      title: '发票确认',
+      message: '确认下先寄已开的部分',
+      cancelButtonText:"否",
+      confirmButtonText:"是"
+    })
+    .then(() => {
+      this.ChangeOrderConfirmStatusYKXJ();
+    })
+    .catch(() => {
+      
+    });
+  },
+
+  cancelToast() {
+    app.globalData.Toast.showToast("该申请状态挂起，等待继续开票");
+  },
+
+  
   ChangeOrderConfirmStatus(){
     salesorder.ChangeOrderConfirmStatus(this.data.detail.id).then(res=>{
       if(res.data.msg==true){
@@ -392,7 +427,25 @@ Page({
       }
     })
   },
+  
+  ChangeOrderConfirmStatusGuaqi(){
+    salesorder.ChangeOrderConfirmStatusGuaqi(this.data.detail.id).then(res=>{
+      if(res.data.msg==true){
+        app.globalData.Toast.showToast("已挂起");
+        this.GetSalesOrderInfo(this.data.detail.id);
+      }
+    })
+  },
 
+  ChangeOrderConfirmStatusYKXJ(){
+    salesorder.ChangeOrderConfirmStatusYKXJ(this.data.detail.id).then(res=>{
+      if(res.data.msg==true){
+        app.globalData.Toast.showToast("已完成");
+        this.GetSalesOrderInfo(this.data.detail.id);
+      }
+    })
+  },
+  
   /**
    * 生命周期函数--监听页面加载
    */

@@ -12,6 +12,8 @@ const CompareShipmoneyUrl =  'ebilling/salesorder/compareshipmoney'
 const KaiPiaoJudgeUrl = 'ebilling/salesorder/kaipiaojudge'
 const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
 const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
+const changeorderconfirmstatusQuaqiUrl ='ebilling/salesorder/changeorderconfirmstatusGuaqi'
+const changeorderconfirmstatusYKXJUrl ='ebilling/salesorder/changeorderconfirmstatusYKXJ'
 const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
 const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatistic'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
@@ -134,6 +136,37 @@ function ChangeOrderConfirmStatus(orderid){
     })
   })
 }
+
+function ChangeOrderConfirmStatusGuaqi(orderid){
+  var params={
+    url: changeorderconfirmstatusQuaqiUrl,
+    data:{
+      orderid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+function ChangeOrderConfirmStatusYKXJ(orderid){
+  var params={
+    url: changeorderconfirmstatusYKXJUrl,
+    data:{
+      orderid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 function RemoveSalesOrderItem(id){
   var params={
@@ -352,5 +385,7 @@ module.exports = {
   minimessage,
   SfInfo,
   querywaittip,
-  updateSalesOrderExpressSubStatus
+  updateSalesOrderExpressSubStatus,
+  ChangeOrderConfirmStatusGuaqi,
+  ChangeOrderConfirmStatusYKXJ,
 }
