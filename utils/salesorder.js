@@ -14,6 +14,7 @@ const SalesOrderStaticsUrl = 'ebilling/salesorder/salesorderstatics'
 const changeorderconfirmstatusUrl ='ebilling/salesorder/changeorderconfirmstatus'
 const changeorderconfirmstatusQuaqiUrl ='ebilling/salesorder/changeorderconfirmstatusGuaqi'
 const changeorderconfirmstatusYKXJUrl ='ebilling/salesorder/changeorderconfirmstatusYKXJ'
+const zuofeiUrl ='ebilling/salesorder/zuofeiApply'
 const CancelApplyUrl = 'ebilling/salesorder/cancelapply'
 const InvoiceOperationStatisticUrl = 'ebilling/salesorder/invoiceOperationStatistic'
 const InvoiceOperationListUrl  = 'ebilling/salesorder/invoiceoperationList';
@@ -121,6 +122,22 @@ function ChangeOrderStatus(orderid){
     })
   })
 }
+
+function zuofei(orderid){
+  var params={
+    url: zuofeiUrl,
+    data:{
+      orderid
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 function ChangeOrderConfirmStatus(orderid){
   var params={
@@ -387,5 +404,6 @@ module.exports = {
   querywaittip,
   updateSalesOrderExpressSubStatus,
   ChangeOrderConfirmStatusGuaqi,
-  ChangeOrderConfirmStatusYKXJ,
+  ChangeOrderConfirmStatusYKXJ, 
+  zuofei,
 }

@@ -330,16 +330,23 @@ Page({
     .then(() => {
       // on confirm
       console.log("有问题")
-      this.showPopup(); 
+      //this.showPopup();
+      this.zuofei();
     })
     .catch(() => {
       // on cancel
      
     });
   },
-
-  
-
+    
+  zuofei(){
+    salesorder.zuofei(this.data.detail.id).then(res=>{
+      if(res.data.msg==true){
+        app.globalData.Toast.showToast("申请完成");
+        this.GetSalesOrderInfo(this.data.detail.id);
+      }
+    })
+  },
   
   ChangeOrderStatus(){
     salesorder.ChangeOrderStatus(this.data.detail.id).then(res=>{
