@@ -415,7 +415,7 @@ Page({
   },
 
   cancelToast() {
-    app.globalData.Toast.showToast("该申请状态挂起，等待继续开票");
+    app.globalData.Toast.showToast("已挂起，请等待");
   },
 
   
