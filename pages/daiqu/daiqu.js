@@ -43,7 +43,11 @@ Page({
     })
   },
 
-
+  companynameFocus : function(){
+    this.setData({companynameFocused:true});
+    console.info("xxxxx")
+  },
+  
   companyname(e){
    this.setData({
      companyname:e.detail.value
