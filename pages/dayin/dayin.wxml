@@ -255,7 +255,8 @@
     </view>
 </view>
 <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-    <view wx:if="{{tempFilePaths && tempFilePaths[0]}}">{{tempFilePaths[0].name}}</view>
+    <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">{{tempFilePaths[0].name}}</view>
+    <view wx:if="{{apply.id!='' && apply.attachment}}">{{apply.attachment}}</view>
 </view>
         
   <!-- </van-collapse-item>

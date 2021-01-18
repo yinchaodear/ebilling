@@ -8,6 +8,7 @@ const company = require("../../utils/company")
 import Notify from '../../dist/notify/notify';
 import Dialog from '../../dist/dialog/dialog';
 import dialog from "../../dist/dialog/dialog";
+import {BaseUrl} from "../../config/api";
 const originList = ["001", "002", "003", "004", "005", "006", "007", "008"]
 let _this;
 Page({
@@ -1006,7 +1007,7 @@ Page({
         if (tempFilePaths != null) {
           let objectId = res.data.id;
           let objectType = "SalesOrder";
-          _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1);
+          _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1, leftmoney);
         } else {
           _this.finishKaiPiao(redirect, salesorder1, leftmoney);
         }
@@ -1126,11 +1127,11 @@ Page({
     })
   },
 
-  uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1) {
+  uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1, leftmoney) {
     let that = this;
     if (tempFilePaths != null) {
       wx.uploadFile({
-        url: API.BaseUrl + 'attachment/uploadFileAll', //此处换上你的接口地址
+        url: BaseUrl + 'attachment/uploadFileAll', //此处换上你的接口地址
         filePath: tempFilePaths[0].path,
         name: 'file',
         header: {
@@ -1145,7 +1146,7 @@ Page({
         success: function (res) {
           let data = res;
           console.log(data);
-          that.finishKaiPiao(redirect, salesorder1);
+          that.finishKaiPiao(redirect, salesorder1, leftmoney);
         },
         fail: function (res) {
           console.log('fail');
