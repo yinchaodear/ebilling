@@ -17,7 +17,8 @@ Page({
     name:'',
     disabled:false,
     text:"发送",
-    number:60
+    number:60,
+    configTel:""
   },
 
   PhoneCode(){
@@ -71,15 +72,28 @@ Page({
     })
 
   },
+    
+    
+  completeFocus : function(e){
+    console.log(e);
+    var type = e.currentTarget.dataset.type;
+    var value =e.detail.value;
+    var x = this.data;
+    x["nameFocused"] = false;
+    x["codeFocused"] = false;
+    x["pw1Focused"] = false;
+    x["pw2Focused"] = false;
+    x[type+"Focused"] = true;
+    this.setData(x)
+  },
+    
   gotoUpdate(){
     this.setData({
       show:true,
       isUpdate:true
     })
   },
-
-
-  
+    
   submit() {
     console.log(this.data);
     if(this.data.code!=this.data.code1){
@@ -108,16 +122,25 @@ Page({
        }
     })
   },
+    
   makePhone(){
-    wx.makePhoneCall({
-      phoneNumber: wx.getStorageSync("dl").phone,
-    })
+    wx.showToast({ title: '请联系您的专属客服,或者联系客服热线:'+""+this.data.configTel, icon: 'none', duration:2500 });
+    // wx.makePhoneCall({
+    //   phoneNumber: wx.getStorageSync("dl").phone,
+    // })
   },
   onLoad: function (options) {
-
+      //加载一下客服热线，做成配置吧
+      let that = this;
+      login.getConfigTel().then(res=>{
+       if(res.data.msg==true){
+           var configTel = res.data.tel;
+           that.setData({configTel});
+       }
+    })
   },
+    
   onShow(){
-     
     
   }
  

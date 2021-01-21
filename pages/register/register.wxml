@@ -8,24 +8,23 @@
     </view>
     <form bindsubmit="formSubmit" report-submit="true">
 
-      <view class='panel-between border-b pa-t30 pa-b10 '>
+      <view class='panel-between border-b pa-t30 pa-b20 ' bindtap="completeFocus" data-type='name'>
         <view class='fo-28 bold'>电话号码:</view>
-        <input class='text-right fo-28' name='name'  data-type='name' bindinput="complete" value="{{name}}"   placeholder=''></input>
+        <input class='text-right fo-28' name='name' type='number' data-type='name' bindinput="complete" focus="{{nameFocused}}" value="{{name}}"   placeholder='请输入手机号'></input>
       </view>
-      <view class='panel-between border-b pa-t30 pa-b10'>
+      <view class='panel-between border-b pa-t30 pa-b20' bindtap="completeFocus" data-type='code'>
         <view class='fo-28 bold'>短信验证码:</view>
-        <input class='text-right fo-28' type='number' data-type='code' bindinput="complete" value="{{code}}" placeholder='请输入短信验证码'></input>
+        <input class='text-right fo-28' type='number' data-type='code' bindinput="complete" value="{{code}}"  focus="{{codeFocused}}"  placeholder='请输入短信验证码'></input>
         <button class="submit-code" disabled="{{disabled}}" bindtap="PhoneCode">{{text}}</button>
       </view>
-      <view class='panel-between border-b pa-t30 pa-b10'>
+      <view class='panel-between border-b pa-t30 pa-b20' bindtap="completeFocus" data-type='pw1'>
         <view class='fo-28 bold'>密码:</view>
-        <input class='text-right fo-28' type='password' data-type='pw1' bindinput="complete" value="{{pw1}}" placeholder=''></input>
+        <input class='text-right fo-28' type='password' data-type='pw1' bindinput="complete"  focus="{{pw1Focused}}"  value="{{pw1}}" placeholder=''></input>
       </view>
-       <view class='panel-between border-b pa-t30 pa-b10'>
+       <view class='panel-between border-b pa-t30 pa-b20' bindtap="completeFocus" data-type='pw2'>
         <view class='fo-28 bold'>密码确认:</view>
-        <input class='text-right fo-28' type='password' data-type='pw2' bindinput="complete" value="{{pw2}}" placeholder=''></input>
+        <input class='text-right fo-28' type='password' data-type='pw2' bindinput="complete" focus="{{pw2Focused}}" value="{{pw2}}" placeholder=''></input>
       </view>
-      
       <!-- <view class='pa-t30 pa-b10'>
         <view class='fo-28 bold'>学生证正面(必填):</view>
         <view class='tuu panel-center item-center fo-g fo-50' style='background-image:url({{stu_card}})' data-name='stu_card' bindtap='choose'> + </view>

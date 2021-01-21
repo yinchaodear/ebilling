@@ -9,6 +9,8 @@ const JudgeLoginUrl ='ebilling/account/judgelogin'
 const ExitUrl='ebilling/account/exit'
 const RegisterUrl ='ebilling/account/register'
 const LoginKefuUrl ='ebilling/account/loginkefu'
+const configTelUrl ='ebilling/account/configTel'
+
 function login(map) {
   //Map.phone map.pwd
   return new Promise(function (resolve, reject) {
@@ -140,6 +142,18 @@ function Register(id,pwd){
  
 }
 
+function getConfigTel(){
+  var params={
+    url: configTelUrl,
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "Get").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+ 
+}
 
 function LoginKefu(username,pwd) {
   var params={
@@ -166,5 +180,6 @@ module.exports = {
   JudgeLogin,
   Exit,
   Register,
-  LoginKefu
+  LoginKefu,
+  getConfigTel
 }
