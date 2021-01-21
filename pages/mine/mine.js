@@ -7,19 +7,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    
   },
   exit:function(){
+    if(!this.data.currentuser){
+      app.globalData.Toast.showToast("您还没有登录！");
+      return;
+    }
+    var that = this;
     wx.showModal({
       title: '提示',
       content: '确认退出当前账户?',
       success(res){
         if(res.confirm){
-
             login.Exit().then(res=>{
                if(res.data.msg=='success'){
                  wx.clearStorage({
                    complete: (res) => {
+                     that.setData({});
                      app.globalData.Toast.showToast("退出成功");
                      setTimeout(function(){
                       router.navigateTo("/pages/login/login")
@@ -67,6 +72,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    this.setData({currentuser : (wx.getStorageSync('currentuser')==""||wx.getStorageSync('currentuser')==null)?null:wx.getStorageSync('currentuser')})
     // if (wx.getStorageSync("user").phone) {
     //   this.setData({
     //     userInfo: wx.getStorageSync("user")

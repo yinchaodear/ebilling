@@ -2,9 +2,9 @@
   <view class='bg-m ra-10 pa-40 text-center'>
     
     
-    <image class="avatar"  wx:if="{{userInfo.avatar_url}}" src='{{userInfo.avatar_url}}' mode='aspectFill'></image>
+    <image class="avatar"  wx:if="{{currentuser==null}}" mode='aspectFill'></image>
 <!--    <open-data class="" wx:if="{{!userInfo.avatar_url}}" type="userAvatarUrl"></open-data>-->
-    <view class="avatar" wx:if="{{!userInfo.avatar_url}}">
+    <view class="avatar" wx:if="{{currentuser!=null}}">
       <view>
         <open-data class="" type="userAvatarUrl"></open-data>
       </view>
