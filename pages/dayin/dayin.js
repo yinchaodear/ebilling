@@ -219,9 +219,49 @@ Page({
     }
     var ItemList = this.data.ItemList;
     ItemList[index][name] = value;
-    if (ItemList[index].number != '' && ItemList[index].unitprice != '') {
-      ItemList[index].money = ItemList[index].number * ItemList[index].unitprice
+    
+    if(name=="number"){
+      if (ItemList[index].money && ItemList[index].money != '' && (!ItemList[index].unitprice||ItemList[index].unitprice=='')) {
+        let unitprice = ItemList[index].money / ItemList[index].number
+        if(!isNaN(unitprice)){
+          ItemList[index].unitprice = parseFloat(unitprice).toFixed(4);
+        }
+      }
+      else if (ItemList[index].unitprice && ItemList[index].unitprice != '') {
+        let money = ItemList[index].number * ItemList[index].unitprice
+        if(!isNaN(money)){
+          ItemList[index].money = parseFloat(money).toFixed(2);
+        }
+      }
+    }else if(name=="unitprice"){
+      if (ItemList[index].money && ItemList[index].money != '' && (!ItemList[index].number||ItemList[index].number=='')) {
+        let number = ItemList[index].money / ItemList[index].unitprice
+        if(!isNaN(number)){
+          ItemList[index].number = parseFloat(number).toFixed(4);
+        }
+      }
+      else if (ItemList[index].number && ItemList[index].number != '') {
+        let money = ItemList[index].number * ItemList[index].unitprice
+        if(!isNaN(money)){
+          ItemList[index].money = parseFloat(money).toFixed(2);
+        }
+      }
+    }else if(name=="money"){
+      if (ItemList[index].number && ItemList[index].number != '' && (!ItemList[index].unitprice||ItemList[index].unitprice =='') ) {
+        let unitprice = ItemList[index].money / ItemList[index].number
+        if(!isNaN(unitprice)){
+          ItemList[index].unitprice = parseFloat(unitprice).toFixed(4);
+        }
+      }else if (ItemList[index].unitprice && ItemList[index].unitprice != '' && (!ItemList[index].number || ItemList[index].number == '')) {
+        let number = ItemList[index].money / ItemList[index].unitprice
+        if(!isNaN(number)){
+          ItemList[index].number = parseFloat(number).toFixed(4);
+        }
+      }else{
+        ItemList[index].unitprice = ItemList[index].number = "";
+      }
     }
+    
     this.setData({
       ItemList: ItemList
     })
@@ -715,6 +755,9 @@ Page({
   checknum(item, apply) {
     console.log(item);
     console.log(apply);
+    if(!item || item.length==0){
+      return "未填写开票项";
+    }
     var str = '';
     if (apply.company == undefined || apply.company == '') {
       return "未选择开票单位";
