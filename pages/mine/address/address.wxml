@@ -13,8 +13,8 @@
     <view class='fo-30'> 企业名称:{{item.accountname }}</view>
      
      <view class='fo-30'>社会信用代码 :{{item.accountcode }}</view>
-     <view class='fo-30'>开户银行 :{{item.bank }}</view>
-      <view class='fo-30'>银行账号 :{{item.bankaccount}}</view>    
+<!--     <view class='fo-30'>开户银行 :{{item.bank }}</view>-->
+<!--      <view class='fo-30'>银行账号 :{{item.bankaccount}}</view>    -->
     <view class='panel-between item-center ma-t20'>
       <view>
         <!-- <view class='panel-start item-center' wx:if="{{item.id == defId}}">
@@ -25,12 +25,12 @@
       <view class='panel-end item-center'   >
         <view class='panel-start item-center' data-index='{{index}}' catchtap='bj'>
           <image src='/img/bj.png' class='icon-30'></image>
-          <view class='fo-26 ma-l10'>编辑</view>
+          <view class='fo-26 ma-l10'>查看</view>
         </view>
-        <view class='panel-start item-center ma-l30' wx:if="{{from=='form'}}" data-index='{{index}}' catchtap='del'>
-          <image src='/img/ljt.png' class='icon-30'></image>
-          <view class='fo-26 ma-l10' style='color:#ff6666' >删除</view>
-        </view>
+<!--        <view class='panel-start item-center ma-l30' wx:if="{{from=='form'}}" data-index='{{index}}' catchtap='del'>-->
+<!--          <image src='/img/ljt.png' class='icon-30'></image>-->
+<!--          <view class='fo-26 ma-l10' style='color:#ff6666' >删除</view>-->
+<!--        </view>-->
         <view class='panel-start item-center ma-l30' wx:if="{{from=='index'}}" data-id='{{item.id}}' data-index='{{index}}' catchtap='fast'>
           <image src='/img/sh1.png' class='icon-30'></image>
           <view class='fo-26 ma-l10'  >快速开票</view>
