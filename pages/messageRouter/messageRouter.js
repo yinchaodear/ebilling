@@ -35,6 +35,8 @@ Page({
           if(objectId!=null){
               router.redirectTo("/pages/order/detail/detail?orderid="+objectId)
           }
+      }else if(objectType=='ServiceContracts'){
+          router.redirectTo("/pages/other/other?from=index");
       }
   },
   

@@ -1,5 +1,8 @@
 //index.js
 //获取应用实例
+import * as salesorder from "../../utils/salesorder";
+const router = require('../../utils/router')
+
 const app = getApp()
 import Dialog from '../../dist/dialog/dialog';
 import company from "../../utils/company"
@@ -29,9 +32,10 @@ Page({
      })
   },
   back(){
-    wx.navigateBack({
-      complete: (res) => {},
-    })
+    router.switchTab("/pages/index/index"); 
+    // wx.navigateBack({
+    //   complete: (res) => {},
+    // })
   },
   navTo(e) {
     app.com.navTo(e)
@@ -122,8 +126,11 @@ Page({
             })
           });
         }else{
-          var cid =company.id;
+          var cid = company.id;
           this.synchServiceContracts(cid);
+          
+          //是否订阅了合同到期提醒
+          this.checkSubscribe(cid);
         }
       }
   },
@@ -131,7 +138,6 @@ Page({
     // this.checkcontracts();
   },
   checkcontracts(){
-    debugger;
     let  contractList = this.data.contractList;
     let msg =""
     for(var i in contractList){
@@ -145,6 +151,64 @@ Page({
     }).then(() => {
       // on close
     });
-  }
+  },
 
+  checkSubscribe(cid) {
+    company.checkSubscribe(cid, '合同到期').then(res=>{
+      console.info(res);
+      let that = this;
+      if(res.success==true){
+        if(res.data && res.data.length==0){
+          salesorder.minimessage("合同").then(res=>{
+            if(res.data.msg==true){
+              if(res.data.list.length>0){
+                let tempidlist = res.data.list;
+                that.setData({showSubBtn:true, tempidlist});
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  
+  subscribeOnce() {
+    let cid;
+    var company = wx.getStorageSync('company');
+    if(company){
+      cid = company.id;
+    }else{
+      return;
+    }
+    let that = this;
+    let tempidlist = this.data.tempidlist;
+    wx.requestSubscribeMessage({
+      tmplIds:tempidlist,
+      success(res) {
+        if(res[tempidlist[0]]=='accept'){
+          console.log("订阅成功")
+          that.subscribeOnceSuccess(cid);
+        }else{
+          console.log("点了取消订阅")
+        }
+      },
+      fail(res) {
+        console.log("不订阅")
+      }
+    })
+  },
+  
+  subscribeOnceSuccess(cid){
+    company.subscribeOnce(cid, '合同到期').then(res=>{
+      console.info(res);
+      let that = this;
+      if(res.success==true){
+        that.setData({showSubBtn:false})
+        wx.showToast({
+          title: "订阅成功",
+        })
+      }
+    })
+  }
+  
 })

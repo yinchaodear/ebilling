@@ -59,8 +59,13 @@
         <input class='text-right fo-28' type='digit' name='price' value="{{item.left +'/'+item.total}}"  placeholder='输入金额(元)'></input>
       </view>
       <view class='fo-26 text-center fo-g ma-t30' >相关信息</view>
+      
       </view>
-      <button class='btns ' bindtap="back">返回首页</button>
+        
+      <button class='btns' wx:if="{{showSubBtn}}" bindtap="subscribeOnce">订阅合同到期提醒</button>
+      <view wx:if="{{showSubBtn}}">未订阅或已经提醒，如想继续接受合同到期提醒，请再次订阅</view>
+      
+      <button class='btns ' wx:if="{{!showSubBtn}}" bindtap="back">返回首页</button>
     </form>
     
   </view>

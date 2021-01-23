@@ -17,6 +17,9 @@ const WxPayUrl = 'ebilling/companyaccount/wxpay'
 const ParseUrl = 'ebilling/companyaccount/parse'
 const DeleteUrl = 'attachment/deleteFile'
 const synchServiceContractsUrl = 'ebilling/companyaccount/synchServiceContracts'
+const messageSubscribeListUrl = 'ebilling/messageSubscribe/messageSubscribeList'
+const subscribeOnceUrl = 'ebilling/messageSubscribe/subscribeOnce'
+
 function synchServiceContracts(cid){
   var params={
     url:synchServiceContractsUrl,
@@ -277,6 +280,39 @@ function Delete( objectId, objectType,fileName){
   })
 }
 
+
+function checkSubscribe(cid, type){
+  var params={
+    url: messageSubscribeListUrl,
+    data:{
+      cid,
+      type,
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
+function subscribeOnce(cid, type){
+  var params={
+    url: subscribeOnceUrl,
+    data:{
+      cid,
+      type,
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 module.exports = {
   QueryMyCompany,
   QueryOtherCompany,
@@ -293,5 +329,7 @@ module.exports = {
   WxPay,
   Parse,
   Delete,
-  synchServiceContracts
+  synchServiceContracts,
+  checkSubscribe,
+  subscribeOnce
 }
