@@ -134,7 +134,7 @@ Page({
     json.companyname =this.data.companyname;
     json.ordermoney =this.data.ordermoney;
     json.condition =this.data.condition;
-    var jsonstr =JSON.stringify(json)
+    var jsonstr = JSON.stringify(json)
     if(this.data.load==true&&this.data.end==false){
        saleorder.SalesOrderList(type,  expressstaus,this.data.pageno,this.data.pagesize,jsonstr).then(res=>{
          this.setData({
@@ -228,19 +228,42 @@ Page({
     console.info(item)
     let that = this;
     if(item.f_is_sub_express_msg==0 && item.f_express_type=='邮寄' && this.data.tempidlist && this.data.tempidlist.length>0){
+        let tmplIds = this.data.tempidlist;
         wx.requestSubscribeMessage({
-            tmplIds : this.data.tempidlist,
+            tmplIds : tmplIds,
             success(res) {
-                console.log("订阅")
-                //设置为已订阅
-                that.updateSalesOrderExpressSubStatus(item.f_id);
+                if(res[tmplIds[0]]=='accept'){//简单判断
+                     console.log("订阅")
+                    //设置为已订阅
+                    that.updateSalesOrderExpressSubStatus(item.f_id);
+                    router.navigateTo(path);
+                }
             },
             fail(res) {
                 console.log("不订阅")
+                router.navigateTo(path);
             }
         })
+    }else if(item.f_is_sub_qujian_msg==0 && item.f_express_type=='自取' && this.data.tempidlist2 && this.data.tempidlist2.length>0){
+        let tmplIds = this.data.tempidlist2;
+        wx.requestSubscribeMessage({
+            tmplIds : tmplIds,
+            success(res) {
+                if(res[tmplIds[0]]=='accept'){//简单判断
+                    console.log("订阅")
+                    //设置为已订阅
+                    that.updateSalesOrderQujianSubStatus(item.f_id);
+                    router.navigateTo(path);
+                }
+            },
+            fail(res) {
+                console.log("不订阅")
+                router.navigateTo(path);
+            }
+        })
+    }else{
+        router.navigateTo(path);
     }
-    router.navigateTo(path);
   },
     
     updateSalesOrderExpressSubStatus(id) {
@@ -248,6 +271,13 @@ Page({
         console.info(res);
       })
     },
+    
+    updateSalesOrderQujianSubStatus(id) {
+      saleorder.updateSalesOrderQujianSubStatus(id).then(res=>{
+        console.info(res);
+      })
+    },
+    
   /**
    * 生命周期函数--监听页面加载
    */
@@ -267,6 +297,17 @@ Page({
         if(res.data.list.length>0){
           this.setData({
             tempidlist:res.data.list
+          })
+        }
+      }
+    })
+    saleorder.minimessage("自取").then(res=>{
+      console.log("程序模板")
+      console.log(res)
+      if(res.data.msg==true){
+        if(res.data.list.length>0){
+          this.setData({
+            tempidlist2:res.data.list
           })
         }
       }

@@ -1,3 +1,5 @@
+import company from "../../utils/company";
+
 const app = getApp()
 const router = require("../../utils/router")
 const salesorder =require("../../utils/salesorder")
@@ -270,6 +272,9 @@ Page({
       flag: e.currentTarget.dataset.index
     })
     if(e.currentTarget.dataset.index==1){
+      if(this.data.needSubscribe){
+        this.subscribeOnce();
+      }
       this.InvoiceOperationStatistic();
     }else{
       this.SalesOrderStatics();
@@ -285,6 +290,8 @@ Page({
       this.setData({
         company
       }) 
+      //是否订阅了发票余量提醒
+      this.checkSubscribe(company.id);
     }
     this.SalesOrderStatics();
   },
@@ -303,6 +310,65 @@ Page({
   onShow: function () {
 
   },
+  
+  
+  checkSubscribe(cid) {
+    company.checkSubscribe(cid, '发票余量').then(res=>{
+      console.info(res);
+      let that = this;
+      if(res.success==true){
+        if(res.data && res.data.length==0){
+          salesorder.minimessage("发票余量").then(res=>{
+            if(res.data.msg==true){
+              if(res.data.list.length>0){
+                let tempidlist = res.data.list;
+                that.setData({needSubscribe:true, tempidlist});
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  
+  subscribeOnce() {
+    let cid;
+    var company = wx.getStorageSync('company');
+    if(company){
+      cid = company.id;
+    }else{
+      return;
+    }
+    let that = this;
+    let tempidlist = this.data.tempidlist;
+    wx.requestSubscribeMessage({
+      tmplIds:tempidlist,
+      success(res) {
+        if(res[tempidlist[0]]=='accept'){
+          console.log("订阅成功")
+          that.subscribeOnceSuccess(cid);
+        }else{
+          console.log("点了取消订阅")
+        }
+      },
+      fail(res) {
+        console.log("不订阅")
+      }
+    })
+  },
+  
+  subscribeOnceSuccess(cid){
+    company.subscribeOnce(cid, '发票余量').then(res=>{
+      console.info(res);
+      let that = this;
+      if(res.success==true){
+        that.setData({needSubscribe:false})
+        wx.showToast({
+          title: "订阅成功",
+        })
+      }
+    })
+  }
 
 
 })

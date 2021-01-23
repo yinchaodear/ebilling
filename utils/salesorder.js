@@ -24,6 +24,8 @@ const minimessageUrl ='ebilling/salesorder/minimessage'
 const sfinfoUrl ='ebilling/salesorder/sfinfo'
 const querywaittipUrl  ='ebilling/salesorder/querywaittip'
 const updateSalesOrderExpressSubStatusUrl  ='ebilling/salesorder/updateSalesOrderExpressSubStatus'
+const updateSalesOrderQujianSubStatusUrl  ='ebilling/salesorder/updateSalesOrderQujianSubStatus'
+
 function SfInfo(oid){
   var params={
     url: sfinfoUrl,
@@ -381,6 +383,21 @@ function updateSalesOrderExpressSubStatus(id){
   })
 }
 
+function updateSalesOrderQujianSubStatus(id){
+  var params={
+    url:updateSalesOrderQujianSubStatusUrl,
+    data:{
+      id
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "GET").then(res => {
+      console.log(res);
+      resolve(res);
+    })
+  })
+}
+
 
 module.exports = {
   AddSalesOrder,
@@ -403,6 +420,7 @@ module.exports = {
   SfInfo,
   querywaittip,
   updateSalesOrderExpressSubStatus,
+  updateSalesOrderQujianSubStatus,
   ChangeOrderConfirmStatusGuaqi,
   ChangeOrderConfirmStatusYKXJ, 
   zuofei,

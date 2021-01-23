@@ -37,6 +37,8 @@ Page({
           }
       }else if(objectType=='ServiceContracts'){
           router.redirectTo("/pages/other/other?from=index");
+      }else if(objectType=='InvoiceOperationStatistic'){
+          router.redirectTo("/pages/daiqu/daiqu");
       }
   },
   
