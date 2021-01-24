@@ -62,12 +62,12 @@
       
       </view>
         
-      <button class='btns' wx:if="{{contractList && showSubBtn}}" bindtap="subscribeOnce">订阅合同到期提醒</button>
+      <button class='btns' wx:if="{{contractList && contractList.length>0 && showSubBtn}}" bindtap="subscribeOnce">订阅合同到期提醒</button>
       <view wx:if="{{contractList && contractList.length>0 && showSubBtn}}">未订阅或已经提醒，如想继续接受合同到期提醒，请再次订阅</view>
       
       <button class='btns ' wx:if="{{contractList  && contractList.length>0 && !showSubBtn}}" bindtap="back">返回首页</button>
         
-        <view wx:if="{{!contractList || contractList.length==0 }}">当前公司没有合同</view>
+        <view wx:if="{{!contractList || contractList.length==0 }}">当前公司没有有效的开票合同</view>
     </form>
     
   </view>
