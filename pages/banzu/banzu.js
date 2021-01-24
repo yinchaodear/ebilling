@@ -236,8 +236,8 @@ Page({
                      console.log("订阅")
                     //设置为已订阅
                     that.updateSalesOrderExpressSubStatus(item.f_id);
-                    router.navigateTo(path);
                 }
+                router.navigateTo(path);
             },
             fail(res) {
                 console.log("不订阅")
