@@ -1,5 +1,7 @@
 //index.js
 //获取应用实例
+import * as login from "../../utils/login";
+
 const Toast = require("../../utils/Toast")
 const app = getApp()
 let _this;
@@ -94,7 +96,7 @@ Page({
   },
   onLoad: function (options) {
     _this = this
- 
+    login.JudgeLogin();
   },
   getCarousel(){
     app.com.post('calousels/get',{a_id:wx.getStorageSync("area").pk_id},function(res){
