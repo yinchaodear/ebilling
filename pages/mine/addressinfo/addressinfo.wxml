@@ -138,19 +138,15 @@
    <van-uploader file-list="{{ imagelist }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
 </view> 
   
-
-
-
-
-
     <view class='pa-30' wx:if="{{detail.id==''||detail.id==undefined}}">
     <button class='btns' bindtap='submit'>保存</button>
     </view>
 
-    <view style="text-align: center;margin: 25px" wx:if="{{detail.id!=undefined && detail.id!=''}}">
+    <view style="text-align: center; margin:25px; padding-bottom: 40px;" wx:if="{{detail.id!=undefined && detail.id!=''}}">
         <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;" type="primary" size="mini" bindtap="del">删除</button>
         <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;margin-left: 10%" type="primary" size="mini" bindtap="submit">保存</button>
     </view>
+    
 </view>
 
 
