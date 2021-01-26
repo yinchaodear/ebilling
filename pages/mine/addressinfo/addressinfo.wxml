@@ -36,10 +36,10 @@
     <view class='panel-start item-center'>
       <!-- <image src='/img/d5.png' class='icon-35'></image> -->
       <view class='fo-30 ma-l20'>社会信用代码</view>
-       <view class='required'>*</view>
+<!--       <view class='required'>*</view>-->
     </view>
     
-      <input class='fo-30 fo-g text-center'  disabled="{{(detail.id==''||detail.id==undefined)?false:true}}"     value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
+      <input class='fo-30 fo-g text-center' value='{{detail.code}}'  data-name='code' bindinput='bInput' placeholder='纳税人识别号或统一社会信用代码'></input>
   
   </view>
   

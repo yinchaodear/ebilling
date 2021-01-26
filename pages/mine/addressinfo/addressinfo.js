@@ -425,11 +425,12 @@ Page({
       app.globalData.Toast.showToast("企业名称为空");
       return;
     }
-
-    if(detail.code==''||detail.code==undefined){
-      app.globalData.Toast.showToast("社会信用代码为空");
-      return;
-    }
+    
+    // if(detail.code==''||detail.code==undefined){
+    //   app.globalData.Toast.showToast("社会信用代码为空");
+    //   return;
+    // }
+    
     if(detail.id ==''||detail.id==undefined){
       detail.isnew=='是'
     }
@@ -448,7 +449,7 @@ Page({
              var that = this;
              wx.showModal({
               title: '提示',
-              content: '所填信息与企查查不一致，是否保存?',
+              content: '所填信息与企查查不匹配，是否保存?',
               success(res){
                 if(res.confirm){
                   that.AddCompanyotherAddress();
