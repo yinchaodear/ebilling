@@ -533,6 +533,7 @@ Page({
         }
         if (flag == true) {
           apply.id = '';
+          apply.attachment = "";
           for (var i in ItemList) {
             ItemList[i].id = ''
           }
@@ -1196,6 +1197,13 @@ Page({
         },
       })
     }
-  }
+  },
+    
+    delFile() {
+        this.setData({
+          tempFilePaths : null
+        })
+    }
+    
 
 })

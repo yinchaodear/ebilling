@@ -249,16 +249,25 @@
 <!--    </van-uploader>-->
 <!--</view>-->
         
+
 <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-    <view class='additem'  bindtap="chooseMessageFile" >
-     文件上传
+    <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">
+        {{tempFilePaths[0].name}}
     </view>
-</view>
-<view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-    <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">{{tempFilePaths[0].name}}</view>
     <view wx:if="{{apply.id!='' && apply.attachment}}">{{apply.attachment}}</view>
 </view>
         
+
+<!--<view class='pa-t30 pa-b20 panel-between item-center border-b'  >-->
+<!--    <view class='additem'  bindtap="chooseMessageFile" >-->
+<!--     文件上传-->
+<!--    </view>-->
+<!--</view>-->
+        
+<view style="text-align: center;margin: 25px">
+    <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;" type="primary" size="mini" bindtap="chooseMessageFile">文件上传</button>
+    <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;margin-left: 10%" type="primary" size="mini" bindtap="delFile">删除</button>
+</view>
   <!-- </van-collapse-item>
 
 </van-collapse>-->
