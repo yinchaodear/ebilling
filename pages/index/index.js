@@ -117,6 +117,13 @@ Page({
       this.setData({
         company:company
       })
+      
+      var currentuser =wx.getStorageSync('currentuser');
+      if(!currentuser){
+          wx.navigateTo({
+            url: '/pages/login/login',
+          })
+      }
   },
   //通知
   getAdminMemr(){
