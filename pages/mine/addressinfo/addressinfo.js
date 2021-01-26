@@ -440,18 +440,29 @@ Page({
            console.log("企业查查对的");
            this.AddCompanyotherAddress();
          }else if(res.data.msg==0){
-           Notify({
-            message: '企业名称或者社会信用代码有误,无法保存',
-            duration: 2000,
-           });
-           return;
-         }else if(res.data.msg==4){
-          Notify({
-            message: '企业查询接口出错,请联系客服',
-            duration: 2000,
-          });
-          this.AddCompanyotherAddress();
-        }
+           // Notify({
+           //  message: '企业名称或者社会信用代码有误,无法保存',
+           //  duration: 2000,
+           // });
+           // return;
+             var that = this;
+             wx.showModal({
+              title: '提示',
+              content: '所填信息与企查查不一致，是否保存?',
+              success(res){
+                if(res.confirm){
+                  that.AddCompanyotherAddress();
+                }
+              }
+            })
+         }
+        //  else if(res.data.msg==4){
+        //   Notify({
+        //     message: '企业查询接口出错,请联系客服',
+        //     duration: 2000,
+        //   });
+        //   this.AddCompanyotherAddress();
+        // }
     })
   
   },
