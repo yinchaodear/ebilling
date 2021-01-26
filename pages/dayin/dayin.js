@@ -735,7 +735,7 @@ Page({
   confirmdatanext(apply){
     var _this = this;
     Dialog.confirm({
-        title: '开票总数:' + this.data.totalqutity + ",开票总金额:" + this.data.totalmoney,
+        title: '开票总数:' + this.data.totalqutity + ",开票总金额:" + parseFloat(this.data.totalmoney).toFixed(2),
         message: this.data.str,
         messageAlign: "left"
       })
@@ -903,7 +903,7 @@ Page({
         str += '  单价' + item.unitprice
         str += '  金额' + item.money
         str += '  备注' + item.remark
-        str += '  税率' + item.tax + "\n"
+        str += '  税率' + item.tax + "%\n"
       }
       str += "\n"
     }
