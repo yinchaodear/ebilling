@@ -525,6 +525,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+        wx.removeStorageSync("company1");
         console.log(options)
         var  otherid  =options.otherid;
         if(otherid){
@@ -534,17 +535,51 @@ Page({
           })
           this.GetCompanyOtherInfo(otherid)
         }else{
-          var detail =this.data.detail;
+          var detail = this.data.detail;
           detail.companyid = options.companyid
           this.setData({
             companyid:options.companyid,
             detail:detail
           })
         }
-
-       
-
   },
+    
+    del(){
+        var id = this.data.otherid;
+        var companySelf = wx.getStorageSync("company");
+        if(!companySelf){
+            Notify({
+                message: '请先选择开票企业，再删除关联的客户',
+                duration: 1000,
+            });
+            return;
+        }
+        var companyid = companySelf.id;
+        wx.showModal({
+          title: '提示',
+          content: '删除后该数据将无法恢复，是否继续?',
+          success(res){
+            if(res.confirm){
+              wx.showLoading({
+                title: '删除中',
+                task:true
+              })
+              company.DeleteOtherCompany(id, companyid).then(res=>{
+                if(res.data.msg==true){
+                  wx.hideLoading({
+                    complete: (res) => {
+                      app.globalData.Toast.showToast("删除成功")
+                      wx.navigateBack();
+                    },
+                  })
+                }else{
+                    
+                }
+              })
+            }
+          }
+        })
+    },
 
   
 })
