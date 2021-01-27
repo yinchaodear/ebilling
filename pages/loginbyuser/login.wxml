@@ -12,7 +12,7 @@
       
       <input class='bgg ra-10'  maxlength='20' data-name='phone' bindinput='ddinput' value='{{phone}}' placeholder='账号(必填)'></input>
       
-      <input class='bgg ra-10 ma-t30' data-name='password' bindinput='ddinput' value='{{password}}' placeholder='密码'></input> 
+      <input class='bgg ra-10 ma-t30' type="password" data-name='password' bindinput='ddinput' value='{{password}}' placeholder='密码'></input> 
       
 
     </view>

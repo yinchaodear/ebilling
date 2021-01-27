@@ -166,6 +166,16 @@ Page({
           console.log(res);
           if(res.data.msg=='success'){
             that.setData({list:[res.data]})
+          }else if(res.data.msg=='none'){
+            Notify({
+                message: '没有此用户，或者不是该公司的客服',
+                duration: 1000
+            });
+          }else if(res.data.msg=='oversize'){
+            Notify({
+                message: '账号重复，请先处理',
+                duration: 1000
+            });
           }
         })
 
