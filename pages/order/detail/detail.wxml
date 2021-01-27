@@ -215,6 +215,7 @@
   confirmButtonText="关闭"
 >
   <image src="{{qrsrc}}" />
+  <view style="text-align: center">{{detail.no}}</view>
 </van-dialog>
 
 
