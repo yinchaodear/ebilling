@@ -76,16 +76,16 @@ Page({
       wx.showLoading({
         title: '登录中',
       })
-      var params ={}
-      var data ={}
-      data.phone =phone;
+      var params = {}
+      var data = {}
+      data.phone = phone;
       data.pwd = pwd;
-      data.nickname ="";
-      data.encryptedData="";
+      data.nickname = "";
+      data.encryptedData = "";
       data.iv = "";
-      data.code ="";
+      data.code = "";
       params.url = loginurl;
-      params.data =data
+      params.data = data
       login.login(params).then(res=>{
           console.log(res);
           if(res.data.msg=='success'){
@@ -155,13 +155,21 @@ Page({
 
 
   onSearch(e) {
-    console.log(e.detail)
+      var that = this;
     if(e.detail ==''){
       app.globalData.Toast.showToast("输入为空")
       return;
-    }
+    }else{
+        console.log(e.detail)
+        var kefuid = wx.getStorageSync('kefuid');
+        login.searchAccount(kefuid, e.detail).then(res=>{
+          console.log(res);
+          if(res.data.msg=='success'){
+            that.setData({list:[res.data]})
+          }
+        })
 
-   
+    }
   },
 
   navTo(e) {
@@ -230,14 +238,20 @@ Page({
         
             if(res.data.msg=='none'){
               Notify({
-                message: '无此用户，',
+                message: '无此用户',
                 duration: 2000,
                });
             
             }
             if(res.data.msg=='pwd'){
               Notify({
-                message: '密码错误，',
+                message: '密码错误',
+                duration: 2000,
+               });
+            }
+            if(res.data.msg=='notkefu'){
+              Notify({
+                message: '不是客服',
                 duration: 2000,
                });
             }

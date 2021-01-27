@@ -92,8 +92,20 @@
                     </van-row>
             </view> 
             
+            <view class='pa-t30 panel-between item-center border-b pa-b20' wx:if="{{flag==1&&(starttime!=''||endtime!=''||type!='')}}">
+                <view class='fo-30'>当前条件:</view>
+            </view> 
+            <view class='pa-t30 panel-between item-center border-b pa-b20' wx:if="{{starttime!=''}}">
+                <view class='fo-30'>开始时间</view>
+                <view>{{starttime}}</view>
+            </view> 
+            <view class='pa-t30 panel-between item-center border-b pa-b20' wx:if="{{endtime!=''}}">
+                <view class='fo-30'>结束时间</view>
+                <view>{{endtime}}</view>
+            </view> 
             <view class='pa-t30 panel-between item-center border-b pa-b20' wx:if="{{type!=''}}">
-                <view class='fo-30'>当前查询发票类型:{{type}}</view>
+                <view class='fo-30'>发票类型</view>
+                <view>{{type}}</view>
             </view> 
         </view>
         
@@ -168,6 +180,29 @@
 
 <van-popup show="{{ show }}" bind:close="onClose"  position="top" wx:if="{{flag==1}}">
     <view class="padd">
+        
+        <picker mode="date"  value  bindchange="bindStarttimeDateChange" >
+          <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+                <view class='fo-30'>开始时间</view>
+                
+                <view class='panel-end item-center'>
+                  <view class='fo-30 fo-g'>{{starttime!=''? starttime:'请选择'}}</view>
+                  <image src='/img/right.png' class='icon-30 ma-l20'></image>
+                </view>
+               
+          </view>
+        </picker>
+       
+        <picker mode="date"  value   bindchange="bindEndtimeDateChange"  >
+           <view class='pa-t30 pa-b30 panel-between item-center border-b' >
+                <view class='fo-30'>结束时间</view>
+                <view class='panel-end item-center'>
+                  <view class='fo-30 fo-g'>{{endtime!=''? endtime:'请选择'}}</view>
+                  <image src='/img/right.png' class='icon-30 ma-l20'></image>
+                </view>
+          </view>
+        </picker>
+        
         <picker mode="selector"  range="{{types}}"  bindchange="bindTypeDateChange" >
             <view class='pa-t30 pa-b30 panel-between item-center border-b' >
                 <view class='fo-30'>票据种类</view>

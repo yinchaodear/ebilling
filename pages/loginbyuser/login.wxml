@@ -10,7 +10,7 @@
   <view class='pa-30'>
     <view class='panels ra-20'>
       
-      <input class='bgg ra-10'  maxlength='11' data-name='phone' bindinput='ddinput' value='{{phone}}' placeholder='账号(必填)'></input>
+      <input class='bgg ra-10'  maxlength='20' data-name='phone' bindinput='ddinput' value='{{phone}}' placeholder='账号(必填)'></input>
       
       <input class='bgg ra-10 ma-t30' data-name='password' bindinput='ddinput' value='{{password}}' placeholder='密码'></input> 
       
@@ -34,14 +34,15 @@
   value="{{ value }}"
   shape="round"
   background="#6e42d3"
-  placeholder="请输入客户电话或名称,然后点击下方列表"
+  placeholder="请输入客户电话后搜索，然后点击下方列表"
   bind:search="onSearch"
   bind:change="onChange"
 />  
 
  <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"  style="padding-left:10rpx;padding-right:10rpx"  data-index='{{index}}' bindtap="loginbyphone">
       
-        <view class='fo-30'>{{item.lastname}}({{item.accountname}})</view>       
+        <view class='fo-30' wx:if="{{item && (item.nickname=='' || item.nickname==null)}}">{{item.lastname}}</view>       
+        <view class='fo-30' wx:if="{{item && (item.nickname!='' && item.nickname!=null)}}">{{item.lastname}}({{item.nickname}})</view>       
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{item.phone}}</view>
           <!-- <image src='/img/right.png' class='icon-30 ma-l20'></image> -->

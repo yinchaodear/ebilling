@@ -10,6 +10,7 @@ const ExitUrl='ebilling/account/exit'
 const RegisterUrl ='ebilling/account/register'
 const LoginKefuUrl ='ebilling/account/loginkefu'
 const configTelUrl ='ebilling/account/configTel'
+const searchAccountUrl ='ebilling/account/searchAccount'
 
 function login(map) {
   //Map.phone map.pwd
@@ -92,6 +93,7 @@ function JudgeLogin(){
               Toast.showToast("自动登录成功");
               wx.removeStorageSync('kefuid')
               wx.setStorageSync('currentuser', res.data);
+              wx.setStorageSync("judgeLogining",0);
             }else{
               if(res.data.msg=='none'){
                 
@@ -172,6 +174,23 @@ function LoginKefu(username,pwd) {
   })
 }
 
+function searchAccount(kefuId, phone) {
+  var params={
+    url:searchAccountUrl,
+    data:{
+      kefuId,
+      phone
+    }
+  }
+  return new Promise(function (resolve, reject) {
+    util.request(params, "Get").then(res => {
+      console.log(res);
+      resolve(res);
+   
+    })
+  })
+}
+
 module.exports = {
   login,
   loginDaily,
@@ -181,5 +200,6 @@ module.exports = {
   Exit,
   Register,
   LoginKefu,
-  getConfigTel
+  getConfigTel,
+  searchAccount
 }

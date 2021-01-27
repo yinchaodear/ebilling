@@ -96,6 +96,7 @@ Page({
   },
   onLoad: function (options) {
     _this = this
+    wx.setStorageSync("judgeLogining",1);
     login.JudgeLogin();
   },
   getCarousel(){
@@ -119,7 +120,8 @@ Page({
       })
       
       var currentuser =wx.getStorageSync('currentuser');
-      if(!currentuser){
+      var judgeLogining = wx.getStorageSync("judgeLogining");
+      if(!currentuser && judgeLogining!=1){
           wx.navigateTo({
             url: '/pages/login/login',
           })

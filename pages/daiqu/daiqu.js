@@ -128,7 +128,8 @@ Page({
   InvoiceOperationStatistic(){
     var json = {}
     json.type = this.data.type;
-    json.version = this.data.version;
+    json.starttime = this.data.starttime;
+    json.endtime = this.data.endtime;
     var jsonstr = JSON.stringify(json)
     salesorder.InvoiceOperationStatistic(this.data.company.id, jsonstr).then(res=>{
       if(res.data.msg==true){
@@ -268,9 +269,16 @@ Page({
   
 
   change(e){
-    this.setData({
-      flag: e.currentTarget.dataset.index
-    })
+    if(this.data.flag != e.currentTarget.dataset.index){
+      this.setData({
+        flag: e.currentTarget.dataset.index,
+        starttime:"",
+        endtime:'',
+        companyname:'',
+        condition:'是',
+        type:"",
+      })
+    }
     if(e.currentTarget.dataset.index==1){
       if(this.data.needSubscribe){
         this.subscribeOnce();
