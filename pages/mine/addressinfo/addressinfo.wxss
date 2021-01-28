@@ -43,7 +43,7 @@ margin-top: 10rpx;
   box-shadow: 0px 0px 5px #e1e1e1;
   font-size: 15px;
   padding: 20rpx;
-  height: 50px;
+  height: 150px;
   margin-top: 5px;
 }
 

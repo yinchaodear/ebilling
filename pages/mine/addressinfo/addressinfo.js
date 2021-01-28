@@ -53,7 +53,7 @@ Page({
                     _this.setData({
                       companystr:jsonstr.data.companyinfostr
                     })
-                      _this.companyinfostatic(jsonstr.data.companyinfostr);
+                    //_this.companyinfostatic(jsonstr.data.companyinfostr);
                   },
                 })
                 
