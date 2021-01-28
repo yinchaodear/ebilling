@@ -87,28 +87,11 @@ Page({
       login.login(params).then(res=>{
           console.log(res);
           if(res.data.msg=='success'){
-            if(res.data.existopenid==true){
-              Toast.showToast("登录成功");
-              wx.setStorageSync('currentuser', res.data);
-              Dialog.alert({
-                title: '临时登录',
-                message: "此微信已绑定账号为"+res.data.existphone+"\n如需修改请联系客服",
-              }).then(() => {
-                // on close
-                wx.switchTab({
-                  url: '/pages/index/index',
-                })
-              });
-       
-
-            }else{
               Toast.showToast("登录成功");
               wx.setStorageSync('currentuser', res.data);
               wx.switchTab({
                 url: '/pages/index/index',
               })
-            }
-          
           }else{
             if(res.data.msg=='stop'){
               Notify({
@@ -144,6 +127,13 @@ Page({
                setTimeout(function(){
                     router.navigateTo("/pages/register/register")
                },1500)
+            }
+            
+            if(res.data.msg=='phoneErr'){
+              Notify({
+                message: '请登录自己的账号',
+                duration: 2000,
+               });
             }
             
           }
