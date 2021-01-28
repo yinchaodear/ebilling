@@ -91,7 +91,7 @@
    </view>
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
-     <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='待取件'}}">取件二维码</view>
+     <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='待取件' && (detail.status=='已开具'||(detail.voidPartially==1))}}">取件二维码</view>
      <view class='state ste4 ma-t30' bindtap="SfInfo" wx:if="{{detail.expressway=='邮寄'&&detail.expressno!=null}}">物流信息</view>
 
  
