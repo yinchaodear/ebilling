@@ -110,7 +110,7 @@ Page({
             }
           
           }else{
-            if(res.data.msg=='nopwd'){
+            if(res.data.msg=='stop'){
               Notify({
                 message: '用户暂不可用,请先注册',
                 duration: 2000,
@@ -119,6 +119,14 @@ Page({
                     router.navigateTo("/pages/register/register")
                },1500)
             }
+            
+            if(res.data.msg=='nopwd'){
+              Notify({
+                message: '密码不正确，请重试或者重新注册验证',
+                duration: 2000,
+               });
+            }
+            
             if(res.data.msg=='none'){
               Notify({
                 message: '无此用户',
