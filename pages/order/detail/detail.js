@@ -177,7 +177,8 @@ Page({
     var _this = this;
     var itemid = event.currentTarget.dataset.itemid;
     var index = event.currentTarget.dataset.index;
-    var itemidMap = {};
+    var itemidMap = this.data.itemidMap;
+    if(!itemidMap)itemidMap = {};
     itemidMap[index] = itemid;
     const { file } = event.detail;
     const { fileList = {} } = this.data;
