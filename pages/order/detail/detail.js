@@ -1,3 +1,5 @@
+import data from "../../../config/area";
+
 const app = getApp()
 const api =require("../../../config/api")
 let _this;
@@ -38,6 +40,8 @@ Page({
     msgData:"",
     active:2,
     steps: [],
+    zuofeiItems:[],
+    usedIOlist:[],
   },
   SfInfo(){
     debugger;
@@ -170,73 +174,85 @@ Page({
   },
   
   afterRead(event) {
-    var _this= this;
+    var _this = this;
+    var itemid = event.currentTarget.dataset.itemid;
+    var index = event.currentTarget.dataset.index;
+    var itemidMap = {};
+    itemidMap[index] = itemid;
     const { file } = event.detail;
-    const { fileList = [] } = this.data;
-    fileList.push({ ...file});
-    this.setData({fileList})
+    const { fileList = {} } = this.data;
+    if(!fileList[index]){
+       fileList[index] = [];
+    }
+    fileList[index].push(file);
+    this.setData({fileList, itemidMap})
     // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
-  
   },
+  
   afterdelete(e){
     console.log(e);
-    let index=e.detail.index;
-    var fileList =this.data.fileList;
-    fileList.splice(index,1);
-
+    let index = e.detail.index;
+    var fileList = this.data.fileList;
+    var indexF = e.currentTarget.dataset.index;
+    fileList[indexF].splice(index,1);
     this.setData({fileList})
   },
 
   upload:function(){
     var _this =this;
-    var fileList  =this.data.fileList;
+    var fileList = this.data.fileList;
+    var itemidMap = this.data.itemidMap;
     if(fileList.length==0){
-      app.globalData.Toast.showToast("照片为空")
+      //app.globalData.Toast.showToast("照片为空")
       return;
     }
     for(var i in fileList){
-      var i11 =i
-      wx.uploadFile({
-        url: api.UPLOADURL, // 仅为示例，非真实的接口地址
-        filePath: fileList[i].url,
-        name: 'file',
-        formData: {
-          objectId: _this.data.detail.id,
-          objectType:"CancelApply"
-        },
-        success(res) {
-          // 上传完成需要更新 fileLis  
-          var fileList  =_this.data.fileList;
-          fileList[i].upload=true;
-          _this.setData({
-            fileList
-          })
-        },
-      });
+      var itemid = itemidMap[i];
+      var fs = fileList[i];
+      
+      for(var f in fs){
+        var file = fs[f];
+        wx.uploadFile({
+          url : api.UPLOADURL, // 仅为示例，非真实的接口地址
+          filePath: file.url,
+          name: 'file',
+          formData: {
+            objectId: itemid,
+            objectType:"SalesOrderVoid"
+          },
+          success(res) {
+            // 上传完成需要更新 fileLis  
+            var fileList  =_this.data.fileList;
+            file.upload=true;
+            _this.setData({
+              fileList
+            })
+          },
+        });
+      }
     }
     this.checkupload()
   },
 
   checkupload(){
-      var _this =this;
+      var _this = this;
       var fileList =this.data.fileList;
-      var flag =true;
+      var flag = true;
       for(var i in fileList){
-        if(fileList[i].upload!=true){
-          flag==false;
+        var fs = fileList[i];
+        for(var x in fs){
+          var file = fs[x];
+          if(file.upload!=true){
+            flag==false;
+          }
         }
       }
       if(flag){
         app.globalData.Toast.showToast("上传成功");
-        _this.setData({
-          cancelimglist:[],
-          FapiaoList:[]
-        })
-        _this.onClose()
-        _this.GetSalesOrderInfo(_this.data.detail.id);
+        _this.zuofei(_this.data.voidIds)
       }else{
         setTimeout(() => {
-          __this.checkupload()
+          _this.checkupload()
         }, 200);
       }
   },
@@ -285,17 +301,13 @@ Page({
   },
 
   onClose() {
-    this.setData({ show: false });
+    this.setData({ show: false, fileList:[], zuofeiItems:[] });
   },
-
-  showPopup() {
-    this.setData({ show: true,
-    step:2
-    });
-  },
+  
   showPopup() {
     this.setData({ show: true });
   },
+  
   comfirm() {
     var _this =this;
     Dialog.confirm({
@@ -330,8 +342,8 @@ Page({
     .then(() => {
       // on confirm
       console.log("有问题")
-      //this.showPopup();
-      this.zuofei();
+      this.showPopup();
+      //this.zuofei();
     })
     .catch(() => {
       // on cancel
@@ -339,9 +351,10 @@ Page({
     });
   },
     
-  zuofei(){
-    salesorder.zuofei(this.data.detail.id).then(res=>{
+  zuofei(voidIds){
+    salesorder.zuofei(this.data.detail.id, voidIds).then(res=>{
       if(res.data.msg==true){
+        this.onClose();
         app.globalData.Toast.showToast("申请完成");
         this.GetSalesOrderInfo(this.data.detail.id);
       }
@@ -565,7 +578,9 @@ Page({
           approveList,
           approveListPDF,
           detail:res.data.orderdetail,
-          orderitem,salesorder,
+          orderitem,
+          salesorder,
+          usedIOlist:res.data.usedIOlist,
           qrsrc:api.PicUrl("salesorder",ID+"_qr",res.data.orderdetail.qr)
         })
         
@@ -574,7 +589,37 @@ Page({
     })
   },
 
+  onChange(event) {
+    console.info(event.detail)
+    this.setData({
+      zuofeiItems: event.detail,
+    });
+  },
   
+  submitZuofei(){
+    var zuofeiItems = this.data.zuofeiItems;
+    var voidIds = "";
+    
+    voidIds = zuofeiItems.join(",");
+    this.setData({voidIds});
+    
+    Dialog.confirm({
+      title: '确定',
+      zIndex: 1000000000000,
+      message: '确定提交作废吗',
+      confirmButtonText:"是",
+      cancelButtonText:"否"
+    })
+    .then(() => {
+      this.upload();
+      //this.zuofei(voidIds);
+    })
+    .catch(() => {
+      
+    });
+    
+    console.info(zuofeiItems)
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -582,6 +627,6 @@ Page({
   onReady: function () {
 
   },
-
+  
   
 })

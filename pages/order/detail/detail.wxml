@@ -196,18 +196,62 @@
 
 
 <van-popup show="{{ show }}" custom-style="width:90%;min-height:30%" bind:close="onClose"  round position="center" >
-<view class="padd" wx:if='{{step==1}}'>
-   <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请填写需要作废的发票号*</view>
-   <textarea class="border-1" bindinput="textareainput" placeholder="请在此输入发票号,多张发票以空格分开">  
-   </textarea>
-   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>
-  
-  </view>
- <view  class="padd-1" wx:if='{{step==2}}'>
-   <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请上传作废发票的照片*</view>
-  <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
-   <button class='btns-40 ' style="margin-bottom:20px"  bindtap="upload">确定</button>
-</view>
+<!--    <view class="padd">-->
+<!--        <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请填写需要作废的发票号*</view>-->
+<!--            <textarea class="border-1" bindinput="textareainput" placeholder="请在此输入发票号,多张发票以空格分开">  -->
+<!--        </textarea>-->
+<!--        <button class='btns-40 ' style="margin-bottom:20px"  bindtap="sure">确定</button>-->
+<!--    </view>-->
+    
+    <view class="padd">
+        <view style="margin: 10px;text-align:center">请选择要作废的票号</view>
+        <van-checkbox-group value="{{ zuofeiItems }}" bind:change="onChange">
+            <view wx:for="{{usedIOlist}}" wx:key="{{index}}">
+                <van-checkbox name="{{item.id}}">票号:{{item.taxNo}}</van-checkbox>
+                <van-uploader style="padding: 25px" wx:if="{{index==0}}" file-list="{{fileList[0]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==1}}" file-list="{{fileList[1]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==2}}" file-list="{{fileList[2]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==3}}" file-list="{{fileList[3]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==4}}" file-list="{{fileList[4]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==5}}" file-list="{{fileList[5]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==6}}" file-list="{{fileList[6]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==7}}" file-list="{{fileList[7]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==8}}" file-list="{{fileList[8]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==9}}" file-list="{{fileList[9]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==10}}" file-list="{{fileList[10]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==11}}" file-list="{{fileList[11]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==12}}" file-list="{{fileList[12]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==13}}" file-list="{{fileList[13]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==14}}" file-list="{{fileList[14]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==15}}" file-list="{{fileList[15]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==16}}" file-list="{{fileList[16]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==17}}" file-list="{{fileList[17]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==18}}" file-list="{{fileList[18]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==19}}" file-list="{{fileList[19]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==20}}" file-list="{{fileList[20]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==21}}" file-list="{{fileList[21]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==22}}" file-list="{{fileList[22]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==23}}" file-list="{{fileList[23]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==24}}" file-list="{{fileList[24]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==25}}" file-list="{{fileList[25]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==26}}" file-list="{{fileList[26]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==27}}" file-list="{{fileList[27]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==28}}" file-list="{{fileList[28]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==29}}" file-list="{{fileList[29]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+                <van-uploader style="padding: 25px" wx:if="{{index==30}}" file-list="{{fileList[30]}}" data-itemid="{{item.id}}" data-index="{{index}}"  deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> 
+            </view>
+        </van-checkbox-group>
+        
+        <view  class="padd-1">
+            <button class='btns-40 ' style="margin-bottom:20px"  bindtap="submitZuofei">确定</button>
+        </view>
+    </view>
+    
+<!--    <view  class="padd-1">-->
+<!--        <view class='pa-l30 pa-r30 fo-28 fo-g text-center'>*请上传作废发票的照片*</view>-->
+<!--            <van-uploader file-list="{{ fileList }}"   deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" /> -->
+<!--        <button class='btns-40 ' style="margin-bottom:20px"  bindtap="upload">确定</button>-->
+<!--    </view>-->
 </van-popup>
 
 

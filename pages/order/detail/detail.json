@@ -5,7 +5,9 @@
     "van-popup": "../../../dist/popup/index",  
     "van-uploader": "../../../dist/uploader/index",
     "van-grid": "../../../dist/grid/index",
-     "van-grid-item": "../../../dist/grid-item/index",
-     "van-steps": "../../../dist/steps/index"
+    "van-grid-item": "../../../dist/grid-item/index",
+    "van-steps": "../../../dist/steps/index",
+    "van-checkbox": "../../../dist/checkbox/index",
+    "van-checkbox-group": "../../../dist/checkbox-group/index"
   }
 }
