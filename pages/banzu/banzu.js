@@ -227,7 +227,7 @@ Page({
     let item = e.currentTarget.dataset.item;
     console.info(item)
     let that = this;
-    if(item.f_is_sub_express_msg==0 && item.f_express_type=='邮寄' && item.f_sostatus!='已作废'  &&  item.f_sostatus!='已完成' && this.data.tempidlist && this.data.tempidlist.length>0){
+    if(item.f_is_sub_express_msg==0 && item.f_express_type=='邮寄' && item.f_void_status == null && item.f_sostatus!='已作废'  &&  item.f_sostatus!='已完成' && this.data.tempidlist && this.data.tempidlist.length>0){
         let tmplIds = this.data.tempidlist;
         wx.requestSubscribeMessage({
             tmplIds : tmplIds,
@@ -246,7 +246,7 @@ Page({
                 router.navigateTo(path);
             }
         })
-    }else if(item.f_is_sub_qujian_msg==0 && item.f_express_type=='自取' && item.f_sostatus!='已作废'  &&  item.f_sostatus!='已完成' && this.data.tempidlist2 && this.data.tempidlist2.length>0){
+    }else if(item.f_is_sub_qujian_msg==0 && item.f_express_type=='自取' && item.f_void_status == null && item.f_sostatus!='已作废'  &&  item.f_sostatus!='已完成' && this.data.tempidlist2 && this.data.tempidlist2.length>0){
         let tmplIds = this.data.tempidlist2;
         wx.requestSubscribeMessage({
             tmplIds : tmplIds,
