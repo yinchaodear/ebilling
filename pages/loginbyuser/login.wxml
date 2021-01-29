@@ -34,15 +34,15 @@
   value="{{ value }}"
   shape="round"
   background="#6e42d3"
-  placeholder="请输入客户电话后搜索，然后点击下方列表"
+  placeholder="请输入客户名称或者电话，然后点击下方列表"
   bind:search="onSearch"
   bind:change="onChange"
 />  
 
  <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"  style="padding-left:10rpx;padding-right:10rpx"  data-index='{{index}}' bindtap="loginbyphone">
       
-        <view class='fo-30' wx:if="{{item && (item.nickname=='' || item.nickname==null)}}">{{item.lastname}}</view>       
-        <view class='fo-30' wx:if="{{item && (item.nickname!='' && item.nickname!=null)}}">{{item.lastname}}({{item.nickname}})</view>       
+        <view class='fo-30' wx:if="{{item && (item.accountname=='' || item.accountname==null)}}">{{item.lastname}}</view>       
+        <view class='fo-30' wx:if="{{item && (item.accountname!='' && item.accountname!=null)}}">{{item.lastname}}({{item.accountname}})</view>       
         <view class='panel-end item-center'>
           <view class='fo-30 fo-g'>{{item.phone}}</view>
           <!-- <image src='/img/right.png' class='icon-30 ma-l20'></image> -->

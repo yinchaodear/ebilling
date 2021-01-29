@@ -84,6 +84,7 @@ Page({
       data.encryptedData = "";
       data.iv = "";
       data.code = "";
+      data.kefuLogin = "1";
       params.url = loginurl;
       params.data = data
       login.login(params).then(res=>{
@@ -92,35 +93,19 @@ Page({
             wx.hideLoading({
               complete: (res) => {},
             })
-            if(res.data.existopenid==true){
-              Toast.showToast("登录成功");
-              wx.setStorageSync('currentuser', res.data);
-              Dialog.alert({
-                title: '临时登录',
-                message: "此微信已绑定账号为"+res.data.existphone+"\n如需修改请联系客服",
-                theme: 'round-button',
-              }).then(() => {
-                // on close
+            
+            Toast.showToast("登录成功");
+            wx.setStorageSync('currentuser', res.data);
+            setTimeout(() => {
                 wx.switchTab({
                   url: '/pages/index/index',
                 })
-              });
-       
-
-            }else{
-              Toast.showToast("登录成功");
-              wx.setStorageSync('currentuser', res.data);
-              setTimeout(() => {
-                wx.switchTab({
-                  url: '/pages/index/index',
-                })
-              }, 1500);    
-            }
+            }, 1500);
           
           }else{
             if(res.data.msg=='nopwd'){
               Notify({
-                message: '用户暂不可用,请先注册',
+                message: '用户暂不可用,请稍后再试',
                 duration: 2000,
                });
                setTimeout(function(){
@@ -129,21 +114,15 @@ Page({
             }
             if(res.data.msg=='none'){
               Notify({
-                message: '无此用户',
+                message: '无此用户，请确认',
                 duration: 2000,
                });
-               setTimeout(function(){
-                    router.navigateTo("/pages/register/register")
-               },1500)
             }
             if(res.data.msg=='oversize'){
               Notify({
                 message: '有重复用户,请联系客服',
                 duration: 2000,
                });
-               setTimeout(function(){
-                    router.navigateTo("/pages/register/register")
-               },1500)
             }
             
           }
@@ -159,27 +138,28 @@ Page({
     if(e.detail ==''){
       app.globalData.Toast.showToast("输入为空")
       return;
-    }else{
-        console.log(e.detail)
-        var kefuid = wx.getStorageSync('kefuid');
-        login.searchAccount(kefuid, e.detail).then(res=>{
-          console.log(res);
-          if(res.data.msg=='success'){
-            that.setData({list:[res.data]})
-          }else if(res.data.msg=='none'){
-            Notify({
-                message: '没有此用户，或者不是该公司的客服',
-                duration: 1000
-            });
-          }else if(res.data.msg=='oversize'){
-            Notify({
-                message: '账号重复，请先处理',
-                duration: 1000
-            });
-          }
-        })
-
     }
+    //这个是多余的，触发本地搜索即可，我之前看错了，以为没处理
+    // else{
+    //     console.log(e.detail)
+    //     var kefuid = wx.getStorageSync('kefuid');
+    //     login.searchAccount(kefuid, e.detail).then(res=>{
+    //       console.log(res);
+    //       if(res.data.msg=='success'){
+    //         that.setData({list:[res.data]})
+    //       }else if(res.data.msg=='none'){
+    //         Notify({
+    //             message: '没有此用户，或者不是该公司的客服',
+    //             duration: 1000
+    //         });
+    //       }else if(res.data.msg=='oversize'){
+    //         Notify({
+    //             message: '账号重复，请先处理',
+    //             duration: 1000
+    //         });
+    //       }
+    //     })
+    // }
   },
 
   navTo(e) {
