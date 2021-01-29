@@ -111,7 +111,7 @@
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="unit" placeholder="填写单位" bindfocus="clearsearchlist"    value="{{item.unit}}" ></input>
          </view>
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26 flex-1'><view class="color-1" >*</view> 单价</view>
+        <view class='fo-26 flex-1'><view class="color-1" >*</view> 单价(含税)</view>
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   data-name="unitprice" placeholder="填写单价" bindfocus="clearsearchlist"    value="{{item.unitprice}}" ></input>
          </view>
               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
