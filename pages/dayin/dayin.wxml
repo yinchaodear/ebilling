@@ -60,7 +60,19 @@
           <image src='/img/right.png' class='icon-30 ma-l20'></image>
         </view>
       </view>
-
+        
+    <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{tempFilePaths!=null || apply.attachment}}" >
+        <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">
+            {{tempFilePaths[0].name}}
+        </view>
+        <view wx:if="{{apply.id!='' && apply.attachment}}">{{apply.attachment}}</view>
+    </view>
+        
+    <view style="text-align: center;margin: 25px">
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;" type="primary" size="mini" bindtap="chooseMessageFile">文件上传</button>
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;margin-left: 10%" type="primary" size="mini" bindtap="delFile">删除</button>
+    </view>
+        
 <van-share-sheet
   show="{{ showShare }}"
   title="{{title}}"
@@ -72,7 +84,7 @@
 <view class='pa-t30 pa-b30 panel-between item-center border-b'  data-title='开票项(最多8项)'>
 <view class='fo-30'>开票项</view>
 <view class='panel-end item-center'>
-  <view class='fo-30 fo-g'>(相同流水号在同一张发票上)</view>
+<!--  <view class='fo-30 fo-g'>(相同流水号在同一张发票上)</view>-->
 </view>
 </view>
 <van-collapse value="{{ activeNames }}" accordion bind:change="onItemChange">
@@ -80,19 +92,18 @@
 
 
           
-          <picker mode="selector" data-index='{{index}}'  range="{{FapiaoList}}"  bindchange="bindtaxChange">
+        <picker mode="selector" data-index='{{index}}'  range="{{FapiaoList}}"  bindchange="bindtaxChange" style="display: none">
            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
             
-             <view class='fo-26'>流水号</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写流水"  value="{{item.taxno}}" ></input>
-            
-         </view>
-            </picker>
+            <view class='fo-26'>流水号</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="taxno" placeholder="填写流水"  value="{{item.taxno}}" ></input>
+            </view>
+        </picker>
 
      <view class="border-b">
       <view class='pa-t30 pa-b20 panel-between item-center '  >
-        <view class='fo-26 flex-1'><view class="color-1" >*</view>项目名</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写项目名"  value="{{item.name}}" ></input>
+        <view class='fo-26 flex-1'><view class="color-1" >*</view>开票项目名称</view>
+        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="name" placeholder="填写开票项目名称"  value="{{item.name}}" ></input>
          
         </view>
         <view wx:if="{{searchlist.length>0&&currentindex==index}}">
@@ -106,31 +117,32 @@
         <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="model" placeholder="填写规格型号" bindfocus="clearsearchlist"  value="{{item.model}}" ></input>
          </view>
 
-          <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26'>单位</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="unit" placeholder="填写单位" bindfocus="clearsearchlist"    value="{{item.unit}}" ></input>
-         </view>
-           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26 flex-1'><view class="color-1" >*</view> 单价(含税)</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   data-name="unitprice" placeholder="填写单价" bindfocus="clearsearchlist"    value="{{item.unitprice}}" ></input>
-         </view>
-              <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-        <view class='fo-26 flex-1'><view class="color-1" >*</view> 数量</view>
-        <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'     data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
-         </view>
-          
-          <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-            <view class='fo-26'>对应金额</view>
-            <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
-           
-          </view>
-          
-        <picker mode="multiSelector"  data-index='{{index}}'  range="{{ multiArray}}"  bindcolumnchange="bindMultiPickerColumnChange" bindchange="bindtaxRateChange">
-           <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-                <view class='fo-26 flex-1'><view class="color-1" >*</view>税率</view>
-                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" disabled="true" placeholder="请选择税率"  value="{{item.tax}}%" ></input>
+            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26'>单位</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="unit" placeholder="填写单位" bindfocus="clearsearchlist"    value="{{item.unit}}" ></input>
             </view>
-        </picker>
+          
+            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26 flex-1'><view class="color-1" >*</view>合计金额(含税)</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}' data-name="money" placeholder="总金额" value="{{item.money}}"  ></input>
+            </view>
+            
+            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26 flex-1'><view class="color-1" >*</view> 数量</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'     data-name="number" placeholder="填写数量"  value="{{item.number}}" ></input>
+            </view>
+          
+            <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                <view class='fo-26 flex-1'><view class="color-1" >*</view> 单价(含税)</view>
+                <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'   data-name="unitprice" placeholder="填写单价" bindfocus="clearsearchlist"    value="{{item.unitprice}}" ></input>
+            </view>
+          
+            <picker mode="multiSelector"  data-index='{{index}}'  range="{{ multiArray}}"  bindcolumnchange="bindMultiPickerColumnChange" bindchange="bindtaxRateChange">
+               <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
+                    <view class='fo-26 flex-1'><view class="color-1" >*</view>税率</view>
+                    <input class='fo-26 text-right' bindinput="confirmitemList" data-index='{{index}}'  data-name="tax" disabled="true" placeholder="请选择税率"  value="{{item.tax}}%" ></input>
+                </view>
+            </picker>
       
 
       <view class='pa-t30 pa-b20 panel-between item-center border-b'  >
@@ -249,25 +261,12 @@
 <!--    </van-uploader>-->
 <!--</view>-->
         
-
-<view class='pa-t30 pa-b20 panel-between item-center border-b'  >
-    <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">
-        {{tempFilePaths[0].name}}
-    </view>
-    <view wx:if="{{apply.id!='' && apply.attachment}}">{{apply.attachment}}</view>
-</view>
-        
-
 <!--<view class='pa-t30 pa-b20 panel-between item-center border-b'  >-->
 <!--    <view class='additem'  bindtap="chooseMessageFile" >-->
 <!--     文件上传-->
 <!--    </view>-->
 <!--</view>-->
         
-<view style="text-align: center;margin: 25px">
-    <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;" type="primary" size="mini" bindtap="chooseMessageFile">文件上传</button>
-    <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;margin-left: 10%" type="primary" size="mini" bindtap="delFile">删除</button>
-</view>
   <!-- </van-collapse-item>
 
 </van-collapse>-->
