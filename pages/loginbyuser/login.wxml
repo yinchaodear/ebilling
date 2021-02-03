@@ -34,7 +34,7 @@
   value="{{ value }}"
   shape="round"
   background="#6e42d3"
-  placeholder="请输入客户名称或者电话，然后点击下方列表"
+  placeholder="请输入客户名称，然后点击下方列表"
   bind:search="onSearch"
   bind:change="onChange"
 />  

@@ -45,6 +45,14 @@
     </view>
     <image src='/img/right.png' class='icon-25'></image>
   </view>
+  
+  <view class='panel panel-between item-center border-t'  bindtap='switch' wx:if="{{kefuid}}">
+    <view class='panel-start item-center'>
+      <image src='/img/switch.png' class='icon-35 ma-r20'></image>
+      <view class='fo-28'>客服切换账户</view>
+    </view>
+    <image src='/img/right.png' class='icon-25'></image>
+  </view>
 
   <!-- <button class='filter-btn' open-type='contact'>
     <view class='panel panel-between item-center ma-t20 border-b'>
@@ -79,3 +87,40 @@
   </view> -->
   
 </view>
+
+
+
+<van-popup show="{{ show }}" bind:close="onClose" position="top" >
+<view class="padd"> 
+  
+  <van-search
+    value="{{ value }}"
+    shape="round"
+    show-action
+    background="#6e42d3"
+    placeholder="请输入客户名称，然后点击下方列表"
+    bind:search="onSearch"
+    bind:change="onChange"
+    bind:cancel="onCancel"
+  />  
+
+ <view class='pa-t30 pa-b30 panel-between item-center border-b' wx:for="{{list}}" wx:if="{{item.show==true||item.show==undefined}}"  style="padding-left:10rpx;padding-right:10rpx"  data-index='{{index}}' bindtap="loginbyphone">
+      
+        <view class='fo-30'>{{item.lastname}}</view>       
+        <view class='panel-end item-center'>
+          <view class='fo-30 fo-g'>{{item.accountname}}</view>
+        </view>
+    
+  </view>
+  
+    <!-- <view style="text-align: center;margin: 25px">
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;" type="primary" size="mini" bindtap="del">重置</button>
+        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:30%;margin-left: 10%" type="primary" size="mini" bindtap="sure">确定</button>
+    </view> -->
+</view>
+
+</van-popup>
+
+
+<van-dialog id="van-dialog" />
+

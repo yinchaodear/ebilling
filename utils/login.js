@@ -174,12 +174,11 @@ function LoginKefu(username,pwd) {
   })
 }
 
-function searchAccount(kefuId, phone) {
+function searchAccount(kefuId) {
   var params={
     url:searchAccountUrl,
     data:{
-      kefuId,
-      phone
+      kefuId
     }
   }
   return new Promise(function (resolve, reject) {
