@@ -29,11 +29,11 @@
         <view class="contract" wx:for="{{contractList}}">
    <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>合同编号:</view>
-        <input class='text-right fo-28' type='digit' disabled="true" name='price' value="{{item.contract_no}}" placeholder='输入金额(元)'></input>
+        <view class='text-right fo-28' type='digit' style="width: 80%;word-break: break-all;word-wrap: break-word;" disabled="true" name='price' value="" placeholder='输入金额(元)'>{{item.contract_no}}</view>
       </view>
       <view class='panel-between border-b pa-t30 pa-b10'>
         <view class='fo-28 bold'>合同名称:</view>
-        <input class='text-right fo-28' type='digit' name='price' disabled="true" value="{{item.productname}}" placeholder='输入金额(元)'></input>
+        <view class='text-right fo-28' type='digit' style="width: 80%;word-break: break-all;word-wrap: break-word;" name='price' disabled="true" value="" placeholder='输入金额(元)'>{{item.productname}}</view>
       </view>
 
      <view class='panel-between border-b pa-t30 pa-b10'>
