@@ -1165,12 +1165,15 @@ Page({
 
   chooseMessageFile() {
     let that = this;
+    var tempFilePaths = this.data.tempFilePaths;
+    if(!tempFilePaths)tempFilePaths = [];
     wx.chooseMessageFile({
       count: 10,
       type: 'all',
       success(res) {
         // tempFilePath可以作为img标签的src属性显示图片
-        const tempFilePaths = res.tempFiles
+        const tempFilePathsNew = res.tempFiles
+        tempFilePaths = tempFilePaths.concat(tempFilePathsNew);
         console.info(res);
         that.setData({
           tempFilePaths
@@ -1210,7 +1213,7 @@ Page({
       var tempFilePaths = this.data.tempFilePaths;
       console.info(file);
       for(var i in tempFilePaths){
-        if(tempFilePaths[i].name == file.name){
+        if(tempFilePaths[i].path == file.path){
           tempFilePaths.splice(i, 1);
         }
       }
