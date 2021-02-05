@@ -37,8 +37,11 @@
             <view class='fo-26 fo-g color-1'  wx:if="{{(item.f_sostatus=='待确认'&&item.f_totalmoney>item.f_invoicemoney)?'color-1':''}}" >部分开票</view>
 
              <view class='fo-26 fo-g' wx:if="{{item.f_sostatus=='已开具'&&item.f_confirm_status!='待确认'}}">收件状态:{{item.f_express_status==null?"":item.f_express_status}}</view>
-            <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_sostatus=='已开具'&&item.f_express_status=='待取件'&&item.f_express_type=='自取'&&item.f_cancelstatus!='待作废'}}">温馨提示:请尽快前来取件</view>
-           <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_cancelstatus=='待作废'}}">温馨提示:正在申请作废中</view>
+            <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_sostatus=='已开具'&&item.f_express_status=='待取件'&&item.f_express_type=='自取'&&item.f_void_partially!=0}}">温馨提示:请尽快前来取件</view>
+           <view class='fo-26 fo-g color-1 ' wx:if="{{item.f_void_partially!=null}}">
+               <view wx:if="{{item.f_void_status!=null && item.f_void_partially!=null}}">温馨提示:此单存在作废、红冲申请</view>
+<!--               <view wx:if="{{item.f_void_partially==0}}">温馨提示:此单发票已全部作废、红冲</view>-->
+           </view>
           </view>
         </view>
         <view wx:if='{{item.f_urgent=="是"}}' class='state ste4'>{{item.f_sostatus}}(急)</view>

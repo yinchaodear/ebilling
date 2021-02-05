@@ -94,7 +94,8 @@
    </view>
   
     <view class='fo-26 ma-t30 fo-g'>收件状态：{{detail.expressstatus}}</view>
-    <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='待取件' && (detail.status=='已开具'||(detail.voidPartially==1))}}">取件二维码</view>
+    <view class='state ste4 ma-t30' bindtap="showqr" wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='待取件' && (detail.status=='已开具' || (detail.voidStatus!=null && detail.voidPartially==1))}}">取件二维码</view>
+    <view class='fo-26 ma-t30 fo-g color-1' wx:if="{{detail.status=='已开具' && detail.voidStatus!=null && detail.voidPartially==0}}">此申请包含发票已全部作废、红冲</view>
     <view class='fo-26 ma-t30 fo-g' wx:if="{{detail.expressway=='自取'&&detail.expressstatus=='已取件'}}">取件时间：{{detail.expressTime}}</view>
     <view class='state ste4 ma-t30' bindtap="SfInfo" wx:if="{{detail.expressway=='邮寄'&&detail.expressno!=null}}">物流信息</view>
 
@@ -187,7 +188,7 @@
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.status=='挂起'}}" bindtap='cancelToast'>已挂起</view>
    <view class='bzbtn2 '  data-id='{{list.id}}' wx:if="{{detail.confirmstatus=='待确认'}}" bindtap='cancel'>确认</view>
   <view class='bzbtn3 '    bindtap='applyagain'>再次开票</view> 
-  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&!(detail.status=='开具中'&&detail.voidStatus=='作废')&&detail.status!='已作废'}}"  bindtap='cancel1'>申请作废</view>
+  <view class='bzbtn4 ma-l30'  data-id='{{list.id}}'  wx:if="{{detail.expressstatus=='待取件'&&(detail.voidStatus!='作废' || detail.voidPartially==1)}}"  bindtap='cancel1'>申请作废</view>
 </view>
 
 

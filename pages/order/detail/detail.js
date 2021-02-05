@@ -205,6 +205,7 @@ Page({
     var itemidMap = this.data.itemidMap;
     if(fileList.length==0){
       //app.globalData.Toast.showToast("照片为空")
+      _this.zuofei(_this.data.voidIds)
       return;
     }
     for(var i in fileList){
