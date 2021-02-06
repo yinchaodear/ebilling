@@ -1051,6 +1051,8 @@ Page({
     let imgFileList = this.data.imgFileList;
     let redirect = this.data.redirect;
     salesorder1.attachment = "";
+    let kefuid = wx.getStorageSync('kefuid');
+    if(kefuid)salesorder1.userid = kefuid;
     this.uploadFilePre(salesorder1, tempFilePaths, imgFileList);
     salesorder.AddSalesOrder(salesorder1, salesorderitem).then(res => {
       if (res.data.msg == true) {
