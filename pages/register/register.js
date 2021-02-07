@@ -36,13 +36,20 @@ Page({
                 duration: 2000,
             });
        }else if(res.data.msg==true){
-         this.setData({
-           disabled:true,
-           code1:res.data.code,
-           id:res.data.id
-         })
-         this.count(this.data.number)
+        this.setData({
+            disabled:true,
+            code1:res.data.code,
+            id:res.data.id
+        })
+        this.count(this.data.number)
+       }else if(res.data.msg=='oversize') {
+        this.setData({disabled:false})
+        Notify({
+            message: '有重复手机号,请联系客服',
+            duration: 2000,
+        });
        }
+       
      })
   },
 
