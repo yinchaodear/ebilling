@@ -124,7 +124,7 @@ Page({
           duration: 2000,
          });
          setTimeout(function(){
-           router.navigateTo("/pages/login/login");
+           router.redirectTo("/pages/login/login");
          },2000)
        }
     })
