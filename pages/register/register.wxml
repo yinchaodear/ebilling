@@ -12,8 +12,8 @@
         <view class='fo-28 bold'>电话号码:</view>
         <input class='text-right fo-28' name='name' type='number' data-type='name' bindinput="complete" focus="{{nameFocused}}" value="{{name}}"   placeholder='请输入手机号'></input>
       </view>
-      <view class='panel-between border-b pa-t30 pa-b20' bindtap="completeFocus" data-type='code'>
-        <view class='fo-28 bold'>短信验证码:</view>
+      <view class='panel-between border-b pa-t30 pa-b20'>
+        <view class='fo-28 bold' bindtap="completeFocus" data-type='code'>短信验证码:</view>
         <input class='text-right fo-28' type='number' data-type='code' bindinput="complete" value="{{code}}"  focus="{{codeFocused}}"  placeholder='请输入短信验证码'></input>
         <button class="submit-code" disabled="{{disabled}}" bindtap="PhoneCode">{{text}}</button>
       </view>

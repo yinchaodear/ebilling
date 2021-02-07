@@ -27,12 +27,14 @@ Page({
        app.globalData.Toast.showToast("电话号码为空");
        return;
      }
+     this.setData({disabled:true});
      login.PhoneCode(name).then(res=>{
        if(res.data.msg=='none'){
-        Notify({
-          message: '您还不是该企业客户,请联系客服',
-          duration: 2000,
-         });
+            this.setData({disabled:false})
+            Notify({
+                message: '您还不是该企业客户,请联系客服',
+                duration: 2000,
+            });
        }else if(res.data.msg==true){
          this.setData({
            disabled:true,
@@ -66,11 +68,10 @@ Page({
    complete(e){
     console.log(e);
     var type = e.currentTarget.dataset.type;
-    var value =e.detail.value;
+    var value = e.detail.value;
     this.setData({
       [type]:value
     })
-
   },
     
     
@@ -110,8 +111,14 @@ Page({
        });
        return;
     }
+    wx.showLoading({
+        title: '稍等',
+    })
     login.Register(this.data.id,this.data.pw1).then(res=>{
        if(res.data.msg==true){
+        wx.hideLoading({
+          complete: (res) => {},
+        })
         Notify({
           message: '注册成功,即将返回登录页面',
           duration: 2000,
