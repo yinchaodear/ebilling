@@ -243,6 +243,17 @@
             </view>
         </van-checkbox-group>
         
+        <van-radio-group
+          value="{{ side }}"
+          bind:change="onChangeSide"
+          direction="vertical"
+        >
+          <van-radio name="我方原因">我方原因</van-radio>
+          <van-radio name="客户原因">客户原因</van-radio>
+        </van-radio-group>
+                
+        <textarea class="textarea-reason" value="{{reason}}" bindinput="bindinputtextarea" placeholder="详细原因"></textarea>
+        
         <view  class="padd-1">
             <button class='btns-40 ' style="margin-bottom:20px"  bindtap="submitZuofei">确定</button>
         </view>

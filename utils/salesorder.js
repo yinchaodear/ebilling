@@ -125,12 +125,14 @@ function ChangeOrderStatus(orderid){
   })
 }
 
-function zuofei(orderid, voidIds){
+function zuofei(orderid, voidIds, side, reason){
   var params={
     url: zuofeiUrl,
     data:{
       orderid,
-      voidIds
+      voidIds,
+      side,
+      reason,
     }
   }
   return new Promise(function (resolve, reject) {

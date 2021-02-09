@@ -251,7 +251,7 @@ Page({
       }
       if(flag){
         app.globalData.Toast.showToast("上传成功");
-        _this.zuofei(_this.data.voidIds)
+        _this.zuofei(_this.data.voidIds, _this.data.side, _this.data.reason)
       }else{
         setTimeout(() => {
           _this.checkupload()
@@ -353,8 +353,8 @@ Page({
     });
   },
     
-  zuofei(voidIds){
-    salesorder.zuofei(this.data.detail.id, voidIds).then(res=>{
+  zuofei(voidIds, side, reason){
+    salesorder.zuofei(this.data.detail.id, voidIds, side, reason).then(res=>{
       if(res.data.msg==true){
         this.onClose();
         app.globalData.Toast.showToast("申请完成");
@@ -630,5 +630,17 @@ Page({
 
   },
   
+  bindinputtextarea(e){
+      console.log(e);
+      this.setData({
+        reason:e.detail.value
+      })
+  },
+  
+  onChangeSide(event){
+    this.setData({
+      side: event.detail,
+    });
+  }
   
 })

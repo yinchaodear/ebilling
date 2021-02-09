@@ -189,3 +189,10 @@ page {
   padding: 10px;
   box-shadow: 0 0 3px #ff8965;
 }
+
+.textarea-reason{
+  box-shadow: 0px 0px 5px #e1e1e1;
+  font-size: 15px;
+  height: 100px;
+  margin-top: 20px;
+}

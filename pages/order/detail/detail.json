@@ -8,6 +8,8 @@
     "van-grid-item": "../../../dist/grid-item/index",
     "van-steps": "../../../dist/steps/index",
     "van-checkbox": "../../../dist/checkbox/index",
-    "van-checkbox-group": "../../../dist/checkbox-group/index"
+    "van-checkbox-group": "../../../dist/checkbox-group/index",
+    "van-radio": "../../../dist/radio/index",
+    "van-radio-group": "../../../dist/radio-group/index"
   }
 }
