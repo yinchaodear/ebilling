@@ -874,8 +874,8 @@ Page({
       } else {
         str += "收件人:" + apply.receipt + "\n"
       }
-      if (apply.receiptel == '' || apply.receiptel == undefined) {
-        return "取件人电话未填";
+      if (apply.receiptel == '' || apply.receiptel == undefined || apply.receiptel.length!=11) {
+        return "取件人电话未填或格式不对";
       } else {
         str += "收件电话:" + apply.receiptel + "\n"
       }
