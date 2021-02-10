@@ -771,7 +771,7 @@ Page({
       return "未选择开票单位";
     }
     str += "开票单位:" + apply.company.accountname + "\n"
-    if (apply.company1 == undefined || apply.company1 == '' || apply.company1.accountcode == '' || apply.company1.accountcode == undefined) {
+    if (apply.company1 == undefined || apply.company1 == '') {
       return "对方单位信息有误";
     }
     str += "对方单位:" + apply.company1.accountname + "\n\n"
