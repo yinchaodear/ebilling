@@ -205,7 +205,7 @@ Page({
     var itemidMap = this.data.itemidMap;
     if(fileList.length==0){
       //app.globalData.Toast.showToast("照片为空")
-      _this.zuofei(_this.data.voidIds)
+      _this.zuofei(_this.data.voidIds, _this.data.side, _this.data.reason)
       return;
     }
     for(var i in fileList){
@@ -602,6 +602,13 @@ Page({
     var zuofeiItems = this.data.zuofeiItems;
     var voidIds = "";
     
+    if(zuofeiItems && zuofeiItems.length==0){
+        wx.showToast({
+          title: '没有选择作废项',
+          icon:'none'
+        })
+        return false;
+    }
     voidIds = zuofeiItems.join(",");
     this.setData({voidIds});
     
