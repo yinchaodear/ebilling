@@ -85,10 +85,10 @@
                       <van-col span="5">{{item.f_type}}</van-col>
                       <van-col span="5" wx:if="{{item.f_max_money==''}}">未填</van-col>
                       <van-col span="5" wx:if="{{item.f_max_money!=''}}">{{item.f_max_money}}</van-col>
-                      <van-col span="4">{{item.yueChuNum+item.benYueLingYongNum-item.benYueKaiChuNum-item.benYueZuoFeiNum}}</van-col>
+                      <van-col span="4">{{item.yueChuNum+item.benYueLingYongNum-item.benYueKaiChuNum-item.benYueZuoFeiNum-item.benYueHongchongNum}}</van-col>
                       <van-col span="4">{{item.yueChuNum}}</van-col>
                       <van-col span="3">{{item.benYueLingYongNum}}</van-col>
-                      <van-col span="3">{{item.benYueKaiChuNum}}</van-col>
+                      <van-col span="3">{{item.benYueKaiChuNum+item.benYueZuoFeiNum+item.benYueHongchongNum}}</van-col>
                     </van-row>
             </view> 
             
