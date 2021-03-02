@@ -36,7 +36,9 @@ Page({
     show: false,
     searchlist: [],
     currentindex: 0,
-    tempidlist:[]
+    tempidlist:[],
+    imgFileList:[],
+    fileList:[]
   },
 
 
@@ -536,6 +538,11 @@ Page({
           apply.attachment = "";
           for (var i in ItemList) {
             ItemList[i].id = ''
+          }
+        }else {
+          if(apply.attachment){
+            var attachmentsUped = apply.attachment.split(",");
+            this.setData({attachmentsUped})
           }
         }
         this.setData({
@@ -1039,21 +1046,22 @@ Page({
 
 
   addSalesOrder(salesorder1, salesorderitem, leftmoney) {
-    var _this = this
+    var that = this
     let tempFilePaths = this.data.tempFilePaths;
+    let imgFileList = this.data.imgFileList;
     let redirect = this.data.redirect;
-    if (tempFilePaths != null) {
-      salesorder1.attachment = tempFilePaths[0].name;
-    }
+    salesorder1.attachment = "";
+    this.uploadFilePre(salesorder1, tempFilePaths, imgFileList);
     salesorder.AddSalesOrder(salesorder1, salesorderitem).then(res => {
       if (res.data.msg == true) {
         //是否有附件需要上传
-        if (tempFilePaths != null) {
+        let fileList = this.data.fileList;
+        if (fileList != null && fileList.length>0) {
           let objectId = res.data.id;
           let objectType = "SalesOrder";
-          _this.uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1, leftmoney);
+          this.upload(objectId, objectType, redirect, salesorder1, leftmoney);
         } else {
-          _this.finishKaiPiao(redirect, salesorder1, leftmoney);
+          that.finishKaiPiao(redirect, salesorder1, leftmoney);
         }
       } else {
         app.globalData.Toast.showToast("保存失败")
@@ -1171,12 +1179,94 @@ Page({
     })
   },
 
-  uploadFile(objectId, objectType, tempFilePaths, redirect, salesorder1, leftmoney) {
-    let that = this;
+  uploadFilePre(salesorder1, tempFilePaths, imgFileList) {
+    let fileList = [];
     if (tempFilePaths != null) {
+      for(var i in tempFilePaths){
+        tempFilePaths[i].url = tempFilePaths[i].path;
+        fileList.push(tempFilePaths[i]);
+      }
+    }
+    
+    if (imgFileList != null) {
+      for(var i in imgFileList){
+        var len = imgFileList[i].url.length;
+        imgFileList[i].name = imgFileList[i].url.substring(len-20, len);
+        fileList.push(imgFileList[i]);
+      }
+    }
+    var atts = "";
+    for(var i in fileList){
+      if(atts=="")atts += fileList[i].name;
+      else atts += ","+fileList[i].name;
+    }
+    salesorder1.attachment = atts;
+    
+    this.setData({fileList});
+  },
+    
+  delTempFile(e) {
+      var file = e.currentTarget.dataset.file;
+      var tempFilePaths = this.data.tempFilePaths;
+      console.info(file);
+      for(var i in tempFilePaths){
+        if(tempFilePaths[i].name == file.name){
+          tempFilePaths.splice(i, 1);
+        }
+      }
+      this.setData({
+        tempFilePaths
+      })
+  },
+  
+  afterRead(event) {
+    var _this = this;
+    const { file } = event.detail;
+    let imgFileList = this.data.imgFileList||[];
+    imgFileList = imgFileList.concat(file);
+    this.setData({imgFileList})
+    // 当设置 mutiple 为 true 时, file 为数组格式，否则为对象格式
+  },
+  
+  afterdelete(e){
+    console.log(e);
+    var index = e.detail.index;
+    var imgFileList = this.data.imgFileList;
+    imgFileList.splice(index,1);
+    this.setData({imgFileList})
+  },
+
+  upload : function(objectId, objectType, redirect, salesorder1, leftmoney){
+    var that = this;
+    var fileList = this.data.fileList;
+    if(fileList.length==0){
+      //app.globalData.Toast.showToast("照片为空")
+      return;
+    }
+    for(var i in fileList){
+      var file = fileList[i];
+      console.info(file);
+      // wx.uploadFile({
+      //   url : api.UPLOADURL, // 仅为示例，非真实的接口地址
+      //   filePath: file.url,
+      //   name: 'file',
+      //   formData: {
+      //     objectId: itemid,
+      //     objectType:"SalesOrderVoid",
+      //     fileName: name
+      //   },
+      //   success(res) {
+      //     // 上传完成需要更新 fileLis  
+      //     var imgFileList  =_this.data.imgFileList;
+      //     file.upload=true;
+      //     _this.setData({
+      //       imgFileList
+      //     })
+      //   },
+      // });
       wx.uploadFile({
         url: BaseUrl + 'attachment/uploadFileAll', //此处换上你的接口地址
-        filePath: tempFilePaths[0].path,
+        filePath: file.url,
         name: 'file',
         header: {
           "Content-Type": "multipart/form-data",
@@ -1185,25 +1275,44 @@ Page({
         formData: {
           objectId: objectId,
           objectType: objectType,
-          fileName: tempFilePaths[0].name
+          fileName: file.name
         },
         success: function (res) {
           let data = res;
           console.log(data);
-          that.finishKaiPiao(redirect, salesorder1, leftmoney);
+          // 上传完成需要更新 fileLis  
+          var imgFileList = that.data.imgFileList;
+          file.upload=true;
+          that.setData({
+            fileList
+          })
         },
         fail: function (res) {
           console.log('fail');
         },
       })
     }
+    this.checkupload(redirect, salesorder1, leftmoney)
   },
-    
-    delFile() {
-        this.setData({
-          tempFilePaths : null
-        })
-    }
-    
+
+  checkupload(redirect, salesorder1, leftmoney){
+      var that = this;
+      var fileList = this.data.fileList;
+      var flag = true;
+      for(var i in fileList){
+          var file = fileList[i];
+          if(file.upload!=true){
+            flag == false;
+          }
+      }
+      if(flag){
+        app.globalData.Toast.showToast("上传成功");
+        that.finishKaiPiao(redirect, salesorder1, leftmoney);
+      }else{
+        setTimeout(() => {
+          that.checkupload(redirect, salesorder1, leftmoney)
+        }, 200);
+      }
+  },
 
 })

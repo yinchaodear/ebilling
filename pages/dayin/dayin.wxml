@@ -61,17 +61,25 @@
         </view>
       </view>
         
-    <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{tempFilePaths!=null || apply.attachment}}" >
-        <view wx:if="{{(apply.id==null || apply.id=='') && tempFilePaths!=null && tempFilePaths[0]}}">
-            {{tempFilePaths[0].name}}
+    <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{tempFilePaths!=null}}"  wx:for="{{tempFilePaths}}">
+        <view style="width:80%;overflow: hidden;">
+            <view>{{item.name}}</view>
         </view>
-        <view wx:if="{{apply.id!='' && apply.attachment}}">{{apply.attachment}}</view>
+        <view bindtap="delTempFile" data-file="{{item}}">删除</view>
+    </view>
+    
+    <view class='pa-t30 pa-b20 panel-between item-center border-b' wx:if="{{apply.attachment && attachmentsUped}}" wx:for="{{attachmentsUped}}">
+        <view style="width:80%;overflow: hidden;">
+            <view>{{item}}</view>
+        </view>
+<!--        <view>删除</view>-->
     </view>
         
-    <view style="text-align: center;margin: 25px">
+    <view style="text-align: center;margin: 25px" wx:if="{{!apply.id}}">
         <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;" type="primary" size="mini" bindtap="chooseMessageFile">文件上传</button>
-        <button class="mini-btn" style="background: linear-gradient(to right top,#6183dd,#6e42d3);width:40%;margin-left: 10%" type="primary" size="mini" bindtap="delFile">删除</button>
     </view>
+        
+    <van-uploader wx:if="{{!apply.id}}" multiple="true" style="padding: 25px" file-list="{{imgFileList}}" deletable="{{ true }}"  bind:after-read="afterRead"  bind:delete="afterdelete" />
         
 <van-share-sheet
   show="{{ showShare }}"
