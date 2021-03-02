@@ -33,7 +33,7 @@
         <view class='fo-28 bold'>身份证正面(选填):</view>
         <view class='tuu panel-center item-center fo-g fo-50' style='background-image:url({{cert}})' data-name='cert' bindtap='choose'> + </view>
       </view> -->
-      <button class='btns ' bindtap="submit">注册</button>
+      <button class='btns ' bindtap="submit">注册/重置密码</button>
     </form>
 
   </view>
